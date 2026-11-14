@@ -193,3 +193,9 @@ Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest fir
 **Numbers:** parse A/B/C 0.997 / 0.995 / 0.994 · accuracy A/B/C: code 0.632/0.506/0.522 · math 0.920/0.864/0.894 · table 0.648/0.588/0.628
 **Files:** results/raw/main/OpenGVLab__InternVL3-8B.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-14 18:16 UTC] RUNNER -> PLANNER | T08 PROGRESS (Qwen2.5-VL-32B-Instruct done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 34.7 min (generation 0.559 h). finish_reason=length 0.07%.
+**Numbers:** parse A/B/C 0.996 / 0.993 / 0.998 · accuracy A/B/C: code 0.812/0.730/0.740 · math 0.918/0.902/0.948 · table 0.812/0.794/0.806
+**Files:** results/raw/main/Qwen__Qwen2.5-VL-32B-Instruct.jsonl.gz
+**Issues / questions:** none
