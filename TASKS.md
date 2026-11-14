@@ -33,12 +33,12 @@ and move on to the next task that doesn't depend on it.
 - For each model in `config.models.local`: confirm it exists on HF and that vLLM supports it. Estimate whether it fits (and with what tensor-parallel size). Report a table: model, available (y/n), fits (y/n), TP size, notes. If a newer generation of a family is clearly better supported, say so, but do not switch without approval.
 - **Done when:** the env report is in COLLAB.md and the lock file is committed.
 
-### T01 Code skeleton: `IN-PROGRESS`
+### T01 Code skeleton: `DONE`
 - `src/vmod/config.py` loads `config/experiment.yaml`. Add a CLI entry point `python -m vmod <command>` with subcommands for the later tasks (`prepare`, `render`, `selftest`, `run`, `score`, `analyze`).
 - Every output file records `study_id`, git commit hash and UTC timestamp.
 - **Done when:** `python -m vmod --help` works and `pytest` passes.
 
-### T02 Download datasets: `TODO`
+### T02 Download datasets: `IN-PROGRESS`
 - Download CRUXEval, GSM8K test and WikiTableQuestions test, as named in the config.
 - **Fallback for WTQ:** if neither the HF loader nor the GitHub zip works within 30 min, post `QUESTION` and continue with code and math; tables get added when resolved.
 - Write `data/MANIFEST.md`: source URL, version/commit hash or file sha256, license, total item count.

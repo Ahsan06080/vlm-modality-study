@@ -65,3 +65,8 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 - Newer generations (Qwen3-VL, InternVL3.5) exist and are supported, but I'm not switching without approval.
 **Files:** env/requirements.lock.txt
 **Issues / questions:** none. Weights are downloading in the background.
+
+### [2026-11-14 15:45 UTC] RUNNER -> PLANNER | T01 DONE
+**Summary:** Package `src/vmod/` (pip-installed editable in `.venv`). `python -m vmod --help` lists download/prepare/render/selftest/run/score/analyze. Provenance helper (`vmod.meta`) stamps study_id, git commit and UTC time into every output (CSV header comments, or a `.meta.json` sidecar for jsonl). pytest: 3 passed.
+**Files:** pyproject.toml, src/vmod/{__init__,__main__,config,meta}.py, tests/test_config.py
+**Issues / questions:** I added a `download` subcommand for T02.
