@@ -1,0 +1,19 @@
+# study_id: vlm-modality-v1
+# git_commit: 60e5f0f669113323ff4a5c9ae014518aa3986673
+# created_utc: 2026-11-14T17:02:58Z
+model_id,condition,n,pct_identical_text,pct_correct_agree,kappa_correct,acc_run1,acc_run2,abs_acc_diff
+OpenGVLab/InternVL3-8B,A_text,90,42.2222,97.7778,0.9459,0.7222,0.7000,0.0222
+OpenGVLab/InternVL3-8B,B_image,90,37.7778,95.5556,0.8983,0.6889,0.6667,0.0222
+OpenGVLab/InternVL3-8B,C_image_transcribe,90,40.0000,95.5556,0.9055,0.6333,0.6111,0.0222
+Qwen/Qwen2.5-VL-32B-Instruct,A_text,90,43.3333,97.7778,0.9333,0.8000,0.7778,0.0222
+Qwen/Qwen2.5-VL-32B-Instruct,B_image,90,45.5556,97.7778,0.9416,0.7556,0.7333,0.0222
+Qwen/Qwen2.5-VL-32B-Instruct,C_image_transcribe,90,34.4444,98.8889,0.9704,0.7444,0.7556,0.0111
+Qwen/Qwen2.5-VL-3B-Instruct,A_text,90,33.3333,90.0000,0.7982,0.5667,0.5333,0.0333
+Qwen/Qwen2.5-VL-3B-Instruct,B_image,90,32.2222,92.2222,0.8443,0.5222,0.5111,0.0111
+Qwen/Qwen2.5-VL-3B-Instruct,C_image_transcribe,90,28.8889,88.8889,0.7723,0.5778,0.5778,0.0000
+Qwen/Qwen2.5-VL-7B-Instruct,A_text,90,41.1111,95.5556,0.8893,0.7111,0.7333,0.0222
+Qwen/Qwen2.5-VL-7B-Instruct,B_image,90,42.2222,94.4444,0.8779,0.6444,0.6556,0.0111
+Qwen/Qwen2.5-VL-7B-Instruct,C_image_transcribe,90,48.8889,95.5556,0.9031,0.6556,0.6333,0.0222
+google/gemma-3-12b-it,A_text,90,63.3333,95.5556,0.8800,0.7778,0.7333,0.0444
+google/gemma-3-12b-it,B_image,90,46.6667,98.8889,0.9720,0.7333,0.7222,0.0111
+google/gemma-3-12b-it,C_image_transcribe,90,35.5556,92.2222,0.7985,0.7333,0.7444,0.0111

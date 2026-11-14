@@ -147,3 +147,25 @@ Raw responses: 3 per condition from Qwen-7B in `reports/pilot_samples.md`. The p
 **Second deviation (please review/veto):** in condition C, Gemma (code, 27/30) and Qwen-32B (code 30/30, table 10/30) often ignore the `<transcription>` tags and write a `**Transcription:**` / `### Transcription` heading followed by a code fence. When there are no tags, the extractor now falls back to the first code fence after a "Transcription" heading. A new column `transcription_source` (tags / open_tag / heading_fence / none) records which rule applied, and RQ2 will add a tags-only sensitivity check. Responses with no transcription at all keep CER = 1.
 **Files:** results/raw/pilot/, results/analysis/pilot_report.csv, results/analysis/pilot_estimates.json, reports/pilot_samples.md, src/vmod/{pilot,analyze}.py, scripts/lane.sh
 **Issues / questions:** the transcription fallback above. T07b rep2 runs are done for 4/5 models; 32B is running.
+
+### [2026-11-14 17:03 UTC] RUNNER -> PLANNER | T07b DONE
+**Summary:** Whole pilot re-run on all 5 models (fresh process, request order shuffled with seed 631, identical settings, vLLM 0.33.0). Per model × condition, n = 90:
+
+| model | cond | % identical text | % correct agree | κ | acc run1 | acc run2 |
+|---|---|---|---|---|---|---|
+| Qwen-3B | A / B / C | 33.3 / 32.2 / 28.9 | **90.0 / 92.2 / 88.9** | .80 / .84 / .77 | .567 / .522 / .578 | .533 / .511 / .578 |
+| Qwen-7B | A / B / C | 41.1 / 42.2 / 48.9 | 95.6 / **94.4** / 95.6 | .89 / .88 / .90 | .711 / .644 / .656 | .733 / .656 / .633 |
+| InternVL3-8B | A / B / C | 42.2 / 37.8 / 40.0 | 97.8 / 95.6 / 95.6 | .95 / .90 / .91 | .722 / .689 / .633 | .700 / .667 / .611 |
+| Gemma-3-12B | A / B / C | 63.3 / 46.7 / 35.6 | 95.6 / 98.9 / **92.2** | .88 / .97 / .80 | .778 / .733 / .733 | .733 / .722 / .744 |
+| Qwen-32B | A / B / C | 43.3 / 45.6 / 34.4 | 97.8 / 97.8 / 98.9 | .93 / .94 / .97 | .800 / .756 / .744 | .778 / .733 / .756 |
+
+Largest |acc run1 − run2| over all model × content × condition cells (n = 30): **0.100** (Gemma, code, A). Largest at the model × condition level (n = 90): 0.044.
+**Decision (pre-registered rule):** 5 of 15 cells are below 95% correct-agreement (bold). Per the rule we **continue with one run per item**, and this will be flagged as a conclusion-validity threat in `reports/summary.md`. Observed cause: greedy decoding in vLLM is not batch-invariant (a different batch composition gives different float rounding), so responses diverge after the first changed token. vLLM has a batch-invariant mode that could remove this, but it is not used (no time, and it would change the setup).
+**Files:** results/raw/pilot_rep2/, results/analysis/replication_check.csv, src/vmod/pilot.py
+
+### [2026-11-14 17:03 UTC] RUNNER -> PLANNER | APPROVED G2 (rules applied, fast-track)
+**Decisions:**
+1. **Models:** all 5 kept. Each ran the pilot with no crash and parse rate ≥ 0.93 in every condition (primary parser). Final list: Qwen2.5-VL-3B (66285546), Qwen2.5-VL-7B (cc594898), InternVL3-8B (853e3a79), gemma-3-12b-it (96b6f1ec), Qwen2.5-VL-32B (7cfb30d7). Note: under the *strict* same-line parser, Qwen-32B would be at 0.63/0.72/0.73. It passes only because of the parser deviation in T06.
+2. **max_new_tokens:** pilot cells over 5% `finish_reason=length`: Qwen-7B code A 10.0%, code B 6.7%; Qwen-3B table B 6.7%. Raised to **4096 for all models**.
+3. **N:** estimated main-run time ≈ 1.7 GPU-h (≈ 1.2 h wall on 2 GPUs). Even assuming 2× longer outputs at 4096, that's ≤ 3.5 GPU-h, which is **≤ 8 h, so main_per_content stays 500**.
+Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest first, 2 lanes: GPU0 3B→Gemma-12B, GPU1 7B→InternVL-8B, then 32B on TP=2).

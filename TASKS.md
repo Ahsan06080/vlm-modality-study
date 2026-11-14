@@ -104,7 +104,7 @@ The self-test must be 100% before continuing; that one is a hard requirement.
 - Show 3 raw responses per condition from one model, so the PLANNER can check the prompts work.
 - **Done when:** the report is posted and `results/raw/pilot/` is committed.
 
-### T07b Replication check: repeat runs: `IN-PROGRESS`
+### T07b Replication check: repeat runs: `DONE`
 Purpose: show that one run per item is enough. This supports the claim that the unit of replication is the item, and that run-to-run noise is negligible next to the condition effect (conclusion validity).
 - Re-run the **whole pilot set** (all items × 3 conditions) a **second time** on every model kept at T07. Use identical settings: same config, prompts, images and vLLM version, but a **fresh process** and a **different batch order** (shuffle with seed 631). Write to `results/raw/pilot_rep2/{model_slug}.jsonl`, same schema.
 - Score both runs with the T05 scorers.
@@ -128,7 +128,7 @@ Pre-registered decision rules:
 
 Apply the rules, commit the config change, create the tag `config-frozen-v1`, post the decisions in COLLAB.md, and start T08. After the tag, the config and prompts must not change.
 
-### T08 Main runs, local models: `TODO`
+### T08 Main runs, local models: `IN-PROGRESS`
 - Run the **main** set for each model kept at G2, smallest first. Start the analysis tasks (T10-T12) on finished models while the larger ones run, if a spare GPU allows it.
 - After each model:
   - Check integrity: every main item × 3 conditions appears exactly once, or is in the skipped list.

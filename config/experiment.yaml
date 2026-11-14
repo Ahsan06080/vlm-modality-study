@@ -48,7 +48,7 @@ render:
 decoding:
   temperature: 0
   top_p: 1.0
-  max_new_tokens: 2048
+  max_new_tokens: 4096          # G2 rule 3 (2026-11-14): raised from 2048; pilot cells >5% length (7B code A 10%)
   n: 1
 
 answer_format:
