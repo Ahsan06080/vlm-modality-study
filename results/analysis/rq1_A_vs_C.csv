@@ -1,0 +1,19 @@
+# study_id: vlm-modality-v1
+# git_commit: 7cbe190369258f64a3cc325ae523fbfb299ab47a-dirty
+# created_utc: 2026-11-14T18:17:45Z
+model_id,content_type,comparison,n_pairs,both_correct,b_first_only,c_second_only,both_wrong,acc_first,acc_second,diff,diff_ci_lo,diff_ci_hi,discordant_or,or_ci_lo,or_ci_hi,p_mcnemar_exact,p_holm
+OpenGVLab/InternVL3-8B,code,A_text vs C_image_transcribe,500,231,85,30,154,0.632,0.522,0.11,0.068668,0.150598,2.83333,1.84891,4.45147,2.86066e-07,4.00492e-06
+OpenGVLab/InternVL3-8B,math,A_text vs C_image_transcribe,500,434,26,13,27,0.92,0.894,0.026,0.00114082,0.0518525,2,0.991349,4.23887,0.0532519,0.426015
+OpenGVLab/InternVL3-8B,table,A_text vs C_image_transcribe,500,246,78,68,108,0.648,0.628,0.02,-0.0274306,0.0672889,1.14706,0.817958,1.61194,0.456482,1
+Qwen/Qwen2.5-VL-32B-Instruct,code,A_text vs C_image_transcribe,500,354,52,16,78,0.812,0.74,0.072,0.0401068,0.104301,3.25,1.82656,6.09835,1.40742e-05,0.00016889
+Qwen/Qwen2.5-VL-32B-Instruct,math,A_text vs C_image_transcribe,500,446,13,28,13,0.918,0.948,-0.03,-0.0566458,-0.00462505,0.464286,0.220777,0.926286,0.0275332,0.302865
+Qwen/Qwen2.5-VL-32B-Instruct,table,A_text vs C_image_transcribe,500,377,29,26,68,0.812,0.806,0.006,-0.0235609,0.0356287,1.11538,0.634098,1.97147,0.787706,1
+Qwen/Qwen2.5-VL-3B-Instruct,code,A_text vs C_image_transcribe,500,126,67,53,254,0.386,0.358,0.028,-0.0150162,0.0708427,1.26415,0.868555,1.84813,0.235203,1
+Qwen/Qwen2.5-VL-3B-Instruct,math,A_text vs C_image_transcribe,500,348,72,28,52,0.84,0.752,0.088,0.0493484,0.126846,2.57143,1.64084,4.13364,1.25792e-05,0.000163529
+Qwen/Qwen2.5-VL-3B-Instruct,table,A_text vs C_image_transcribe,500,113,101,83,203,0.428,0.392,0.036,-0.0171985,0.0888777,1.21687,0.901166,1.64703,0.209996,1
+Qwen/Qwen2.5-VL-7B-Instruct,code,A_text vs C_image_transcribe,500,204,58,36,202,0.524,0.48,0.044,0.0059877,0.0817211,1.61111,1.04506,2.51419,0.0297664,0.302865
+Qwen/Qwen2.5-VL-7B-Instruct,math,A_text vs C_image_transcribe,500,412,22,21,45,0.868,0.866,0.002,-0.0244743,0.0285249,1.04762,0.549539,2.00254,1,1
+Qwen/Qwen2.5-VL-7B-Instruct,table,A_text vs C_image_transcribe,500,265,48,69,118,0.626,0.668,-0.042,-0.0842016,0.000437565,0.695652,0.470992,1.02013,0.0639959,0.447971
+google/gemma-3-12b-it,code,A_text vs C_image_transcribe,500,250,94,21,135,0.688,0.542,0.146,0.105453,0.185695,4.47619,2.76663,7.56626,3.2402e-12,4.86031e-11
+google/gemma-3-12b-it,math,A_text vs C_image_transcribe,500,451,23,10,16,0.948,0.922,0.026,0.00311604,0.0502982,2.3,1.05292,5.41369,0.035082,0.315738
+google/gemma-3-12b-it,table,A_text vs C_image_transcribe,500,303,64,60,73,0.734,0.726,0.008,-0.0358085,0.0517792,1.06667,0.738191,1.54311,0.787747,1

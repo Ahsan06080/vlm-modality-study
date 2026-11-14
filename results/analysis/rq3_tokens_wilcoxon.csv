@@ -1,0 +1,19 @@
+# study_id: vlm-modality-v1
+# git_commit: 7cbe190369258f64a3cc325ae523fbfb299ab47a-dirty
+# created_utc: 2026-11-14T18:17:59Z
+model_id,content_type,n_pairs,median_A,median_B,median_diff_A_minus_B,mean_diff_A_minus_B,wilcoxon_W,p_value,p_holm
+OpenGVLab/InternVL3-8B,code,500,330,344,-12,-15.324,52874,0.00927787,0.074223
+OpenGVLab/InternVL3-8B,math,500,251,210,38,41.986,21799,2.92099e-35,4.38149e-34
+OpenGVLab/InternVL3-8B,table,500,141.5,147,3.5,-16.074,60472.5,0.957913,1
+Qwen/Qwen2.5-VL-32B-Instruct,code,500,564,610,-32,-30.044,39057.5,3.0708e-13,3.37788e-12
+Qwen/Qwen2.5-VL-32B-Instruct,math,500,316,324,-2,-7.118,54170.5,0.0403425,0.201712
+Qwen/Qwen2.5-VL-32B-Instruct,table,500,215,245,-18.5,-41.822,33703,5.56896e-18,6.68275e-17
+Qwen/Qwen2.5-VL-3B-Instruct,code,500,327,333.5,-9.5,-46.462,53023,0.0191278,0.114767
+Qwen/Qwen2.5-VL-3B-Instruct,math,500,231.5,232.5,0,0.904,58323,0.8448,1
+Qwen/Qwen2.5-VL-3B-Instruct,table,500,181,186,1,15.47,60587,0.579011,1
+Qwen/Qwen2.5-VL-7B-Instruct,code,500,396,358.5,25.5,34.638,45051,4.06108e-07,4.06108e-06
+Qwen/Qwen2.5-VL-7B-Instruct,math,500,249.5,224.5,20.5,40.394,26378.5,4.83734e-27,6.28854e-26
+Qwen/Qwen2.5-VL-7B-Instruct,table,500,170.5,172,-3,-5.466,53443,0.103267,0.413068
+google/gemma-3-12b-it,code,500,239,290,-35,-66.304,25989.5,3.93131e-29,5.50384e-28
+google/gemma-3-12b-it,math,500,146,157,-6,-2.252,53170.5,0.0121312,0.0849183
+google/gemma-3-12b-it,table,500,91,80,2.5,16.32,52740,0.00819518,0.0737566

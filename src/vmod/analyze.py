@@ -17,6 +17,7 @@ FIGS = RESULTS / "figures"
 SCORED = RESULTS / "scored" / "main_all.csv.gz"
 A, B, C = CONDITIONS
 COND_SHORT = {A: "A text", B: "B image", C: "C image+transcribe"}
+TICKS = ["A\ntext", "B\nimage", "C\nimage +\ntranscribe"]
 PALETTE = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
 MARKERS = ["o", "s", "^", "D", "v", "P", "X", "*"]
 
@@ -208,7 +209,7 @@ def figures_t11(df, d):
             ax.errorbar(x, s.accuracy, yerr=yerr, color=colors[m], marker=marks[m], ms=6, lw=2, capsize=2,
                         elinewidth=1, label=short(m))
         ax.set_title(ct, color="#0b0b0b")
-        ax.set_xticks(x, [COND_SHORT[c].replace(" ", "\n", 1) for c in CONDITIONS])
+        ax.set_xticks(x, TICKS)
         ax.set_ylim(0, 1)
     axes[0].set_ylabel("accuracy (95% Wilson CI)")
     axes[-1].legend(frameon=False, loc="center left", bbox_to_anchor=(1.0, 0.5))
@@ -233,7 +234,7 @@ def figures_t11(df, d):
                 ax.plot([], [], color=colors[m], lw=6, label=short(m))
         ax.set_yscale("log")
         ax.set_title(ct)
-        ax.set_xticks(x, [COND_SHORT[c].replace(" ", "\n", 1) for c in CONDITIONS])
+        ax.set_xticks(x, TICKS)
     axes[0].set_ylabel("output tokens (log scale)")
     axes[-1].legend(frameon=False, loc="center left", bbox_to_anchor=(1.0, 0.5))
     savefig(fig, "output_tokens_boxplot")

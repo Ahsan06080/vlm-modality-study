@@ -222,3 +222,28 @@ Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest fir
 Hand-check of 30 random rows (10 per content type, seed 630): the scorer agrees with a careful reading on **29/30**. The 1 disagreement: table-nu-2290, pred "Reggie Johnson" vs gold "Johnson". It's the same entity, but the official WTQ string match marks it incorrect. This is a known strictness of the official metric and I kept it as specified. Details: `results/analysis/handcheck_t10.csv`.
 **Files:** results/scored/main_all.csv.gz, results/analysis/handcheck_t10.csv
 **Issues / questions:** after T07 I made one more scoring fix, applied to all data: a code fence wrapping the whole transcription is stripped (Qwen-7B wrapped 87% of code transcriptions in ```python inside the tags). I also added a lenient exact metric for tables as a sensitivity check only. Both are listed in `reports/deviations.md`.
+
+### [2026-11-14 18:18 UTC] RUNNER -> PLANNER | T11 DONE
+**Summary:** Descriptives per model × content × condition (n, accuracy, 95% Wilson CI, parse rates, output-token mean/median/SD/IQR/min/max), input length per content type, and outlier lists. Figures (PNG + PDF): accuracy by condition faceted by content type; output-token box plots (log scale); A−B gap vs size for the Qwen family (Newcombe CIs).
+**Numbers:** accuracy A / B / C. code: 3B .386/.342/.358 · 7B .524/.490/.480 · InternVL .632/.506/.522 · Gemma .688/.494/.542 · 32B .812/.730/.740. math: .840/.818/.752 · .868/.868/.866 · .920/.864/.894 · .948/.934/.922 · .918/.902/.948. table: .428/.454/.392 · .626/.664/.668 · .648/.588/.628 · .734/.648/.726 · .812/.794/.806. Outliers (kept): 383 responses > Q3+3·IQR, 138 with finish_reason=length (of 22,500).
+**Files:** results/analysis/{descriptives,input_length,outliers,outlier_counts}.csv, results/figures/{accuracy_by_condition,output_tokens_boxplot,gap_A_minus_B_vs_size_qwen}.{png,pdf}
+
+### [2026-11-14 18:18 UTC] RUNNER -> PLANNER | T12 DONE
+**Summary:** Paired McNemar (exact), Newcombe paired CI, discordant OR with exact CI, and Holm within each family (A vs B, A vs C, B vs C; 15 tests each). Cochran's Q with Holm. Two sensitivity checks: unparseable pairs excluded, and the strict same-line parser.
+**Numbers:** A vs B, Holm p < .05 in 5/15 cells, all with A > B: InternVL code (b/c 89/26, diff .126 [.085, .166]), InternVL math (43/15, .056), 32B code (50/9, .082), Gemma code (117/20, .194 [.151, .236]), Gemma table (88/45, .086). Sensitivity: 5/15 with unparseable pairs excluded, 6/15 with the strict parser. A vs C: 5/15 significant. B vs C: 3/15 (32B math and Gemma table with C > B; 3B math with B > C). Cochran's Q Holm p < .05: 7/15.
+**Files:** results/analysis/rq1_{A_vs_B,A_vs_C,B_vs_C}{,_sens_parseable,_sens_strict_parser}.csv, rq1_cochran_q.csv
+**Issues / questions:** GLMM not run (no `GLMM OK`).
+
+### [2026-11-14 18:18 UTC] RUNNER -> PLANNER | T13 DONE
+**Summary:** Transcription exact rate and CER distribution per model × content. A vs C McNemar split by transcription correctness under 4 rules: exact (primary), CER ≤ 0.02, lenient exact, and exact with tags only. Logit: correct(B) ~ CER(C) + model, per content type.
+**Numbers:** exact rate code/math/table: 3B .670/.926/.000 · 7B .868/.816/.000 · InternVL .672/.936/.000 · Gemma .100/.698/.000 · 32B .778/.946/.004. **Primary exact match is ~0 for tables for every model** (dash-rule widths). The CER ≤ 0.02 and lenient rules give the table subsets. A−C gap on code, wrong transcription vs exact transcription: InternVL .238 vs .048, 32B .252 vs .021, Gemma .158 vs .040, 7B .121 vs .032, 3B .079 vs .003. Logit (pooled, model FE, n = 2,500 per type): CER coefficient not significant for any type (p = .52 / .11 / .55). CER > 0.02 indicator: OR .43 (p < .001) code, .58 (p = .012) math, .80 (p = .088) table.
+**Files:** results/analysis/rq2_{transcription,A_vs_C_by_transcription,logit_B_on_cer}.csv
+**Issues / questions:** Gemma gave no transcription in 80% of code C responses, so its code RQ2 numbers rest on 50 exact items. Flagged in summary.
+
+### [2026-11-14 18:18 UTC] RUNNER -> PLANNER | T14 DONE
+**Summary:** Wilcoxon signed-rank on output tokens A vs B (paired, Holm). Error sample exported. `reports/summary.md` written (numbers and tables only: every table, exclusions, models + revisions, package versions, GPU hours, deviations, data-quality flags, including the T07b replication table).
+**Numbers:** Holm p < .05 in 7/15 cells. Median A−B tokens: Gemma code −35, 32B code −32, 32B table −18.5, 7B code +25.5, 7B math +20.5, InternVL math +38. Error sample: 100 A-correct/B-wrong flips per content type (available: code 385, math 149, table 338), seed 630, with empty `code`/`coder` columns for the OWNER. Total GPU hours: 2.81 (pilot + rep2 + main; smoke tests excluded, < 0.1 h).
+**Files:** results/analysis/rq3_tokens_wilcoxon.csv, flip_counts.csv, results/coding/error_sample.csv, reports/summary.md, reports/deviations.md
+
+### [2026-11-14 18:18 UTC] RUNNER -> PLANNER | ALL DONE
+**Summary:** T00–T14 complete (T09 skipped, GLMM not run). Everything is committed. Please review the parser and transcription deviations (#6, #7, #14, #15 in `reports/deviations.md`). Strict-parser and tags-only sensitivity results are included for each, so you can veto any of them without re-running inference.

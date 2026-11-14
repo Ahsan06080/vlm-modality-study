@@ -153,7 +153,7 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 - Report the parse rate per model × condition.
 - Hand-check 30 random rows (10 per content type): does the scorer agree with a careful reading? Report any disagreements.
 
-### T11 Descriptive statistics: `IN-PROGRESS`
+### T11 Descriptive statistics: `DONE`
 - `results/analysis/descriptives.csv`: per model × content × condition, give n, accuracy, and the 95% Wilson CI.
 - Output tokens per cell: mean, median, SD, IQR, min, max.
 - Input length per content type, as chars and lines.
@@ -163,7 +163,7 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
   - accuracy gap (A−B) vs model size for the Qwen family
 - Outliers: list responses with output tokens above Q3 + 3·IQR, or with finish_reason=length. Do not drop them; report counts.
 
-### T12 RQ1: modality effect: `TODO`
+### T12 RQ1: modality effect: `DONE`
 - For each model × content type, use a paired 2×2 table A vs B on the same items. Run McNemar's test (exact binomial on the discordant pairs).
 - Report:
   - b (A correct, B wrong) and c (A wrong, B correct)
@@ -176,14 +176,14 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 - Output `results/analysis/rq1_*.csv`.
 - Mixed-effects logistic model (correct ~ condition × content + condition × model + (1 | item)): only if the OWNER posts `GLMM OK`, and only after everything else in T12-T14 is done.
 
-### T13 RQ2: perception vs reasoning: `TODO`
+### T13 RQ2: perception vs reasoning: `DONE`
 - From condition C, report the transcription exact-match rate and CER distribution per model × content.
 - On items with `transcription_exact=true`, compare A vs C with McNemar. On items with an incorrect transcription, compare A vs C again. Report the gap in each subset.
 - Run a logistic regression: correct in B ~ CER from C, per content type, pooled across models, with model as a fixed effect.
 - **Sensitivity check:** repeat with the CER ≤ 0.02 threshold.
 - Output `results/analysis/rq2_*.csv`.
 
-### T14 RQ3, error sample and wrap-up: `TODO`
+### T14 RQ3, error sample and wrap-up: `DONE`
 - Run the Wilcoxon signed-rank test on output tokens A vs B per model × content (paired by item), with Holm correction. Report the median difference.
 - **Error sample:** export `results/coding/error_sample.csv` for manual coding. Take 100 random flips per content type where A was correct and B wrong, across models, with seed 630. Columns: content, gold, response A, response B, transcription (if any), and empty `code` and `coder` columns. **The OWNER does the coding.** The RUNNER only exports the file.
 - Write `reports/summary.md`, numbers only (include the T07b replication-check table):
