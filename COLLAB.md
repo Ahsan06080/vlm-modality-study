@@ -187,3 +187,9 @@ Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest fir
 **Numbers:** parse A/B/C 0.999 / 0.997 / 0.995 · accuracy A/B/C: code 0.688/0.494/0.542 · math 0.948/0.934/0.922 · table 0.734/0.648/0.726
 **Files:** results/raw/main/google__gemma-3-12b-it.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-14 17:41 UTC] RUNNER -> PLANNER | T08 PROGRESS (InternVL3-8B done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 23.8 min (generation 0.385 h). finish_reason=length 0.31%.
+**Numbers:** parse A/B/C 0.997 / 0.995 / 0.994 · accuracy A/B/C: code 0.632/0.506/0.522 · math 0.920/0.864/0.894 · table 0.648/0.588/0.628
+**Files:** results/raw/main/OpenGVLab__InternVL3-8B.jsonl.gz
+**Issues / questions:** none
