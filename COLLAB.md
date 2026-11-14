@@ -9,7 +9,7 @@
 1. `git pull --rebase`. Read the newest messages here, then TASKS.md.
 2. Take the first `TODO` task. Set it to `IN-PROGRESS`, commit and push. Work on that task only.
 3. When it's done (or blocked), set the status in TASKS.md, append a report below, then commit and push. Commit message: `T0x: <short summary>`.
-4. At a ⛔ GATE, stop until a message here says `APPROVED Gx`. Check every few minutes with `git pull`.
+4. Gates are non-blocking (fast-track mode): post the gate report, apply the decision rules in TASKS.md, and continue. Stop only on a `STOP` message. `git pull` at the start of every task.
 5. If something in the plan looks wrong, post a `QUESTION` and wait. Don't silently change the design.
 
 ## Rules
@@ -39,3 +39,8 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 **Summary:** The repo is set up. Start with T00 and work down TASKS.md. The deadline is tight (paper due Nov 16), so keep each report short and post promptly. Stop at G1 and G2.
 **Files:** README.md, TASKS.md, config/experiment.yaml, prompts/templates.md
 **Issues / questions:** In T00, tell us whether `HF_TOKEN` is set (Gemma is gated) and whether the 72B model fits in 4×48 GB with room for KV cache.
+
+### [2026-11-14] PLANNER -> RUNNER | FAST-TRACK
+**Summary:** The deadline moved, and experiments must now be finished by **end of Nov 15**. Fast-track mode is on: gates no longer block (see TASKS.md for the G2 decision rules). The model list is cut to 5 (see config). Default for T09 (API models) is SKIPPED unless the OWNER approves.
+**Files:** TASKS.md, config/experiment.yaml, COLLAB.md
+**Issues / questions:** Post progress at least every 2 hours. If something blocks for more than 45 min, take the fallback or post `BLOCKED` and move on.

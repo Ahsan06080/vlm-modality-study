@@ -6,7 +6,7 @@ seed: 630
 
 items:
   pilot_per_content: 30        # disjoint from the main sample
-  main_per_content: 500        # may be lowered to 300 at Gate G2 if the pilot shows it is needed
+  main_per_content: 500        # rule at Gate G2: lowered to 300 if the estimated main-run time exceeds 8 h
 
 content_types:
   code:
@@ -60,15 +60,13 @@ transcription:
   sensitivity_cer_threshold: 0.02
 
 models:                        # proposal; the runner checks availability at T00/T07, final list fixed at Gate G2
-  local:
+  local:                       # fast-track list (2026-11-14). Order = run order, smallest first.
     - {id: "Qwen/Qwen2.5-VL-3B-Instruct",  family: qwen,   access: open, params_b: 3}
     - {id: "Qwen/Qwen2.5-VL-7B-Instruct",  family: qwen,   access: open, params_b: 7}
-    - {id: "Qwen/Qwen2.5-VL-32B-Instruct", family: qwen,   access: open, params_b: 32}
-    - {id: "Qwen/Qwen2.5-VL-72B-Instruct", family: qwen,   access: open, params_b: 72, optional: true}
-    - {id: "google/gemma-3-12b-it",        family: gemma,  access: open, params_b: 12}
-    - {id: "google/gemma-3-27b-it",        family: gemma,  access: open, params_b: 27}
     - {id: "OpenGVLab/InternVL3-8B",       family: intern, access: open, params_b: 8}
-    - {id: "deepseek-ai/deepseek-vl2",     family: deepseek, access: open, optional: true}
+    - {id: "google/gemma-3-12b-it",        family: gemma,  access: open, params_b: 12}   # gated: needs HF_TOKEN; drop if no access
+    - {id: "Qwen/Qwen2.5-VL-32B-Instruct", family: qwen,   access: open, params_b: 32}
+    # Dropped for time: Qwen2.5-VL-72B, gemma-3-27b, deepseek-vl2. Add back only if T08 finishes early and the PLANNER approves.
   api:                         # only if the owner approves keys and budget (task T09)
     - {provider: openai,    id: "TBD at G2", access: proprietary}
     - {provider: google,    id: "TBD at G2", access: proprietary}

@@ -1,13 +1,25 @@
 # TASKS: sequential run list for the lab server
 
-Do tasks **in order**. Take the first task whose status is `TODO`. Stop at any `GATE` until COLLAB.md has a
-message from the PLANNER or OWNER that says `APPROVED Gx`. Protocol and report format: see COLLAB.md.
+Do tasks **in order**. Take the first task whose status is `TODO`. Gates do **not** block (fast-track mode, see below).
+Protocol and report format: see COLLAB.md.
 
 Statuses: `TODO` · `IN-PROGRESS` · `DONE` · `BLOCKED` (say why in COLLAB.md) · `SKIPPED` (only when approved)
 
 Fixed inputs: `config/experiment.yaml` and `prompts/templates.md`. Code goes in `src/vmod/`, tests in `tests/`.
 
-**Deadline:** the paper is due Nov 16. Target: T08 done by Nov 12 night, analysis (T10-T14) done by Nov 13.
+**Deadline (updated 2026-11-14):** paper due Nov 18. **All experiments and analysis (T00-T14) must be done by end of Nov 15.**
+
+| By | Milestone |
+|---|---|
+| Nov 14 evening | T00-T05 done (setup, data, images, scorers) |
+| Nov 15 morning | T06-T07 done (runner, pilot) |
+| Nov 15 afternoon | T08 done (main runs) |
+| Nov 15 night | T10-T14 done (scoring, analysis, summary) |
+
+**Fast-track mode:** at each gate, post the gate report in COLLAB.md and **continue immediately**, applying the decision
+rules written at the gate. Stop only if a PLANNER or OWNER message says `STOP`. Check COLLAB.md (`git pull`) at least
+at the start of every task. If a step is eating time (more than 45 min stuck), take the stated fallback or post `BLOCKED`
+and move on to the next task that doesn't depend on it.
 
 ---
 
@@ -28,6 +40,7 @@ Fixed inputs: `config/experiment.yaml` and `prompts/templates.md`. Code goes in 
 
 ### T02 Download datasets: `TODO`
 - Download CRUXEval, GSM8K test and WikiTableQuestions test, as named in the config.
+- **Fallback for WTQ:** if neither the HF loader nor the GitHub zip works within 30 min, post `QUESTION` and continue with code and math; tables get added when resolved.
 - Write `data/MANIFEST.md`: source URL, version/commit hash or file sha256, license, total item count.
 - **Done when:** the manifest is committed and the licenses are listed in the report. Flag any license that forbids this use.
 
@@ -63,8 +76,9 @@ Fixed inputs: `config/experiment.yaml` and `prompts/templates.md`. Code goes in 
   - Add unit tests for the parser and each scorer.
 - **Done when:** the self-test passes at 100% and the tests are committed.
 
-### ⛔ GATE G1: wait for `APPROVED G1`
-The PLANNER checks the render samples, exclusion counts and self-test.
+### GATE G1 (non-blocking): post report, then continue
+Post the render sample paths, exclusion counts and self-test result. The PLANNER reviews in parallel and may post `STOP`.
+The self-test must be 100% before continuing; that one is a hard requirement.
 
 ---
 
@@ -90,11 +104,16 @@ The PLANNER checks the render samples, exclusion counts and self-test.
 - Show 3 raw responses per condition from one model, so the PLANNER can check the prompts work.
 - **Done when:** the report is posted and `results/raw/pilot/` is committed.
 
-### ⛔ GATE G2: wait for `APPROVED G2`
-The PLANNER and OWNER fix the model list, N and max_new_tokens. The RUNNER then applies the approved config changes, commits, and creates the tag `config-frozen-v1`. After this, the config and prompts must not change.
+### GATE G2 (non-blocking): apply these rules, freeze, continue
+Pre-registered decision rules:
+1. **Models:** keep a model if it ran the pilot without crashes and its parse rate is at least 80% in every condition. Otherwise drop it and report why.
+2. **N:** keep `main_per_content: 500` if the estimated main-run wall time for all kept models is 8 hours or less. Otherwise set it to 300.
+3. **max_new_tokens:** if any kept model has more than 5% `finish_reason=length` in any cell, raise it to 4096 for **all** models (never per model). Re-check rule 2 with the new estimate.
+
+Apply the rules, commit the config change, create the tag `config-frozen-v1`, post the decisions in COLLAB.md, and start T08. After the tag, the config and prompts must not change.
 
 ### T08 Main runs, local models: `TODO`
-- Run the **main** set for each approved local model, smallest first.
+- Run the **main** set for each model kept at G2, smallest first. Start the analysis tasks (T10-T12) on finished models while the larger ones run, if a spare GPU allows it.
 - After each model:
   - Check integrity: every main item × 3 conditions appears exactly once, or is in the skipped list.
   - Commit `results/raw/main/{model_slug}.jsonl.gz`.
@@ -105,7 +124,7 @@ The PLANNER and OWNER fix the model list, N and max_new_tokens. The RUNNER then 
 - Do this only if the OWNER posts the approved model IDs and budget, and has set the API keys as environment variables on the server. Never write keys to files or commits.
 - Same items, prompts and output schema as T08, with temperature 0. Log the exact model version string returned by the API, and the cost per model. Retry with backoff; never re-sample items.
 - Stop and report if spending reaches 80% of the budget.
-- If no approval is posted by the time T08 is done, mark this task SKIPPED and continue.
+- If no approval is posted by the time T08 is done, mark this task SKIPPED and continue. (Default under fast-track: SKIPPED.)
 
 ---
 
@@ -139,7 +158,7 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 - Run Cochran's Q across A/B/C per model × content.
 - **Sensitivity check:** exclude unparseable responses and re-run the tests.
 - Output `results/analysis/rq1_*.csv`.
-- Mixed-effects logistic model (correct ~ condition × content + condition × model + (1 | item)): only if the OWNER posts `GLMM OK`.
+- Mixed-effects logistic model (correct ~ condition × content + condition × model + (1 | item)): only if the OWNER posts `GLMM OK`, and only after everything else in T12-T14 is done.
 
 ### T13 RQ2: perception vs reasoning: `TODO`
 - From condition C, report the transcription exact-match rate and CER distribution per model × content.
