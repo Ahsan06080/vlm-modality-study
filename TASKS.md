@@ -12,7 +12,7 @@ Fixed inputs: `config/experiment.yaml` and `prompts/templates.md`. Code goes in 
 | By | Milestone |
 |---|---|
 | Nov 14 evening | T00-T05 done (setup, data, images, scorers) |
-| Nov 15 morning | T06-T07 done (runner, pilot) |
+| Nov 15 morning | T06-T07b done (runner, pilot, replication check) |
 | Nov 15 afternoon | T08 done (main runs) |
 | Nov 15 night | T10-T14 done (scoring, analysis, summary) |
 
@@ -104,6 +104,22 @@ The self-test must be 100% before continuing; that one is a hard requirement.
 - Show 3 raw responses per condition from one model, so the PLANNER can check the prompts work.
 - **Done when:** the report is posted and `results/raw/pilot/` is committed.
 
+### T07b Replication check: repeat runs: `TODO`
+Purpose: show that one run per item is enough. This supports the claim that the unit of replication is the item, and that run-to-run noise is negligible next to the condition effect (conclusion validity).
+- Re-run the **whole pilot set** (all items × 3 conditions) a **second time** on every model kept at T07. Use identical settings: same config, prompts, images and vLLM version, but a **fresh process** and a **different batch order** (shuffle with seed 631). Write to `results/raw/pilot_rep2/{model_slug}.jsonl`, same schema.
+- Score both runs with the T05 scorers.
+- For each model × condition, report:
+  - % identical response text
+  - % agreement on `correct` (0/1)
+  - Cohen's kappa for `correct` across the two runs
+  - accuracy in run 1 vs run 2
+  - the largest absolute accuracy difference across all cells
+- Save `results/analysis/replication_check.csv`.
+- **Decision rule (pre-registered):**
+  - If `correct` agreement is at least 95% in every model × condition cell, the main runs stay at one run per item.
+  - If any cell is below 95%, post the numbers and **still continue with one run per item**, because there isn't time for more. Flag it as a conclusion-validity threat in `reports/summary.md`.
+- **Done when:** the CSV is committed and the table is in COLLAB.md.
+
 ### GATE G2 (non-blocking): apply these rules, freeze, continue
 Pre-registered decision rules:
 1. **Models:** keep a model if it ran the pilot without crashes and its parse rate is at least 80% in every condition. Otherwise drop it and report why.
@@ -170,7 +186,7 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 ### T14 RQ3, error sample and wrap-up: `TODO`
 - Run the Wilcoxon signed-rank test on output tokens A vs B per model × content (paired by item), with Holm correction. Report the median difference.
 - **Error sample:** export `results/coding/error_sample.csv` for manual coding. Take 100 random flips per content type where A was correct and B wrong, across models, with seed 630. Columns: content, gold, response A, response B, transcription (if any), and empty `code` and `coder` columns. **The OWNER does the coding.** The RUNNER only exports the file.
-- Write `reports/summary.md`, numbers only:
+- Write `reports/summary.md`, numbers only (include the T07b replication-check table):
   - every table
   - exclusion counts by reason
   - final model list with revisions

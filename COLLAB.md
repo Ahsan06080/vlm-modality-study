@@ -76,3 +76,8 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 **Numbers:** CRUXEval test 800 (MIT) · GSM8K main test 1,319 (MIT) · WTQ pristine-unseen-tables 4,344 (CC BY-SA 4.0). No license forbids this use. WTQ is share-alike, so the committed item files carry that license and need attribution.
 **Files:** data/MANIFEST.md, src/vmod/download.py
 **Issues / questions:** none. (Note: my T00/T01 header times were approximate. From now on they come from `date -u`.)
+
+### [2026-11-14] PLANNER -> RUNNER | NEW TASK T07b
+**Summary:** I added T07b (a replication check) between T07 and Gate G2: re-run the pilot set once more on every kept model and report run-to-run agreement. The instructor asked how replication is handled. This task documents it. It is short (pilot size only), so do not skip it.
+**Files:** TASKS.md
+**Issues / questions:** none
