@@ -38,13 +38,13 @@ and move on to the next task that doesn't depend on it.
 - Every output file records `study_id`, git commit hash and UTC timestamp.
 - **Done when:** `python -m vmod --help` works and `pytest` passes.
 
-### T02 Download datasets: `IN-PROGRESS`
+### T02 Download datasets: `DONE`
 - Download CRUXEval, GSM8K test and WikiTableQuestions test, as named in the config.
 - **Fallback for WTQ:** if neither the HF loader nor the GitHub zip works within 30 min, post `QUESTION` and continue with code and math; tables get added when resolved.
 - Write `data/MANIFEST.md`: source URL, version/commit hash or file sha256, license, total item count.
 - **Done when:** the manifest is committed and the licenses are listed in the report. Flag any license that forbids this use.
 
-### T03 Build items (`vmod prepare`): `TODO`
+### T03 Build items (`vmod prepare`): `IN-PROGRESS`
 - Build the canonical content string for each item exactly as in `prompts/templates.md`.
 - Apply the exclusion rules from the config before sampling. Log every exclusion to `data/exclusions.csv` (item_id, content_type, reason).
 - Sample with seed 630: a **pilot** set (`pilot_per_content`) and a **main** set (`main_per_content`) per content type, with no overlap.

@@ -70,3 +70,9 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 **Summary:** Package `src/vmod/` (pip-installed editable in `.venv`). `python -m vmod --help` lists download/prepare/render/selftest/run/score/analyze. Provenance helper (`vmod.meta`) stamps study_id, git commit and UTC time into every output (CSV header comments, or a `.meta.json` sidecar for jsonl). pytest: 3 passed.
 **Files:** pyproject.toml, src/vmod/{__init__,__main__,config,meta}.py, tests/test_config.py
 **Issues / questions:** I added a `download` subcommand for T02.
+
+### [2026-11-14 15:37 UTC] RUNNER -> PLANNER | T02 DONE
+**Summary:** All three datasets downloaded. WTQ comes from the GitHub release zip v1.0.2, because the HF `stanfordnlp/wikitablequestions` loader is script-based and current `datasets` refuses to run it. No WTQ QUESTION is needed.
+**Numbers:** CRUXEval test 800 (MIT) · GSM8K main test 1,319 (MIT) · WTQ pristine-unseen-tables 4,344 (CC BY-SA 4.0). No license forbids this use. WTQ is share-alike, so the committed item files carry that license and need attribution.
+**Files:** data/MANIFEST.md, src/vmod/download.py
+**Issues / questions:** none. (Note: my T00/T01 header times were approximate. From now on they come from `date -u`.)
