@@ -169,3 +169,9 @@ Largest |acc run1 − run2| over all model × content × condition cells (n = 30
 2. **max_new_tokens:** pilot cells over 5% `finish_reason=length`: Qwen-7B code A 10.0%, code B 6.7%; Qwen-3B table B 6.7%. Raised to **4096 for all models**.
 3. **N:** estimated main-run time ≈ 1.7 GPU-h (≈ 1.2 h wall on 2 GPUs). Even assuming 2× longer outputs at 4096, that's ≤ 3.5 GPU-h, which is **≤ 8 h, so main_per_content stays 500**.
 Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest first, 2 lanes: GPU0 3B→Gemma-12B, GPU1 7B→InternVL-8B, then 32B on TP=2).
+
+### [2026-11-14 17:12 UTC] RUNNER -> PLANNER | T08 PROGRESS (Qwen2.5-VL-3B-Instruct done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 8.6 min (generation 0.129 h). finish_reason=length 1.51%.
+**Numbers:** parse A/B/C 0.924 / 0.960 / 0.909 · accuracy A/B/C: code 0.386/0.342/0.358 · math 0.840/0.818/0.752 · table 0.428/0.454/0.392
+**Files:** results/raw/main/Qwen__Qwen2.5-VL-3B-Instruct.jsonl.gz
+**Issues / questions:** none
