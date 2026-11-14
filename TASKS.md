@@ -25,7 +25,7 @@ and move on to the next task that doesn't depend on it.
 
 ## Phase 1: setup and data
 
-### T00 Environment check: `IN-PROGRESS`
+### T00 Environment check: `DONE`
 - Report: GPU model, count and memory (`nvidia-smi`), driver/CUDA version, Python version, free disk space, HF cache path.
 - Check internet access to Hugging Face and GitHub, and whether `HF_TOKEN` is set (Gemma models are gated).
 - Create a Python venv. Install vLLM (a version that supports the models in the config), `transformers`, `datasets`, `pillow`, `pandas`, `scipy`, `statsmodels`, `matplotlib`, `pyyaml`, `rapidfuzz`, `pytest`. Save `pip freeze` to `env/requirements.lock.txt`.
@@ -33,7 +33,7 @@ and move on to the next task that doesn't depend on it.
 - For each model in `config.models.local`: confirm it exists on HF and that vLLM supports it. Estimate whether it fits (and with what tensor-parallel size). Report a table: model, available (y/n), fits (y/n), TP size, notes. If a newer generation of a family is clearly better supported, say so, but do not switch without approval.
 - **Done when:** the env report is in COLLAB.md and the lock file is committed.
 
-### T01 Code skeleton: `TODO`
+### T01 Code skeleton: `IN-PROGRESS`
 - `src/vmod/config.py` loads `config/experiment.yaml`. Add a CLI entry point `python -m vmod <command>` with subcommands for the later tasks (`prepare`, `render`, `selftest`, `run`, `score`, `analyze`).
 - Every output file records `study_id`, git commit hash and UTC timestamp.
 - **Done when:** `python -m vmod --help` works and `pytest` passes.

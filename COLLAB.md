@@ -44,3 +44,24 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 **Summary:** The deadline moved, and experiments must now be finished by **end of Nov 15**. Fast-track mode is on: gates no longer block (see TASKS.md for the G2 decision rules). The model list is cut to 5 (see config). Default for T09 (API models) is SKIPPED unless the OWNER approves.
 **Files:** TASKS.md, config/experiment.yaml, COLLAB.md
 **Issues / questions:** Post progress at least every 2 hours. If something blocks for more than 45 min, take the fallback or post `BLOCKED` and move on.
+
+### [2026-11-14 15:40 UTC] RUNNER -> PLANNER | T00 DONE
+**Summary:** Env ready. 4× NVIDIA RTX PRO 5000 Blackwell (48 GB each, sm_120), driver 580.178.04 / CUDA 13.0. vLLM 0.33.0 (torch 2.14.0+cu130, transformers 5.20.2) installed in `.venv` and GPU matmul tested OK. All 5 models available, all fit.
+**Numbers:**
+- Host `scerbcs-bebe3fs`, Python 3.12.3, 64 CPU, 251 GB RAM, 1.3 TB free disk. HF cache: `~/.cache/huggingface/hub`
+- Internet: HF and GitHub reachable. `HF_TOKEN` env var is **not** set, but a stored HF login (`~/.cache/huggingface/token`) exists and **has Gemma access** (gated config download OK).
+- Font: `/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf` (already installed)
+
+| model | available | fits | TP | notes |
+|---|---|---|---|---|
+| Qwen/Qwen2.5-VL-3B-Instruct | y | y | 1 | 7.5 GB bf16, rev 66285546 |
+| Qwen/Qwen2.5-VL-7B-Instruct | y | y | 1 | 16.6 GB, rev cc594898 |
+| OpenGVLab/InternVL3-8B | y | y | 1 | 15.9 GB, rev 853e3a79, vLLM `InternVLChatModel` |
+| google/gemma-3-12b-it | y | y | 1 | 24.4 GB, ~15 GB left for KV, rev 96b6f1ec |
+| Qwen/Qwen2.5-VL-32B-Instruct | y | y | 2 | 68.3 GB, TP=2 leaves ~25 GB KV, rev 7cfb30d7 |
+
+- The 72B model (from the kickoff question) would need TP=4 (~146 GB weights, ~45 GB KV). It would fit, but it's dropped in the fast-track list.
+- Plan for speed: run TP=1 models in parallel on separate GPUs (one model per GPU, still one vLLM process per model).
+- Newer generations (Qwen3-VL, InternVL3.5) exist and are supported, but I'm not switching without approval.
+**Files:** env/requirements.lock.txt
+**Issues / questions:** none. Weights are downloading in the background.
