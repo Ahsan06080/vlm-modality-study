@@ -338,7 +338,11 @@ def rq2(df):
     rows = []
     for (mid, ct), g in cdf.groupby(["model_id", "content_type"]):
         cer = g["cer"].astype(float)
+        srcs = g["transcription_source"].value_counts()
         rows.append(dict(model_id=mid, content_type=ct, n=len(g), pct_with_transcription=100 * g.has_transcription.mean(),
+                         pct_src_tags=100 * srcs.get("tags", 0) / len(g), pct_src_open_tag=100 * srcs.get("open_tag", 0) / len(g),
+                         pct_src_heading_fence=100 * srcs.get("heading_fence", 0) / len(g),
+                         pct_src_none=100 * srcs.get("none", 0) / len(g),
                          exact_rate=g.transcription_exact.mean(), pct_cer_le_002=100 * (cer <= 0.02).mean(),
                          cer_mean=cer.mean(), cer_sd=cer.std(), cer_p10=cer.quantile(0.1), cer_q1=cer.quantile(0.25),
                          cer_median=cer.median(), cer_q3=cer.quantile(0.75), cer_p90=cer.quantile(0.9), cer_max=cer.max()))
@@ -355,6 +359,15 @@ def rq2(df):
             r.insert(3, "transcription_correct", good)
             r["gap_A_minus_C"] = r["diff"]
             sub_rows.append(r)
+    # sensitivity: only responses whose transcription came from the <transcription> tags (no heading fallback)
+    tags = cdf[cdf["transcription_source"] == "tags"][["model_id", "content_type", "item_id", "transcription_exact"]]
+    for good in (True, False):
+        sel = tags[tags.transcription_exact == good][["model_id", "content_type", "item_id"]]
+        r = mcnemar_family(df.merge(sel, on=["model_id", "content_type", "item_id"]), A, C)
+        r.insert(2, "subset_rule", "exact_tags_only")
+        r.insert(3, "transcription_correct", good)
+        r["gap_A_minus_C"] = r["diff"]
+        sub_rows.append(r)
     sr = pd.concat(sub_rows, ignore_index=True)
     sr["p_holm_within_rule"] = np.nan
     for rule in sr.subset_rule.unique():
@@ -420,6 +433,7 @@ def error_sample(df, n_per=100):
     j = a[["correct", "response"]].join(b[["correct", "response"]], lsuffix="_A", rsuffix="_B", how="inner")
     j = j.join(c[["transcription"]], how="left")
     flips = j[j.correct_A & ~j.correct_B].reset_index()
+    write_csv(flips.groupby(["content_type"]).size().rename("n_flips").reset_index(), "flip_counts.csv")
     out = []
     for ct in CONTENT_TYPES:
         f = flips[flips.content_type == ct].sort_values(key)
@@ -464,4 +478,8 @@ def main(args):
         print(error_sample(df))
     if what == "all":
         figures_t11(df, read_csv("descriptives.csv"))
+    if what in ("all", "summary"):
+        from .summary import main as summ
+
+        summ()
     return 0
