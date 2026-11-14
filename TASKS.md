@@ -128,7 +128,7 @@ Pre-registered decision rules:
 
 Apply the rules, commit the config change, create the tag `config-frozen-v1`, post the decisions in COLLAB.md, and start T08. After the tag, the config and prompts must not change.
 
-### T08 Main runs, local models: `IN-PROGRESS`
+### T08 Main runs, local models: `DONE`
 - Run the **main** set for each model kept at G2, smallest first. Start the analysis tasks (T10-T12) on finished models while the larger ones run, if a spare GPU allows it.
 - After each model:
   - Check integrity: every main item × 3 conditions appears exactly once, or is in the skipped list.
@@ -136,7 +136,7 @@ Apply the rules, commit the config change, create the tag `config-frozen-v1`, po
   - Post a short report: accuracy per content × condition, parse rate, wall time.
 - **Done when:** all approved models are complete.
 
-### T09 Main runs, API models: `TODO` (needs OWNER approval)
+### T09 Main runs, API models: `SKIPPED` (needs OWNER approval)
 - Do this only if the OWNER posts the approved model IDs and budget, and has set the API keys as environment variables on the server. Never write keys to files or commits.
 - Same items, prompts and output schema as T08, with temperature 0. Log the exact model version string returned by the API, and the cost per model. Retry with backoff; never re-sample items.
 - Stop and report if spending reaches 80% of the budget.
@@ -148,7 +148,7 @@ Apply the rules, commit the config change, create the tag `config-frozen-v1`, po
 
 Outputs are numbers, tables and figures only. **Do not write paper prose.**
 
-### T10 Score everything (`vmod score`): `TODO`
+### T10 Score everything (`vmod score`): `IN-PROGRESS`
 - Produce `results/scored/main_all.csv.gz`: all raw fields plus `pred, parse_ok, correct, transcription, transcription_exact, cer`.
 - Report the parse rate per model × condition.
 - Hand-check 30 random rows (10 per content type): does the scorer agree with a careful reading? Report any disagreements.

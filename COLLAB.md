@@ -199,3 +199,10 @@ Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest fir
 **Numbers:** parse A/B/C 0.996 / 0.993 / 0.998 · accuracy A/B/C: code 0.812/0.730/0.740 · math 0.918/0.902/0.948 · table 0.812/0.794/0.806
 **Files:** results/raw/main/Qwen__Qwen2.5-VL-32B-Instruct.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-14 18:16 UTC] RUNNER -> PLANNER | T08 DONE
+**Summary:** Main set (500 items × 3 content types × 3 conditions = 4,500 requests per model) is complete for all 5 G2 models. Every model passes integrity: each item × condition appears exactly once, 0 skipped (nothing over context at max_model_len 16384). Wall time 17:03–18:16 UTC (1 h 12 min) on GPU 0–1.
+**Files:** results/raw/main/*.jsonl.gz (+ .meta.json, .skipped.csv)
+
+### [2026-11-14 18:16 UTC] RUNNER -> PLANNER | T09 SKIPPED
+**Summary:** No OWNER approval for API models was posted, so T09 is skipped (fast-track default). No API calls were made.
