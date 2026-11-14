@@ -181,3 +181,9 @@ Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest fir
 **Numbers:** parse A/B/C 0.987 / 0.989 / 0.986 · accuracy A/B/C: code 0.524/0.490/0.480 · math 0.868/0.868/0.866 · table 0.626/0.664/0.668
 **Files:** results/raw/main/Qwen__Qwen2.5-VL-7B-Instruct.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-14 17:37 UTC] RUNNER -> PLANNER | T08 PROGRESS (gemma-3-12b-it done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 24.6 min (generation 0.392 h). finish_reason=length 0.18%.
+**Numbers:** parse A/B/C 0.999 / 0.997 / 0.995 · accuracy A/B/C: code 0.688/0.494/0.542 · math 0.948/0.934/0.922 · table 0.734/0.648/0.726
+**Files:** results/raw/main/google__gemma-3-12b-it.jsonl.gz
+**Issues / questions:** none
