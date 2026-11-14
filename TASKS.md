@@ -84,14 +84,14 @@ The self-test must be 100% before continuing; that one is a hard requirement.
 
 ## Phase 2: runs
 
-### T06 Inference runner (`vmod run --model <id> --set {pilot,main}`): `IN-PROGRESS`
+### T06 Inference runner (`vmod run --model <id> --set {pilot,main}`): `DONE`
 - Use vLLM offline batch mode, one model at a time, with all 3 conditions. Use the model's own chat template, with the image placed before the text for B and C. Decoding exactly per the config.
 - **Image resolution:** make sure the processor does **not** downscale our images. For example, raise Qwen `max_pixels` to cover the largest image. Record the effective resolution settings per model. If a model must downscale, report it; don't hide it.
 - **Output:** `results/raw/{set}/{model_slug}.jsonl`, one row per (item, condition). Fields: `item_id, content_type, condition, model_id, model_revision (HF commit sha), prompt_sha256, image_sha256, response, input_tokens, output_tokens, finish_reason, started_utc, gen_seconds`.
 - The runner must be resumable: skip any (item, condition) already written. Log items that exceed the context window to `results/raw/{set}/{model_slug}.skipped.csv`. Do not re-sample them.
 - **Done when:** a smoke run of 5 items × 3 conditions on the smallest model works end to end, through scoring.
 
-### T07 Pilot: `TODO`
+### T07 Pilot: `IN-PROGRESS`
 - Run the **pilot** set on every local model marked available and fitting in T00.
 - Report a table per model with:
   - parse rate per condition

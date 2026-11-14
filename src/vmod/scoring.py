@@ -36,28 +36,72 @@ def _strip_md(s: str) -> str:
 
 
 _MARKER_RE = re.compile(r"(?:\*\*|__)?\s*final answer\s*:\s*(?:\*\*|__)?", re.I)
+# A markdown heading used as the marker, colon optional: '### Final Answer' / '**Final Answer**'
+_HEADING_RE = re.compile(r"^\s*(?:#+\s*|\*\*\s*)?final answer\s*:?\s*(?:\*\*)?\s*$", re.I)
 
 
-def parse_answer(response: str | None, content_type: str) -> tuple[str | None, bool]:
-    """LAST line containing 'Final answer:' (bold/underline markdown around the marker tolerated).
-    Returns (pred, parse_ok)."""
-    if not response:
-        return None, False
-    lines = [l for l in response.splitlines() if _MARKER_RE.search(l)]
-    if not lines:
-        return None, False
-    line = lines[-1]
+def _same_line(line: str) -> str:
     m = list(_MARKER_RE.finditer(line))[-1]
     pred = line[m.end():].strip()
-    if line[:m.start()].rstrip().endswith(("**", "__")) is False and pred.endswith("**") and not pred.startswith("**"):
+    if pred.endswith("**") and not pred.startswith("**"):
         pred = pred[:-2]  # '**Final answer: 5**'
+    return pred
+
+
+def _following_block(lines: list[str], i: int) -> str:
+    """Answer written on the lines after a bare marker: first non-empty block, code fences and \\[ \\] removed."""
+    block = []
+    for l in lines[i + 1:]:
+        t = l.strip()
+        if t.startswith("```") or t in ("\\[", "\\]", "$$"):
+            if block and t.startswith("```"):
+                break
+            continue
+        if not t:
+            if block:
+                break
+            continue
+        block.append(t)
+    return " ".join(block).strip()
+
+
+def _finish(pred: str, content_type: str) -> tuple[str | None, bool]:
     pred = _strip_md(pred)
+    if pred.startswith("\\[") and pred.endswith("\\]"):
+        pred = _strip_md(pred[2:-2])
     if content_type != "code":  # code answers are Python literals: quotes are part of the value
         if len(pred) >= 2 and pred[0] == pred[-1] and pred[0] in "\"'" and pred[0] not in pred[1:-1]:
             pred = pred[1:-1].strip()
     if pred == "":
         return None, False
     return pred, True
+
+
+def parse_answer_strict(response: str | None, content_type: str) -> tuple[str | None, bool]:
+    """Literal rule: LAST line containing 'Final answer:'; the answer must be on that line."""
+    if not response:
+        return None, False
+    lines = [l for l in response.splitlines() if _MARKER_RE.search(l)]
+    if not lines:
+        return None, False
+    return _finish(_same_line(lines[-1]), content_type)
+
+
+def parse_answer(response: str | None, content_type: str) -> tuple[str | None, bool]:
+    """Primary parser. LAST marker line ('Final answer:' anywhere in a line, or a bare 'Final Answer' heading).
+    Answer = text after the marker on that line; if that is empty, the next non-empty block of lines.
+    Whenever the strict parser succeeds, this returns the identical prediction."""
+    if not response:
+        return None, False
+    lines = response.splitlines()
+    idx = [i for i, l in enumerate(lines) if _MARKER_RE.search(l) or _HEADING_RE.match(l)]
+    if not idx:
+        return None, False
+    i = idx[-1]
+    pred = _same_line(lines[i]) if _MARKER_RE.search(lines[i]) else ""
+    if not _strip_md(pred):
+        pred = _following_block(lines, i)
+    return _finish(pred, content_type)
 
 
 # ---------------------------------------------------------------- code (sandboxed eval in a subprocess)

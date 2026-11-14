@@ -77,3 +77,25 @@ def test_prompts():
     p = build_prompt("code", "C_image_transcribe", "x")
     assert "<transcription>" in p and "x" not in p.split("\n")[-1][:1]
     assert "{CONTENT}" not in build_prompt("table", "B_image", "x")
+
+
+@pytest.mark.parametrize("resp,ct,want", [
+    ("### Final Answer:\n\\[\n\\boxed{24}\n\\]", "math", "24"),
+    ("### Final Answer:\n\\[ \\boxed{24} \\]", "math", "24"),
+    ("### Final Answer\n```python\n'mgIRt'\n```", "code", "'mgIRt'"),
+    ("### Final Answer:\n```python\n[(\"a\", 1), (\"b\", 45)]\n```", "code", "[(\"a\", 1), (\"b\", 45)]"),
+    ("**Final Answer:**\nItaly", "table", "Italy"),
+    ("Final answer: 5\nmore text\n### Final Answer:\n7", "math", "7"),
+])
+def test_parse_next_line(resp, ct, want):
+    from vmod.scoring import parse_answer_strict
+    pred, ok = parse_answer(resp, ct)
+    assert ok and pred == want
+    assert parse_answer_strict(resp, ct)[1] is False or parse_answer_strict(resp, ct)[0] == want
+
+
+def test_strict_agrees_when_ok():
+    from vmod.scoring import parse_answer_strict
+    for r in ["Final answer: 18", "**Final answer:** 'a__b'", "x\nFinal answer: [1, 2]."]:
+        s = parse_answer_strict(r, "code")
+        assert s[1] and s == parse_answer(r, "code")

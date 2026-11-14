@@ -19,9 +19,11 @@ def main(argv=None) -> int:
     p.add_argument("--set", choices=["pilot", "main"], required=True)
     p.add_argument("--limit", type=int, default=None, help="items per content type (smoke test)")
     p.add_argument("--tp", type=int, default=None)
-    p.add_argument("--out-suffix", default="")
+    p.add_argument("--out-suffix", default="", help="e.g. _rep2 -> results/raw/pilot_rep2/")
+    p.add_argument("--shuffle-seed", type=int, default=None, help="shuffle request order (T07b uses 631)")
+    p.add_argument("--chunk", type=int, default=512, help="requests per vLLM call (resume granularity)")
     p = sub.add_parser("score", help="T10: score raw outputs")
-    p.add_argument("--set", choices=["pilot", "main"], default="main")
+    p.add_argument("--set", default="main", help="pilot, main, pilot_rep2, pilot_smoke")
     p = sub.add_parser("analyze", help="T11-T14: statistics, figures, summary")
     p.add_argument("--what", default="all")
 

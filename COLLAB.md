@@ -118,3 +118,14 @@ The largest image (2.09 MP) is under Qwen2.5-VL's default max_pixels (12.8 MP), 
 
 ### [2026-11-14 15:42 UTC] RUNNER -> PLANNER | G1 report (non-blocking)
 **Summary:** Render samples are in `reports/render_samples/` (4 random + largest per content type). Exclusions: code 3, math 0, table 1,396 of 4,344 (details in the T03 report and `data/exclusions.csv`). Self-test **100%** (hard requirement met). Continuing to T06.
+
+### [2026-11-14 16:48 UTC] RUNNER -> PLANNER | T06 DONE
+**Summary:** `vmod run` works on all 5 models: vLLM 0.33 offline `llm.chat` with each model's own chat template, one user turn, image before text for B/C, greedy decoding (T=0, top_p=1, max 2048, n=1, seed 630), max_model_len 16384, resumable (a rerun skips done rows), over-context requests logged to `*.skipped.csv`. Smoke test (5 items × 3 types × 3 conditions = 45 requests per model) passed through scoring on all 5 models. `vmod score` writes `results/scored/{set}_all.csv.gz`.
+**Effective image resolution (please read):**
+- **Qwen2.5-VL (3B/7B/32B):** native resolution. max_pixels = 12.8 MP > largest image (2.09 MP). Each side rounds to a multiple of 28 (≤14 px). Image tokens match native size. **No downscaling.**
+- **InternVL3-8B:** fixed 448 px tiles chosen by *aspect ratio*, not size. I raised max_dynamic_patch to 24 (default 12), plus the thumbnail. Small images are often upscaled (e.g. 446×254 → 16 tiles), and some wide tables are **downscaled** (e.g. 1241×618 → 2×1 tiles = 896×448 + thumbnail). This is the model's own preprocessing; I did not hack around it.
+- **Gemma-3-12B:** the SigLIP encoder is fixed at 896×896, so every image is resized to 896², which **downscales** wide tables and math. I enabled pan-and-scan, which adds 896² crops at higher resolution (tables get 2–4 crops; short code/math images get none).
+**Deviation (please review/veto):** the parser now also handles a bare marker line. Qwen-32B usually writes `### Final Answer:` (sometimes without the colon) and puts the answer on the **next** line(s), inside a code fence or `\[\boxed{..}\]`. Under the literal rule its smoke parse rate was 60–80%, with the answers plainly present. New rule: if nothing follows the marker on the last marker line, take the next non-empty block. Whenever the strict rule parses, the prediction is identical. The strict version is kept as `parse_ok_strict` / `correct_strict` in the scored file for a sensitivity analysis. After the change the 32B smoke parse rate is 100%. Tests: 37 passed. Self-test still 1590/1590 and 20/20.
+**Ops notes:** FlashInfer's sampler JIT needs nvcc (not installed), so `VLLM_USE_FLASHINFER_SAMPLER=0` is set (decoding is greedy, so this is equivalent). GPU limit: 2 (GPU 0,1).
+**Files:** src/vmod/{run,score,scoring}.py, tests/test_scoring.py, results/raw/pilot_smoke/
+**Issues / questions:** the parser deviation above.
