@@ -47,6 +47,12 @@ def load_math(width):
 
 def load_table():
     base = RAW / "wtq" / "WikiTableQuestions"
+    canon = {}
+    with open(base / "tagged" / "data" / "pristine-unseen-tables.tagged", encoding="utf-8") as f:
+        th = f.readline().rstrip("\n").split("\t")
+        for line in f:
+            t = dict(zip(th, line.rstrip("\n").split("\t")))
+            canon[t["id"]] = [wtq_unescape(v) for v in t["targetCanon"].split("|")]
     with open(base / "data" / "pristine-unseen-tables.tsv", encoding="utf-8") as f:
         header = f.readline().rstrip("\n").split("\t")
         for i, line in enumerate(f):
@@ -55,7 +61,7 @@ def load_table():
             rows = [[wtq_unescape(c) for c in l.rstrip("\n").split("\t")] for l in open(tsv, encoding="utf-8")]
             gold = [wtq_unescape(v) for v in r["targetValue"].split("|")]
             yield dict(item_id=f"table-{r['id']}", content_type="table", content=table_content(rows, r["utterance"]),
-                       gold=gold, source_index=i, n_table_rows=len(rows) - 1, _context=r["context"])
+                       gold=gold, gold_canon=canon[r["id"]], source_index=i, n_table_rows=len(rows) - 1)
 
 
 def exclusion_reasons(item, ex) -> list[str]:
@@ -102,7 +108,7 @@ def main(args=None):
             with open(p, "w", encoding="utf-8") as f:
                 for it in items:
                     keys = ["item_id", "content_type", "content", "gold", "n_chars", "n_lines"] + \
-                           (["n_table_rows"] if ct == "table" else []) + ["source_index"]
+                           (["n_table_rows", "gold_canon"] if ct == "table" else []) + ["source_index"]
                     f.write(json.dumps({k: it[k] for k in keys}, ensure_ascii=False) + "\n")
             write_meta_sidecar(p, seed=seed, n=len(items), sampling="random.Random(seed).sample(eligible sorted by source_index, pilot+main); first pilot_per_content = pilot")
         summary[ct] = dict(total=total, excluded=total - len(eligible), eligible=len(eligible), reasons=dict(reason_counts),

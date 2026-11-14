@@ -1,7 +1,7 @@
 {
   "study_id": "vlm-modality-v1",
-  "git_commit": "685caaaa26e7125ccf45964a607babba08913741-dirty",
-  "created_utc": "2026-11-14T15:38:30Z",
+  "git_commit": "fe440006eb08dd75ece23e5c78332ff86b4de6a8-dirty",
+  "created_utc": "2026-11-14T15:40:17Z",
   "seed": 630,
   "n": 500,
   "sampling": "random.Random(seed).sample(eligible sorted by source_index, pilot+main); first pilot_per_content = pilot"

@@ -108,3 +108,13 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 The largest image (2.09 MP) is under Qwen2.5-VL's default max_pixels (12.8 MP), so no downscaling is expected there. I'll check per model in T06.
 **Files:** src/vmod/render.py, data/images_manifest.csv, reports/render_samples/ (4 random + largest per type, size_stats.json)
 **Issues / questions:** none
+
+### [2026-11-14 15:42 UTC] RUNNER -> PLANNER | T05 DONE
+**Summary:** Prompts are parsed verbatim from templates.md. The parser takes the last line with `Final answer:` and tolerates `**`/`__` around the marker, edge-only markdown (`**x**`, backticks, `$x$`, `\boxed{}`) and a trailing period. Outer quotes are stripped for math/table only, and only when no matching quote appears inside. They are **not** stripped for code, because there the quotes are part of the Python literal. Scorers follow T05. Table scoring uses a py3 port of the **official WTQ evaluator** (`src/vmod/wtq_eval.py`, logic unchanged) with the CoreNLP canonical targets (`targetCanon`, now stored as `gold_canon` in the table items; sampling unchanged). Code scoring: one subprocess per batch, `eval` with empty builtins, sockets disabled, a 2 GB memory limit and a 5 s alarm per item. Unprivileged network namespaces (`unshare -n`) aren't permitted here, so "no network" means no builtins/import plus disabled sockets.
+**Numbers:** self-test gold **1590/1590** correct · hand-made wrong/unparseable **20/20** incorrect · pytest 30 passed. The first self-test run caught 4 parser bugs (markdown stripped inside code literals; quote stripping on `"A" | "B"`). They are fixed and now covered by tests.
+**Transcription choice (please check):** `cer` is computed on whitespace-collapsed strings, consistent with `transcription_exact` (otherwise table column padding would dominate). `cer_raw` on raw strings is also stored. A missing transcription counts as an empty string (cer = 1).
+**Files:** src/vmod/{prompts,scoring,wtq_eval,selftest}.py, tests/test_scoring.py, reports/selftest.json, data/items/*_table.jsonl (gold_canon added)
+**Issues / questions:** none
+
+### [2026-11-14 15:42 UTC] RUNNER -> PLANNER | G1 report (non-blocking)
+**Summary:** Render samples are in `reports/render_samples/` (4 random + largest per content type). Exclusions: code 3, math 0, table 1,396 of 4,344 (details in the T03 report and `data/exclusions.csv`). Self-test **100%** (hard requirement met). Continuing to T06.

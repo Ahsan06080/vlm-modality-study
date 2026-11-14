@@ -1,0 +1,11 @@
+{
+ "study_id": "vlm-modality-v1",
+ "git_commit": "fe440006eb08dd75ece23e5c78332ff86b4de6a8-dirty",
+ "created_utc": "2026-11-14T15:41:45Z",
+ "gold_n": 1590,
+ "gold_correct": 1590,
+ "gold_failures": [],
+ "wrong_n": 20,
+ "wrong_scored_incorrect": 20,
+ "wrong_failures": []
+}

@@ -62,7 +62,7 @@ and move on to the next task that doesn't depend on it.
 - Commit `reports/render_samples/`: 4 random images per content type, plus the largest image per content type.
 - **Done when:** the samples and manifest are committed and the report gives min/median/max image size per content type.
 
-### T05 Prompts, parser and scorers (`vmod selftest`): `IN-PROGRESS`
+### T05 Prompts, parser and scorers (`vmod selftest`): `DONE`
 - Build prompts exactly from `prompts/templates.md`.
 - **Parser:** use the LAST line containing `Final answer:`. Strip markdown, quotes around the whole answer, and trailing periods. No marker → `parse_ok=false`, and the item counts as incorrect.
 - **Scorers:**
@@ -84,7 +84,7 @@ The self-test must be 100% before continuing; that one is a hard requirement.
 
 ## Phase 2: runs
 
-### T06 Inference runner (`vmod run --model <id> --set {pilot,main}`): `TODO`
+### T06 Inference runner (`vmod run --model <id> --set {pilot,main}`): `IN-PROGRESS`
 - Use vLLM offline batch mode, one model at a time, with all 3 conditions. Use the model's own chat template, with the image placed before the text for B and C. Decoding exactly per the config.
 - **Image resolution:** make sure the processor does **not** downscale our images. For example, raise Qwen `max_pixels` to cover the largest image. Record the effective resolution settings per model. If a model must downscale, report it; don't hide it.
 - **Output:** `results/raw/{set}/{model_slug}.jsonl`, one row per (item, condition). Fields: `item_id, content_type, condition, model_id, model_revision (HF commit sha), prompt_sha256, image_sha256, response, input_tokens, output_tokens, finish_reason, started_utc, gen_seconds`.
