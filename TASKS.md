@@ -148,12 +148,12 @@ Apply the rules, commit the config change, create the tag `config-frozen-v1`, po
 
 Outputs are numbers, tables and figures only. **Do not write paper prose.**
 
-### T10 Score everything (`vmod score`): `IN-PROGRESS`
+### T10 Score everything (`vmod score`): `DONE`
 - Produce `results/scored/main_all.csv.gz`: all raw fields plus `pred, parse_ok, correct, transcription, transcription_exact, cer`.
 - Report the parse rate per model × condition.
 - Hand-check 30 random rows (10 per content type): does the scorer agree with a careful reading? Report any disagreements.
 
-### T11 Descriptive statistics: `TODO`
+### T11 Descriptive statistics: `IN-PROGRESS`
 - `results/analysis/descriptives.csv`: per model × content × condition, give n, accuracy, and the 95% Wilson CI.
 - Output tokens per cell: mean, median, SD, IQR, min, max.
 - Input length per content type, as chars and lines.

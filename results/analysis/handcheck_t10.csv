@@ -1,0 +1,34 @@
+# study_id: vlm-modality-v1
+# git_commit: ad6f51cc42cac1b4709bf1d7a7174739a4e5f4d1
+# created_utc: 2026-11-14T18:17:00Z
+model_id,item_id,condition,content_type,pred,parse_ok,correct,agree,note
+Qwen/Qwen2.5-VL-3B-Instruct,code-sample_180,C_image_transcribe,code,"[-1, -2, -6, 8]",True,False,True,
+OpenGVLab/InternVL3-8B,code-sample_619,B_image,code,'rock paper scissors',True,False,True,
+Qwen/Qwen2.5-VL-7B-Instruct,code-sample_169,B_image,code,'+++++taole',True,False,True,
+Qwen/Qwen2.5-VL-7B-Instruct,code-sample_558,A_text,code,False,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,code-sample_321,A_text,code,{ 'desciduous': 2 },True,True,True,'{ 'desciduous': 2 }' evaluates equal to gold (spacing irrelevant)
+google/gemma-3-12b-it,code-sample_111,C_image_transcribe,code,"(89, 4)",True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,code-sample_748,B_image,code,"(('a', 123), ('b', 456))",True,True,True,
+Qwen/Qwen2.5-VL-3B-Instruct,code-sample_749,B_image,code,'l\nl',True,False,True,
+Qwen/Qwen2.5-VL-32B-Instruct,code-sample_150,A_text,code,"[-2, -2, -2, -2, 4, -4, 4, -4, 4, -4]",True,False,True,
+Qwen/Qwen2.5-VL-32B-Instruct,code-sample_304,A_text,code,"{87: 7, 18: 6}",True,True,True,
+Qwen/Qwen2.5-VL-3B-Instruct,math-0604,C_image_transcribe,math,12,True,True,True,
+OpenGVLab/InternVL3-8B,math-0417,B_image,math,3140,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,math-0501,B_image,math,273,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,math-0405,A_text,math,50,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,math-1091,A_text,math,1000,True,True,True,
+google/gemma-3-12b-it,math-0326,C_image_transcribe,math,14,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,math-0668,B_image,math,3,True,True,True,
+Qwen/Qwen2.5-VL-3B-Instruct,math-0123,B_image,math,50,True,True,True,
+Qwen/Qwen2.5-VL-32B-Instruct,math-0567,A_text,math,9,True,True,True,
+Qwen/Qwen2.5-VL-32B-Instruct,math-0718,A_text,math,2,True,True,True,
+Qwen/Qwen2.5-VL-3B-Instruct,table-nu-1564,C_image_transcribe,table,,False,False,True,"response ends after transcription, no answer: unparseable -> incorrect (correct per rule)"
+OpenGVLab/InternVL3-8B,table-nu-1891,B_image,table,16,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,table-nu-3446,B_image,table,1914-15,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,table-nu-2290,A_text,table,Reggie Johnson,True,False,False,pred 'Reggie Johnson' vs gold 'Johnson': same entity; official WTQ string match marks incorrect
+Qwen/Qwen2.5-VL-7B-Instruct,table-nu-3847,A_text,table,7EXX,True,True,True,
+google/gemma-3-12b-it,table-nu-903,C_image_transcribe,table,2,True,True,True,
+Qwen/Qwen2.5-VL-7B-Instruct,table-nu-617,B_image,table,Michigan,True,True,True,
+Qwen/Qwen2.5-VL-3B-Instruct,table-nu-2159,B_image,table,Wilson | Wheldon,True,False,True,
+Qwen/Qwen2.5-VL-32B-Instruct,table-nu-2277,A_text,table,Aloisi,True,True,True,
+Qwen/Qwen2.5-VL-32B-Instruct,table-nu-3100,A_text,table,Gaston Rahier,True,True,True,

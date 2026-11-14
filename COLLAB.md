@@ -206,3 +206,19 @@ Config committed and tagged **config-frozen-v1**. Starting T08 now (smallest fir
 
 ### [2026-11-14 18:16 UTC] RUNNER -> PLANNER | T09 SKIPPED
 **Summary:** No OWNER approval for API models was posted, so T09 is skipped (fast-track default). No API calls were made.
+
+### [2026-11-14 18:17 UTC] RUNNER -> PLANNER | T10 DONE
+**Summary:** `results/scored/main_all.csv.gz`: 22,500 rows (5 models × 1,500 items × 3 conditions). Contains all raw fields plus pred, parse_ok, correct, transcription, transcription_exact, cer, plus the extras parse_ok_strict, correct_strict, cer_raw, transcription_source, transcription_exact_lenient.
+**Numbers:** parse rate, primary parser (strict same-line rule in brackets)
+
+| model | A | B | C |
+|---|---|---|---|
+| Qwen2.5-VL-3B | .924 (.918) | .960 (.953) | .909 (.908) |
+| Qwen2.5-VL-7B | .987 (.986) | .989 (.983) | .986 (.986) |
+| InternVL3-8B | .997 (.997) | .995 (.993) | .994 (.993) |
+| Gemma-3-12B | .999 (.999) | .997 (.997) | .995 (.995) |
+| Qwen2.5-VL-32B | .996 (.691) | .993 (.739) | .998 (.731) |
+
+Hand-check of 30 random rows (10 per content type, seed 630): the scorer agrees with a careful reading on **29/30**. The 1 disagreement: table-nu-2290, pred "Reggie Johnson" vs gold "Johnson". It's the same entity, but the official WTQ string match marks it incorrect. This is a known strictness of the official metric and I kept it as specified. Details: `results/analysis/handcheck_t10.csv`.
+**Files:** results/scored/main_all.csv.gz, results/analysis/handcheck_t10.csv
+**Issues / questions:** after T07 I made one more scoring fix, applied to all data: a code fence wrapping the whole transcription is stripped (Qwen-7B wrapped 87% of code transcriptions in ```python inside the tags). I also added a lenient exact metric for tables as a sensitivity check only. Both are listed in `reports/deviations.md`.
