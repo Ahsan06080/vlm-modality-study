@@ -334,6 +334,7 @@ def rq1(df):
 def rq2(df):
     cdf = df[df.condition == C].copy()
     cdf["transcription_exact"] = cdf["transcription_exact"].astype(str).str.lower().eq("true")
+    cdf["transcription_exact_lenient"] = cdf["transcription_exact_lenient"].astype(str).str.lower().eq("true")
     cdf["has_transcription"] = cdf["transcription"].notna()
     rows = []
     for (mid, ct), g in cdf.groupby(["model_id", "content_type"]):
@@ -343,15 +344,17 @@ def rq2(df):
                          pct_src_tags=100 * srcs.get("tags", 0) / len(g), pct_src_open_tag=100 * srcs.get("open_tag", 0) / len(g),
                          pct_src_heading_fence=100 * srcs.get("heading_fence", 0) / len(g),
                          pct_src_none=100 * srcs.get("none", 0) / len(g),
-                         exact_rate=g.transcription_exact.mean(), pct_cer_le_002=100 * (cer <= 0.02).mean(),
+                         exact_rate=g.transcription_exact.mean(), exact_lenient_rate=g.transcription_exact_lenient.mean(),
+                         pct_cer_le_002=100 * (cer <= 0.02).mean(),
                          cer_mean=cer.mean(), cer_sd=cer.std(), cer_p10=cer.quantile(0.1), cer_q1=cer.quantile(0.25),
                          cer_median=cer.median(), cer_q3=cer.quantile(0.75), cer_p90=cer.quantile(0.9), cer_max=cer.max()))
     write_csv(pd.DataFrame(rows), "rq2_transcription.csv")
 
     # A vs C McNemar within subsets defined by condition-C transcription quality
-    tq = cdf[["model_id", "content_type", "item_id", "transcription_exact", "cer"]]
+    tq = cdf[["model_id", "content_type", "item_id", "transcription_exact", "transcription_exact_lenient", "cer"]]
     sub_rows = []
-    for label, flag in (("exact", lambda t: t.transcription_exact), ("cer_le_0.02", lambda t: t.cer.astype(float) <= 0.02)):
+    for label, flag in (("exact", lambda t: t.transcription_exact), ("cer_le_0.02", lambda t: t.cer.astype(float) <= 0.02),
+                        ("exact_lenient", lambda t: t.transcription_exact_lenient)):
         for good in (True, False):
             sel = tq[flag(tq) == good][["model_id", "content_type", "item_id"]]
             r = mcnemar_family(df.merge(sel, on=["model_id", "content_type", "item_id"]), A, C)

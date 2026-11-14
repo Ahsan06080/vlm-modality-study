@@ -110,3 +110,14 @@ def test_transcription_fallback():
     assert extract_transcription_src("<transcription>a</transcription>")== ("a", "tags")
     assert extract_transcription_src("no transcription given")[1] == "none"
     assert extract_transcription_src("**Code Description**\nblah")[1] == "none"
+
+
+def test_fence_and_lenient():
+    from vmod.scoring import extract_transcription, lenient_norm
+    r = "<transcription>\n```python\ndef f():\n    return 1\n```\n</transcription>"
+    assert extract_transcription(r) == "def f():\n    return 1"
+    assert transcription_metrics(extract_transcription(r), "def f():\n    return 1")["transcription_exact"]
+    a = "Table:\nYear   | Car\n------ | ---\n1926   | 31"
+    b = "Table:\nYear | Car\n---|---\n1926 | 31"
+    m = transcription_metrics(b, a)
+    assert not m["transcription_exact"] and m["transcription_exact_lenient"]

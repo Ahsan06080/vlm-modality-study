@@ -209,12 +209,27 @@ def extract_transcription_src(response: str | None) -> tuple[str | None, str]:
     return None, "none"
 
 
+def strip_fence(t: str | None) -> str | None:
+    """Remove a markdown code fence that wraps the WHOLE transcription (```lang ... ```): not text in the image."""
+    if t is None:
+        return None
+    m = re.fullmatch(r"\s*```[^\n]*\n(.*?)\n?[ \t]*```\s*", t, re.S)
+    return m.group(1) if m else t
+
+
 def extract_transcription(response: str | None) -> str | None:
-    return extract_transcription_src(response)[0]
+    return strip_fence(extract_transcription_src(response)[0])
 
 
 def ws_norm(s: str) -> str:
     return " ".join(s.split())
+
+
+def lenient_norm(s: str) -> str:
+    """Sensitivity only: whitespace-collapse, drop spaces around '|', collapse dash runs (table rule width = padding)."""
+    s = ws_norm(s)
+    s = re.sub(r"\s*\|\s*", "|", s)
+    return re.sub(r"-{2,}", "-", s)
 
 
 def transcription_metrics(transcription: str | None, content: str) -> dict:
@@ -223,5 +238,6 @@ def transcription_metrics(transcription: str | None, content: str) -> dict:
     t = transcription if transcription is not None else ""
     tn, cn = ws_norm(t), ws_norm(content)
     return dict(transcription_exact=tn == cn,
+                transcription_exact_lenient=lenient_norm(t) == lenient_norm(content),
                 cer=Levenshtein.distance(tn, cn) / max(1, len(cn)),
                 cer_raw=Levenshtein.distance(t.strip("\n"), content) / max(1, len(content)))
