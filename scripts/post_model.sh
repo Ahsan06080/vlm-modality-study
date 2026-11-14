@@ -20,5 +20,5 @@ print("**Issues / questions:** none" if j["ok"] else "**Issues / questions:** in
 PY
 git add COLLAB.md "results/raw/main/${slug}.jsonl.gz" "results/raw/main/${slug}.jsonl.meta.json" "results/raw/main/${slug}.skipped.csv"
 git commit -qm "T08: main run ${m##*/}"
-git pull -q --rebase && git push -q
+git stash -q 2>/dev/null; git pull -q --rebase; git push -q; git stash pop -q 2>/dev/null || true
 echo "posted $m"
