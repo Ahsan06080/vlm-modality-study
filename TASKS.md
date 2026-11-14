@@ -25,7 +25,7 @@ and move on to the next task that doesn't depend on it.
 
 ## Phase 1: setup and data
 
-### T00 Environment check: `TODO`
+### T00 Environment check: `IN-PROGRESS`
 - Report: GPU model, count and memory (`nvidia-smi`), driver/CUDA version, Python version, free disk space, HF cache path.
 - Check internet access to Hugging Face and GitHub, and whether `HF_TOKEN` is set (Gemma models are gated).
 - Create a Python venv. Install vLLM (a version that supports the models in the config), `transformers`, `datasets`, `pillow`, `pandas`, `scipy`, `statsmodels`, `matplotlib`, `pyyaml`, `rapidfuzz`, `pytest`. Save `pip freeze` to `env/requirements.lock.txt`.
