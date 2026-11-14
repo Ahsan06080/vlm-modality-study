@@ -44,7 +44,7 @@ and move on to the next task that doesn't depend on it.
 - Write `data/MANIFEST.md`: source URL, version/commit hash or file sha256, license, total item count.
 - **Done when:** the manifest is committed and the licenses are listed in the report. Flag any license that forbids this use.
 
-### T03 Build items (`vmod prepare`): `IN-PROGRESS`
+### T03 Build items (`vmod prepare`): `DONE`
 - Build the canonical content string for each item exactly as in `prompts/templates.md`.
 - Apply the exclusion rules from the config before sampling. Log every exclusion to `data/exclusions.csv` (item_id, content_type, reason).
 - Sample with seed 630: a **pilot** set (`pilot_per_content`) and a **main** set (`main_per_content`) per content type, with no overlap.
@@ -55,7 +55,7 @@ and move on to the next task that doesn't depend on it.
   - **table:** the WTQ target value list
 - **Done when:** the files are committed and the report shows counts before and after exclusion, by reason.
 
-### T04 Render images (`vmod render`): `TODO`
+### T04 Render images (`vmod render`): `IN-PROGRESS`
 - Render each item's `content` to PNG with exactly the `render` settings: monospace font, no wrapping, black on white, size = text extent + padding.
 - Save to `data/images/` (git-ignored). Write `data/images_manifest.csv`: item_id, width, height, sha256.
 - Check that rendering is deterministic: re-render 20 items and confirm the sha256 values match.

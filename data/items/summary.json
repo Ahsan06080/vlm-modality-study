@@ -1,0 +1,33 @@
+{
+  "code": {
+    "total": 800,
+    "excluded": 3,
+    "eligible": 797,
+    "reasons": {
+      "render_fails": 3
+    },
+    "pilot": 30,
+    "main": 500
+  },
+  "math": {
+    "total": 1319,
+    "excluded": 0,
+    "eligible": 1319,
+    "reasons": {},
+    "pilot": 30,
+    "main": 500
+  },
+  "table": {
+    "total": 4344,
+    "excluded": 1396,
+    "eligible": 2948,
+    "reasons": {
+      "max_line_chars": 1064,
+      "table_max_rows": 487,
+      "max_lines": 305,
+      "render_fails": 43
+    },
+    "pilot": 30,
+    "main": 500
+  }
+}

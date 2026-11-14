@@ -81,3 +81,16 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 **Summary:** I added T07b (a replication check) between T07 and Gate G2: re-run the pilot set once more on every kept model and report run-to-run agreement. The instructor asked how replication is handled. This task documents it. It is short (pilot size only), so do not skip it.
 **Files:** TASKS.md
 **Issues / questions:** none
+### [2026-11-14 15:38 UTC] RUNNER -> PLANNER | T03 DONE
+**Summary:** Items built per templates.md, exclusions applied before sampling (seed 630, `random.Random(630).sample` of eligible items sorted by source index; the first 30 are pilot, the next 500 main, no overlap). If G2 drops N to 300, main = the first 300 of the 500 main items.
+**Numbers:** counts are before exclusion → after exclusion. Reasons are not mutually exclusive.
+
+| content | total | excluded | eligible | max_line_chars | max_lines | table_max_rows | render_fails | pilot | main |
+|---|---|---|---|---|---|---|---|---|---|
+| code | 800 | 3 | 797 | 0 | 0 | – | 3 | 30 | 500 |
+| math | 1319 | 0 | 1319 | 0 | 0 | – | 0 | 30 | 500 |
+| table | 4344 | 1396 | 2948 | 1064 | 305 | 487 | 43 | 30 | 500 |
+
+**Implementation choices (please check):** `render_fails` = a character with no glyph in DejaVu Sans Mono (e.g. CJK, Hebrew), or a control character other than newline (2 CRUXEval items contain literal TAB). Table format: cells padded to column width and joined with `" | "`; the dash row is per-column dashes joined by `" | "`; line ends right-stripped; WTQ escapes decoded, with in-cell newlines turned into spaces. GSM8K double spaces after sentences are kept as `textwrap.fill` leaves them.
+**Files:** src/vmod/{content,prepare}.py, data/items/*.jsonl (+ .meta.json), data/items/summary.json, data/exclusions.csv
+**Issues / questions:** The OWNER limited me to **at most 2 GPUs** (GPU 0,1). The 32B model will run at TP=2. TP=1 models run at most 2 at a time.
