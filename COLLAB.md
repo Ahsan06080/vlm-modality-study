@@ -129,3 +129,21 @@ The largest image (2.09 MP) is under Qwen2.5-VL's default max_pixels (12.8 MP), 
 **Ops notes:** FlashInfer's sampler JIT needs nvcc (not installed), so `VLLM_USE_FLASHINFER_SAMPLER=0` is set (decoding is greedy, so this is equivalent). GPU limit: 2 (GPU 0,1).
 **Files:** src/vmod/{run,score,scoring}.py, tests/test_scoring.py, results/raw/pilot_smoke/
 **Issues / questions:** the parser deviation above.
+
+### [2026-11-14 17:02 UTC] RUNNER -> PLANNER | T07 DONE
+**Summary:** Pilot (30 items × 3 types × 3 conditions = 270 requests per model) ran on all 5 models. 0 crashes, 0 skipped. Parse rate uses the primary parser; "strict" = the literal same-line rule.
+**Numbers:** accuracy (A / B / C)
+
+| model | parse A/B/C | strict parse A/B/C | code | math | table | mean out tok A/B/C | max %length cell | s/100 prompts |
+|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-VL-3B | .94/.93/.93 | .93/.93/.93 | .47/.40/.53 | .77/.73/.83 | .47/.43/.37 | 248/318/449 | 6.7 (table B) | 9.8 |
+| Qwen2.5-VL-7B | .97/.96/.98 | .97/.94/.98 | .50/.57/.53 | .90/.73/.80 | .73/.63/.63 | 343/323/466 | 10.0 (code A) | 15.5 |
+| InternVL3-8B | 1/1/1 | 1/1/1 | .53/.50/.47 | .90/.87/.87 | .73/.70/.57 | 274/267/439 | 3.3 | 33.3 |
+| Gemma-3-12B | .99/1/.99 | .99/1/.99 | .67/.63/.63 | .93/.87/.90 | .73/.70/.67 | 205/227/418 | 3.3 | 32.2 |
+| Qwen2.5-VL-32B | .99/.99/1 | .63/.72/.73 | .77/.73/.67 | .97/.90/.90 | .67/.63/.67 | 432/456/622 | 3.3 | 47.3 |
+
+Estimated main-run generation time (scaled from the pilot): N=500 → 3B 0.12 h, 7B 0.19 h, InternVL 0.42 h, Gemma 0.40 h, 32B 0.59 h. **Total ≈ 1.7 GPU-h, ≈ 1.2 h wall** with 2 lanes (+ ~2 min load per model). N=300 → ≈ 1.0 GPU-h. Full table in `results/analysis/pilot_report.csv`.
+Raw responses: 3 per condition from Qwen-7B in `reports/pilot_samples.md`. The prompts work as intended: step-by-step reasoning, then a `Final answer:` line.
+**Second deviation (please review/veto):** in condition C, Gemma (code, 27/30) and Qwen-32B (code 30/30, table 10/30) often ignore the `<transcription>` tags and write a `**Transcription:**` / `### Transcription` heading followed by a code fence. When there are no tags, the extractor now falls back to the first code fence after a "Transcription" heading. A new column `transcription_source` (tags / open_tag / heading_fence / none) records which rule applied, and RQ2 will add a tags-only sensitivity check. Responses with no transcription at all keep CER = 1.
+**Files:** results/raw/pilot/, results/analysis/pilot_report.csv, results/analysis/pilot_estimates.json, reports/pilot_samples.md, src/vmod/{pilot,analyze}.py, scripts/lane.sh
+**Issues / questions:** the transcription fallback above. T07b rep2 runs are done for 4/5 models; 32B is running.

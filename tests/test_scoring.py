@@ -99,3 +99,14 @@ def test_strict_agrees_when_ok():
     for r in ["Final answer: 18", "**Final answer:** 'a__b'", "x\nFinal answer: [1, 2]."]:
         s = parse_answer_strict(r, "code")
         assert s[1] and s == parse_answer(r, "code")
+
+
+def test_transcription_fallback():
+    from vmod.scoring import extract_transcription_src
+    r = "Here:\n\n**Transcription:**\n\n```\ndef f(x):\n    return x\n```\n\nFinal answer: 1"
+    assert extract_transcription_src(r) == ("def f(x):\n    return x\n", "heading_fence")
+    r = "### Transcription\n```python\nx = 1\n```\n"
+    assert extract_transcription_src(r)[1] == "heading_fence"
+    assert extract_transcription_src("<transcription>a</transcription>")== ("a", "tags")
+    assert extract_transcription_src("no transcription given")[1] == "none"
+    assert extract_transcription_src("**Code Description**\nblah")[1] == "none"

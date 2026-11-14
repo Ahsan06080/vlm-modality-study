@@ -8,7 +8,7 @@ import pandas as pd
 
 from .config import DATA, RESULTS
 from .meta import provenance
-from .scoring import (extract_transcription, parse_answer, parse_answer_strict, score_code_batch, score_math, score_table,
+from .scoring import (extract_transcription_src, parse_answer, parse_answer_strict, score_code_batch, score_math, score_table,
                       transcription_metrics)
 
 
@@ -56,15 +56,17 @@ def score_df(df: pd.DataFrame) -> pd.DataFrame:
         correct[i] = r
     df["correct"] = correct
     df["correct_strict"] = df["correct"] & df["parse_ok_strict"]  # strict parse => identical pred
-    tr, ex, cer, cer_raw = [], [], [], []
+    tr, ex, cer, cer_raw, src = [], [], [], [], []
     for resp, cond, iid in zip(df["response"], df["condition"], df["item_id"]):
         if cond != "C_image_transcribe":
-            tr.append(None); ex.append(None); cer.append(None); cer_raw.append(None)
+            tr.append(None); ex.append(None); cer.append(None); cer_raw.append(None); src.append(None)
             continue
-        t = extract_transcription(resp)
+        t, sc = extract_transcription_src(resp)
+        src.append(sc)
         m = transcription_metrics(t, items[iid]["content"])
         tr.append(t); ex.append(m["transcription_exact"]); cer.append(m["cer"]); cer_raw.append(m["cer_raw"])
     df["transcription"], df["transcription_exact"], df["cer"], df["cer_raw"] = tr, ex, cer, cer_raw
+    df["transcription_source"] = src
     return df
 
 

@@ -91,7 +91,7 @@ The self-test must be 100% before continuing; that one is a hard requirement.
 - The runner must be resumable: skip any (item, condition) already written. Log items that exceed the context window to `results/raw/{set}/{model_slug}.skipped.csv`. Do not re-sample them.
 - **Done when:** a smoke run of 5 items × 3 conditions on the smallest model works end to end, through scoring.
 
-### T07 Pilot: `IN-PROGRESS`
+### T07 Pilot: `DONE`
 - Run the **pilot** set on every local model marked available and fitting in T00.
 - Report a table per model with:
   - parse rate per condition
@@ -104,7 +104,7 @@ The self-test must be 100% before continuing; that one is a hard requirement.
 - Show 3 raw responses per condition from one model, so the PLANNER can check the prompts work.
 - **Done when:** the report is posted and `results/raw/pilot/` is committed.
 
-### T07b Replication check: repeat runs: `TODO`
+### T07b Replication check: repeat runs: `IN-PROGRESS`
 Purpose: show that one run per item is enough. This supports the claim that the unit of replication is the item, and that run-to-run noise is negligible next to the condition effect (conclusion validity).
 - Re-run the **whole pilot set** (all items × 3 conditions) a **second time** on every model kept at T07. Use identical settings: same config, prompts, images and vLLM version, but a **fresh process** and a **different batch order** (shuffle with seed 631). Write to `results/raw/pilot_rep2/{model_slug}.jsonl`, same schema.
 - Score both runs with the T05 scorers.

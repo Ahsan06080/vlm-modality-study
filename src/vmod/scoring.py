@@ -186,13 +186,31 @@ def score_one(content_type: str, pred, item) -> bool:
 
 
 # ---------------------------------------------------------------- transcription (condition C)
-def extract_transcription(response: str | None) -> str | None:
+_TR_HEADING = re.compile(r"^\W*(?:#+\s*)?(?:\*\*)?[\w ]{0,20}transcription\b[^\n]{0,20}$", re.I | re.M)
+
+
+def extract_transcription_src(response: str | None) -> tuple[str | None, str]:
+    """Primary: text between <transcription> tags. Unclosed tag: rest of the response.
+    Fallback (models that ignore the tags): first code fence after a 'Transcription' heading line.
+    Returns (text, source) with source in tags | open_tag | heading_fence | none."""
     if not response:
-        return None
+        return None, "none"
     m = re.search(r"<transcription>(.*?)</transcription>", response, re.S)
-    if not m:
-        m = re.search(r"<transcription>(.*)$", response, re.S)  # unclosed tag: take the rest
-    return m.group(1) if m else None
+    if m:
+        return m.group(1), "tags"
+    m = re.search(r"<transcription>(.*)$", response, re.S)
+    if m:
+        return m.group(1), "open_tag"
+    h = _TR_HEADING.search(response)
+    if h:
+        f = re.search(r"^[ \t]*```[^\n]*\n(.*?)^[ \t]*```", response[h.end():], re.S | re.M)
+        if f:
+            return f.group(1), "heading_fence"
+    return None, "none"
+
+
+def extract_transcription(response: str | None) -> str | None:
+    return extract_transcription_src(response)[0]
 
 
 def ws_norm(s: str) -> str:
