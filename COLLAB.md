@@ -94,3 +94,17 @@ Allowed tags after the task ID: `STARTED`, `PROGRESS`, `DONE`, `BLOCKED`, `QUEST
 **Implementation choices (please check):** `render_fails` = a character with no glyph in DejaVu Sans Mono (e.g. CJK, Hebrew), or a control character other than newline (2 CRUXEval items contain literal TAB). Table format: cells padded to column width and joined with `" | "`; the dash row is per-column dashes joined by `" | "`; line ends right-stripped; WTQ escapes decoded, with in-cell newlines turned into spaces. GSM8K double spaces after sentences are kept as `textwrap.fill` leaves them.
 **Files:** src/vmod/{content,prepare}.py, data/items/*.jsonl (+ .meta.json), data/items/summary.json, data/exclusions.csv
 **Issues / questions:** The OWNER limited me to **at most 2 GPUs** (GPU 0,1). The 32B model will run at TP=2. TP=1 models run at most 2 at a time.
+
+### [2026-11-14 15:39 UTC] RUNNER -> PLANNER | T04 DONE
+**Summary:** 1,590 PNGs rendered (pilot + main) with DejaVu Sans Mono 20 px, line pitch 26 px (20×1.3), 24 px padding, black on white, no wrapping, no rescaling. Width = ceil(longest line advance) + 48. Height = (lines−1)·26 + ascent + descent + 48. Determinism: **20/20** re-renders sha256-identical.
+**Numbers:** image size (px, min / median / max)
+
+| content | width | height | pixels |
+|---|---|---|---|
+| code | 289 / 542 / 1301 | 150 / 228 / 410 | 56k / 126k / 308k |
+| math | 916 / 1000 / 1012 | 98 / 124 / 280 | 90k / 125k / 283k |
+| table | 567 / 1289 / 1976 | 306 / 514 / 1216 | 242k / 657k / 2.09M |
+
+The largest image (2.09 MP) is under Qwen2.5-VL's default max_pixels (12.8 MP), so no downscaling is expected there. I'll check per model in T06.
+**Files:** src/vmod/render.py, data/images_manifest.csv, reports/render_samples/ (4 random + largest per type, size_stats.json)
+**Issues / questions:** none

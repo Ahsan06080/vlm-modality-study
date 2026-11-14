@@ -55,14 +55,14 @@ and move on to the next task that doesn't depend on it.
   - **table:** the WTQ target value list
 - **Done when:** the files are committed and the report shows counts before and after exclusion, by reason.
 
-### T04 Render images (`vmod render`): `IN-PROGRESS`
+### T04 Render images (`vmod render`): `DONE`
 - Render each item's `content` to PNG with exactly the `render` settings: monospace font, no wrapping, black on white, size = text extent + padding.
 - Save to `data/images/` (git-ignored). Write `data/images_manifest.csv`: item_id, width, height, sha256.
 - Check that rendering is deterministic: re-render 20 items and confirm the sha256 values match.
 - Commit `reports/render_samples/`: 4 random images per content type, plus the largest image per content type.
 - **Done when:** the samples and manifest are committed and the report gives min/median/max image size per content type.
 
-### T05 Prompts, parser and scorers (`vmod selftest`): `TODO`
+### T05 Prompts, parser and scorers (`vmod selftest`): `IN-PROGRESS`
 - Build prompts exactly from `prompts/templates.md`.
 - **Parser:** use the LAST line containing `Final answer:`. Strip markdown, quotes around the whole answer, and trailing periods. No marker → `parse_ok=false`, and the item counts as incorrect.
 - **Scorers:**
