@@ -1,0 +1,25 @@
+{
+  "study_id": "vlm-modality-v1",
+  "git_commit": "f87605cbdc24c8b83c10fc486967a9aad5fe6c74",
+  "created_utc": "2026-11-15T13:56:18Z",
+  "model_id": "google/gemma-3-27b-it",
+  "model_revision": "005ad3404e59d6023443cb575daa05336842228a",
+  "tensor_parallel_size": 2,
+  "max_model_len": 16384,
+  "mm_processor_kwargs": {
+    "do_pan_and_scan": true
+  },
+  "hf_overrides": null,
+  "resolution_note": "Gemma 3 SigLIP encoder is fixed at 896x896: every image is resized to 896x896 (DOWNSCALES wide images); pan-and-scan adds 896x896 crops of the full-resolution image",
+  "decoding": {
+    "temperature": 0,
+    "top_p": 1.0,
+    "max_new_tokens": 4096,
+    "n": 1
+  },
+  "run": 2,
+  "order_seed": 631,
+  "gpu_memory_utilization": 0.8,
+  "vllm_version": "0.33.0",
+  "chat_template": "model default (llm.chat), no system message"
+}
