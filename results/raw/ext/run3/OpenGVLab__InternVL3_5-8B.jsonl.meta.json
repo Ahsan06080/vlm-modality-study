@@ -1,0 +1,25 @@
+{
+  "study_id": "vlm-modality-v1",
+  "git_commit": "82cdd362b8d6cba8cebd5a29449cfab4681f8b86",
+  "created_utc": "2026-11-15T16:28:49Z",
+  "model_id": "OpenGVLab/InternVL3_5-8B",
+  "model_revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79",
+  "tensor_parallel_size": 1,
+  "max_model_len": 16384,
+  "mm_processor_kwargs": {},
+  "hf_overrides": {
+    "max_dynamic_patch": 24
+  },
+  "resolution_note": "InternVL3 dynamic tiling, 448 px tiles, max_dynamic_patch=24 (+thumbnail); image is resized to the closest tile grid (can up- or downscale slightly)",
+  "decoding": {
+    "temperature": 0,
+    "top_p": 1.0,
+    "max_new_tokens": 4096,
+    "n": 1
+  },
+  "run": 3,
+  "order_seed": 632,
+  "gpu_memory_utilization": 0.8,
+  "vllm_version": "0.33.0",
+  "chat_template": "model default (llm.chat), no system message"
+}

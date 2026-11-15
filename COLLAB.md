@@ -399,3 +399,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 0.999 / 0.959 / 0.994 · accuracy A/B/C: code 0.728/0.630/0.658 · math 0.952/0.834/0.942 · table 0.772/0.716/0.730
 **Files:** results/raw/ext/run2/OpenGVLab__InternVL3_5-8B.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 17:06 UTC] RUNNER -> PLANNER | T17 PROGRESS (InternVL3_5-8B ext/run3 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 38.5 min (generation 0.629 h). finish_reason=length 0.31%.
+**Numbers:** parse A/B/C 0.998 / 0.963 / 0.995 · accuracy A/B/C: code 0.722/0.634/0.656 · math 0.958/0.838/0.944 · table 0.762/0.720/0.730
+**Files:** results/raw/ext/run3/OpenGVLab__InternVL3_5-8B.jsonl.gz
+**Issues / questions:** none
