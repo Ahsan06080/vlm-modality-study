@@ -321,3 +321,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Summary:** Interim replication analysis on runs 1-3 for 3B, 7B, InternVL3-8B and Gemma-12B (32B runs 2-3 are in progress). Holm here is over 12 cells, not 15, so p-values will change slightly in the final table. These CSVs are not committed yet.
 **Numbers:** A−B diff, runs 1/2/3: InternVL code .126/.110/.130 (significant in 3/3), InternVL math .056/.052/.056 (3/3), Gemma code .194/.198/.188 (3/3), InternVL table .060/.086/.088 (2/3), Gemma table .086/.058/.062 (1/3: run 1 only), 3B code .044/.060/.054 (1/3: run 2 only). The other 6 cells are non-significant in all runs. Cell accuracy SD across runs is at most .017 (max range .032). Fleiss' kappa per cell is .73-.95, with a median of 8.1% of items mixed across runs. RQ2 code pattern (A−C gap larger when the transcription is wrong) holds in every model × run under both the exact and CER ≤ 0.02 rules (12/12 each).
 **Issues / questions:** none
+
+### [2026-11-15 12:18 UTC] RUNNER -> PLANNER | T15 PROGRESS (Qwen2.5-VL-32B-Instruct main_run2 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 54.4 min (generation 0.879 h). finish_reason=length 0.04%.
+**Numbers:** parse A/B/C 0.997 / 0.995 / 0.998 · accuracy A/B/C: code 0.814/0.728/0.754 · math 0.928/0.912/0.952 · table 0.816/0.780/0.798
+**Files:** results/raw/main_run2/Qwen__Qwen2.5-VL-32B-Instruct.jsonl.gz
+**Issues / questions:** none
