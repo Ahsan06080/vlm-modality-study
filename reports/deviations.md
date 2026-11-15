@@ -37,3 +37,8 @@
 | Responses with output tokens > Q3 + 3·IQR (within cell) | 383 of 22,500 | outlier_counts.csv |
 | Scorer hand-check disagreements (T10) | 1 of 30 | handcheck_t10.csv |
 | GLMM (T12) | not run: no `GLMM OK` from OWNER | - |
+| Phase 4: InternVL3.5-8B condition C, no transcription found (code / math / table) | 99.4% / 94.4% / 81.2% (it writes the copy as a leading code fence without tags or a "Transcription" heading; the frozen extractor finds nothing) -> its RQ2 numbers are not interpretable | ext_rq2_transcription.csv |
+| Phase 4: Qwen3-VL-8B finish_reason=length, code A | 9.0% (highest extension cell) | ext_descriptives.csv |
+| Phase 4: extension responses with finish_reason=length (run 1) | 183 of 18,000 | ext_outlier_counts.csv |
+| Phase 4: extension responses with output tokens > Q3 + 3·IQR (run 1) | 456 of 18,000 | ext_outlier_counts.csv |
+| Phase 4: Qwen2.5-VL-32B wall time per run | 54 min vs 35 min in run 1 (gpu_memory_utilization 0.80, GPUs shared with another user's jobs) | logs/lanes.log |

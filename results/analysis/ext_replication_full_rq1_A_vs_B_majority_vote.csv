@@ -1,0 +1,16 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:18Z
+model_id,content_type,comparison,n_pairs,both_correct,b_first_only,c_second_only,both_wrong,acc_first,acc_second,diff,diff_ci_lo,diff_ci_hi,discordant_or,or_ci_lo,or_ci_hi,p_mcnemar_exact,p_holm
+OpenGVLab/InternVL3_5-8B,code,A_text vs B_image,500,296,69,16,119,0.73,0.624,0.106,0.0707584,0.140989,4.3125,2.47698,7.96097,5.24027e-09,5.15395e-08
+OpenGVLab/InternVL3_5-8B,math,A_text vs B_image,500,414,65,4,17,0.958,0.836,0.122,0.0920047,0.154826,16.25,6.05075,61.4253,3.11475e-15,3.7377e-14
+OpenGVLab/InternVL3_5-8B,table,A_text vs B_image,500,321,62,39,78,0.766,0.72,0.046,0.0065658,0.0853817,1.58974,1.0482,2.43754,0.0280895,0.140447
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,A_text vs B_image,500,355,51,18,76,0.812,0.746,0.066,0.0337488,0.0986237,2.83333,1.62746,5.15324,8.76866e-05,0.000701493
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,A_text vs B_image,500,475,8,4,13,0.966,0.958,0.008,-0.00713082,0.0242972,2,0.535805,9.07596,0.387695,1
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,A_text vs B_image,500,372,35,31,62,0.814,0.806,0.008,-0.0242691,0.0403379,1.12903,0.676221,1.89334,0.712231,1
+Qwen/Qwen3-VL-8B-Instruct,code,A_text vs B_image,500,326,71,17,86,0.794,0.686,0.108,0.0722352,0.143835,4.17647,2.43423,7.56506,5.15395e-09,5.15395e-08
+Qwen/Qwen3-VL-8B-Instruct,math,A_text vs B_image,500,462,12,8,18,0.948,0.94,0.008,-0.0107659,0.0274653,1.5,0.563826,4.2304,0.503445,1
+Qwen/Qwen3-VL-8B-Instruct,table,A_text vs B_image,500,362,51,24,63,0.826,0.772,0.054,0.0201437,0.0881842,2.125,1.2842,3.60986,0.00244423,0.0171096
+google/gemma-3-27b-it,code,A_text vs B_image,500,288,91,16,105,0.758,0.608,0.15,0.111236,0.188265,5.6875,3.32067,10.3695,6.44958e-14,7.09454e-13
+google/gemma-3-27b-it,math,A_text vs B_image,500,469,17,5,9,0.972,0.948,0.024,0.00528499,0.0449677,3.4,1.20408,11.7867,0.0169005,0.101403
+google/gemma-3-27b-it,table,A_text vs B_image,500,324,60,45,71,0.768,0.738,0.03,-0.0103207,0.0702868,1.33333,0.890875,2.00823,0.171565,0.686259

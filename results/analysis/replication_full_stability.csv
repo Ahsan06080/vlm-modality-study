@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: cf37829eb7af74527bb7f3fa537ed81abb9b6bee
-# created_utc: 2026-11-15T17:32:51Z
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:12Z
 model_id,content_type,condition,n_items,fleiss_kappa,pct_correct_all3,pct_correct_none,pct_mixed,pct_agree_run1_run2,pct_agree_run1_run3,pct_agree_run2_run3
 OpenGVLab/InternVL3-8B,code,A_text,500,0.790907,55.8,29.6,14.6,89.6,90.2,91
 OpenGVLab/InternVL3-8B,code,B_image,500,0.791927,43.6,40.8,15.6,91.2,88.6,89

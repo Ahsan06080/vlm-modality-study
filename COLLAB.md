@@ -455,3 +455,37 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 0.999 / 0.998 / 0.997 · accuracy A/B/C: code 0.820/0.750/0.764 · math 0.966/0.958/0.958 · table 0.822/0.804/0.806
 **Files:** results/raw/ext/run3/Qwen__Qwen2.5-VL-72B-Instruct-AWQ.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 19:33 UTC] RUNNER -> PLANNER | T17 DONE
+**Summary:** All 4 available extension models are finished (pilot + runs 1-3 each), well within the 16-hour budget. T17 wall time 13:13-19:32 UTC, GPU 0,1 only. Llama-3.2-11B-Vision (optional) is skipped: the gated repo is not accessible with the stored HF token, and vLLM 0.33 has no Mllama support (deviation #19).
+**Numbers:** pilot gate (G2 rule 1, parse ≥ 80% in every condition) passed by all 4.
+
+| model | rev | TP | pilot parse A/B/C | pilot % length | run wall time | image handling |
+|---|---|---|---|---|---|---|
+| google/gemma-3-27b-it | 005ad340 | 2 | .989/.989/.989 | 1.11 | 36-37 min | 896×896 + pan-and-scan (same as gemma-12b) |
+| Qwen/Qwen3-VL-8B-Instruct | 0c351dd0 | 1 | .967/.944/.956 | 4.44 | 24 min | native (32-px rounding; min 4096 px, deviation #20) |
+| OpenGVLab/InternVL3_5-8B | 9bb6a56a | 1 | 1.00/.944/1.00 | 0.00 | 38-39 min | 448-px tile grid, max_dynamic_patch 24 (same as InternVL3) |
+| Qwen/Qwen2.5-VL-72B-Instruct-AWQ | c8b87d4b | 2 | 1.00/1.00/1.00 | 0.00 | 46 min | native (same as Qwen2.5) |
+
+All 12 main runs passed integrity (4,500/4,500 rows, 0 skipped, 0 duplicates, 0 missing). The revision is identical across pilot and runs 1-3 for each model.
+**Files:** results/raw/ext/{pilot,run1,run2,run3}/*, results/scored/ext/{pilot,run1,run2,run3}_all.csv.gz
+**Issues / questions:** none
+
+### [2026-11-15 19:34 UTC] RUNNER -> PLANNER | T18 DONE
+**Summary:** Extension run 1 analyzed like T11-T14 (descriptives, RQ1 with its own exploratory Holm family, RQ2, RQ3), plus the 3-run replication table for the extension models. Also done: the combined A−B gap figure, the gap-vs-size figure by family, and the resolution table. reports/summary.md now has a Phase 4 section; the earlier sections are unchanged apart from the provenance header and the GPU-hours table, which now includes Phase 4 runs (total 21.39 GPU-h). Also written: reports/paper_numbers.md, and deviations #16-#20 plus Phase 4 data-quality flags.
+**Numbers:**
+- **Extension A vs B, run 1 (Holm over 12):** significant in Gemma-27B code (.146 [.107, .185]), Qwen3-VL-8B code (.122 [.085, .159]), InternVL3.5 code (.108 [.070, .145]), InternVL3.5 math (.116 [.086, .149]), Qwen3-VL table (.050, p_holm .047). All are A > B; nothing is B > A. 72B-AWQ: code .040 (p_holm .133), math .010, table .004 (all ns).
+- **Extension replication:**
+  - Significant in all 3 runs: Gemma-27B code, Qwen3-VL code, InternVL3.5 code, InternVL3.5 math. 72B code is significant in runs 2 and 3; Qwen3-VL table in 2 of 3.
+  - Majority vote 6/12; permutation 6/12.
+  - Fleiss' kappa .83-.96; cell accuracy SD at most .012.
+- **Extension RQ2 code:** the A−C gap is larger for wrong transcriptions in 12/12 model × runs. Run 1, wrong vs exact transcription: Qwen3-VL .345 vs .036, 72B .292 vs .018, Gemma-27B .233 vs -.012.
+- **Extension RQ3:** 11/12 Holm-significant. Direction is mixed: Qwen3-VL B is longer (median A−B −64.5 code), 72B A is longer (+41 code).
+- **Resolution check (code A−B, run 1; descriptive only, family confounded):** models that resize the image (Gemma 12/27, InternVL3/3.5) mean .144 (range .108-.194). Native-resolution models (Qwen2.5 3/7/32/72, Qwen3-VL-8B) mean .064 (range .034-.122).
+- **Gap vs size:** Qwen2.5 code .044/.034/.082/.040 (3/7/32/72B); Gemma code .194 (12B) / .146 (27B).
+**Files:** reports/{summary,paper_numbers,deviations}.md, results/analysis/{ext_*,combined_gap_A_minus_B_all_models,resolution_check_code_gap*}.csv, results/figures/{ext_*,combined_gap_A_minus_B_all_models,gap_A_minus_B_vs_size_by_family}.{png,pdf}, results/scored/ext/*.csv.gz
+**Issues / questions:** (1) InternVL3.5 puts its copy in a leading code fence without tags or a heading. The frozen extractor finds no transcription in 99.4% of its code C responses (94.4% math, 81.2% table), so its RQ2 numbers are not interpretable. I did not change the frozen extractor. If you want it, I can add a sensitivity rule ("leading code fence = transcription") without re-running inference. (2) Qwen3-VL code A has 9% finish_reason=length. (3) The 72B is 4-bit AWQ (deviation #18).
+
+### [2026-11-15 19:34 UTC] RUNNER -> PLANNER | PHASE 4 DONE
+**Summary:** T15-T18 complete, at 19:45 UTC, about 10 h into the 16-hour budget. Finished: 10 primary replicate runs; all 4 available extension models with pilot + 3 runs each (gemma-3-27b, Qwen3-VL-8B, InternVL3.5-8B, Qwen2.5-VL-72B-AWQ). Llama-3.2-11B skipped (no access / no vLLM support). Only GPU 0,1 were used. Run 1 is still the primary analysis; the extension is labeled exploratory everywhere. Start with reports/paper_numbers.md (each number with its source CSV).
+**Issues / questions:** InternVL3.5 transcription sensitivity: needs your OK (see T18). GLMM still not run (no `GLMM OK`).

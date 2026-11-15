@@ -1,0 +1,40 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:18Z
+model_id,content_type,condition,n_items,fleiss_kappa,pct_correct_all3,pct_correct_none,pct_mixed,pct_agree_run1_run2,pct_agree_run1_run3,pct_agree_run2_run3
+OpenGVLab/InternVL3_5-8B,code,A_text,500,0.861964,68.6,23.2,8.2,94.6,95.2,93.8
+OpenGVLab/InternVL3_5-8B,code,B_image,500,0.87702,59,32.4,8.6,95.2,93.6,94
+OpenGVLab/InternVL3_5-8B,code,C_image_transcribe,500,0.905977,62,31.6,6.4,95.2,95.4,96.6
+OpenGVLab/InternVL3_5-8B,math,A_text,500,0.922979,94.8,4.2,1,99,99.6,99.4
+OpenGVLab/InternVL3_5-8B,math,B_image,500,0.868282,81,13.6,5.4,97.6,95.2,96.4
+OpenGVLab/InternVL3_5-8B,math,C_image_transcribe,500,0.913654,93.6,5,1.4,99.2,99,99
+OpenGVLab/InternVL3_5-8B,table,A_text,500,0.944099,75.2,21.8,3,97.4,98,98.6
+OpenGVLab/InternVL3_5-8B,table,B_image,500,0.894789,68.4,25.2,6.4,96,96,95.2
+OpenGVLab/InternVL3_5-8B,table,C_image_transcribe,500,0.886958,70.2,23.2,6.6,95.2,94.8,96.8
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,A_text,500,0.909032,78.8,17,4.2,97,97,97.6
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,B_image,500,0.900088,72.6,21.8,5.6,96.8,96,96
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,C_image_transcribe,500,0.930556,74,22.2,3.8,97.6,97,97.8
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,A_text,500,0.959404,96.4,3.2,0.4,99.6,99.6,100
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,B_image,500,0.918393,95.2,3.8,1,99.4,99,99.6
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,C_image_transcribe,500,0.929428,95.6,3.6,0.8,99.6,99.4,99.4
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,A_text,500,0.910946,79.8,16.2,4,97.6,97,97.4
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,B_image,500,0.944718,79.2,18.2,2.6,98.4,98.4,98
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,C_image_transcribe,500,0.903396,79,16.6,4.4,97.4,96.6,97.2
+Qwen/Qwen3-VL-8B-Instruct,code,A_text,500,0.831675,75.6,16.2,8.2,94,94.8,94.8
+Qwen/Qwen3-VL-8B-Instruct,code,B_image,500,0.835009,63.8,25.6,10.6,92.8,93.8,92.2
+Qwen/Qwen3-VL-8B-Instruct,code,C_image_transcribe,500,0.883129,65.8,26.8,7.4,94.8,95.4,95
+Qwen/Qwen3-VL-8B-Instruct,math,A_text,500,0.904172,94.2,4.4,1.4,99,99.2,99
+Qwen/Qwen3-VL-8B-Instruct,math,B_image,500,0.927569,93.6,5.2,1.2,99,99.2,99.4
+Qwen/Qwen3-VL-8B-Instruct,math,C_image_transcribe,500,0.875014,94.6,3.8,1.6,98.8,98.8,99.2
+Qwen/Qwen3-VL-8B-Instruct,table,A_text,500,0.857495,79.2,14.6,6.2,95.2,96.4,96
+Qwen/Qwen3-VL-8B-Instruct,table,B_image,500,0.86251,74,18.8,7.2,95,95.2,95.4
+Qwen/Qwen3-VL-8B-Instruct,table,C_image_transcribe,500,0.862155,76.8,16.6,6.6,95.4,95,96.4
+google/gemma-3-27b-it,code,A_text,500,0.924104,73.4,22.4,4.2,96.8,98.2,96.6
+google/gemma-3-27b-it,code,B_image,500,0.921389,58.6,35.8,5.6,95.6,96.4,96.8
+google/gemma-3-27b-it,code,C_image_transcribe,500,0.938658,66.2,29.8,4,97.2,97,97.8
+google/gemma-3-27b-it,math,A_text,500,0.910292,96.4,2.8,0.8,99.8,99.4,99.2
+google/gemma-3-27b-it,math,B_image,500,0.959914,94.4,5,0.6,99.8,99.4,99.6
+google/gemma-3-27b-it,math,C_image_transcribe,500,0.934748,94.2,4.8,1,99.2,99.4,99.4
+google/gemma-3-27b-it,table,A_text,500,0.939892,75.4,21.4,3.2,97.8,98,97.8
+google/gemma-3-27b-it,table,B_image,500,0.944834,72.2,24.6,3.2,98.2,97.4,98
+google/gemma-3-27b-it,table,C_image_transcribe,500,0.949864,74,23.2,2.8,98.4,98,98

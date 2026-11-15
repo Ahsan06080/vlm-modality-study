@@ -1,0 +1,16 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:18Z
+model_id,content_type,comparison,n_pairs,both_correct,b_first_only,c_second_only,both_wrong,acc_first,acc_second,diff,diff_ci_lo,diff_ci_hi,discordant_or,or_ci_lo,or_ci_hi,p_mcnemar_exact,p_holm
+OpenGVLab/InternVL3_5-8B,code,A_text vs C_image_transcribe,500,305,60,21,114,0.73,0.652,0.078,0.0431149,0.112758,2.85714,1.71295,4.94539,1.69358e-05,0.000186294
+OpenGVLab/InternVL3_5-8B,math,A_text vs C_image_transcribe,500,464,15,7,14,0.958,0.942,0.016,-0.00319211,0.0365663,2.14286,0.822408,6.21259,0.133801,0.909425
+OpenGVLab/InternVL3_5-8B,table,A_text vs C_image_transcribe,500,327,56,41,76,0.766,0.736,0.03,-0.00876407,0.0687515,1.36585,0.896766,2.09599,0.154816,0.909425
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,A_text vs C_image_transcribe,500,360,46,21,73,0.812,0.762,0.05,0.0179616,0.0823643,2.19048,1.28103,3.86432,0.00306532,0.0245225
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,A_text vs C_image_transcribe,500,477,6,4,13,0.966,0.962,0.004,-0.010419,0.0190791,1.5,0.355708,7.22691,0.753906,1
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,A_text vs C_image_transcribe,500,379,28,29,64,0.814,0.816,-0.002,-0.0321356,0.0281127,0.965517,0.55351,1.6817,1,1
+Qwen/Qwen3-VL-8B-Instruct,code,A_text vs C_image_transcribe,500,334,63,17,86,0.794,0.702,0.092,0.057666,0.12651,3.70588,2.14183,6.75576,2.26614e-07,2.71937e-06
+Qwen/Qwen3-VL-8B-Instruct,math,A_text vs C_image_transcribe,500,468,6,11,15,0.948,0.958,-0.01,-0.0284498,0.00738569,0.545455,0.165634,1.60903,0.332306,1
+Qwen/Qwen3-VL-8B-Instruct,table,A_text vs C_image_transcribe,500,375,38,25,62,0.826,0.8,0.026,-0.00539337,0.0576464,1.52,0.893964,2.62725,0.129918,0.909425
+google/gemma-3-27b-it,code,A_text vs C_image_transcribe,500,314,65,25,96,0.758,0.678,0.08,0.0432147,0.116698,2.6,1.61651,4.30492,2.96645e-05,0.000296645
+google/gemma-3-27b-it,math,A_text vs C_image_transcribe,500,469,17,3,11,0.972,0.944,0.028,0.010462,0.0484127,5.66667,1.63903,30.1809,0.00257683,0.0231915
+google/gemma-3-27b-it,table,A_text vs C_image_transcribe,500,332,52,43,73,0.768,0.75,0.018,-0.0204302,0.0564334,1.2093,0.791835,1.85543,0.41191,1

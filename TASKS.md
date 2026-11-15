@@ -223,7 +223,7 @@ For the 5 primary models, using runs 1-3:
 - Re-run RQ2 (A vs C split by transcription correctness, primary and CER ≤ 0.02 rules) on runs 2 and 3, and report whether the code-content pattern holds.
 - **Output:** `results/analysis/replication_full_*.csv` and a figure: accuracy per cell, with the 3 runs as dots.
 
-### T17 Extension models: `IN-PROGRESS`
+### T17 Extension models: `DONE`
 Work through `config/extension.yaml → extension_models` in priority order until the time budget runs out. For each model:
 1. Check availability and fit within 2 GPUs. If the model is gated or unavailable, report it and skip it.
 2. Run the pilot set (270 requests). Apply G2 rule 1: keep the model only if the parse rate is at least 80% in every condition. Rule 3 can't change max_new_tokens now (it's frozen at 4096), so only report the % of `finish_reason=length`. Record the effective image resolution handling, as in T06.
@@ -232,7 +232,7 @@ Work through `config/extension.yaml → extension_models` in priority order unti
 - Order runs to make good use of 2 GPUs: TP=1 models in parallel lanes, and TP=2 models (gemma-27b, 72B-AWQ) alone.
 - **Done when:** all extension models are done or skipped, or the time budget has run out. List which models finished.
 
-### T18 Extended analysis and summary update: `TODO`
+### T18 Extended analysis and summary update: `DONE`
 - **Extension models, run 1:** the same descriptives, RQ1 (with its **own** Holm family, labeled *exploratory*), RQ2 and RQ3 as T11-T14. Then the same 3-run replication table as T16.
 - **Combined figure:** A−B gap per content type for all models (primary and extension visually distinguished), with 95% CIs. Also a gap-vs-size figure per family (Qwen2.5: 3/7/32/72; Gemma: 12/27).
 - **Resolution check:** compare the A−B code gap for models that resize images (Gemma, InternVL) with those that use native resolution (Qwen), in a table. This is descriptive only; family is a confound, so note that.

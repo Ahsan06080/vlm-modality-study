@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: cf37829eb7af74527bb7f3fa537ed81abb9b6bee
-# created_utc: 2026-11-15T17:32:53Z
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:14Z
 model_id,content_type,subset_rule,run,gap_A_minus_C_wrong,gap_A_minus_C_correct,n_pairs_wrong,n_pairs_correct,gap_wrong_minus_correct,pattern_wrong_gt_correct
 OpenGVLab/InternVL3-8B,code,cer_le_0.02,1,0.229508,0.0933941,61,439,0.136114,True
 OpenGVLab/InternVL3-8B,code,cer_le_0.02,2,0.166667,0.0795455,60,440,0.0871212,True

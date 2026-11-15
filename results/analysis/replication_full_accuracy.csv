@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: cf37829eb7af74527bb7f3fa537ed81abb9b6bee
-# created_utc: 2026-11-15T17:32:50Z
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:11Z
 model_id,content_type,condition,acc_run1,acc_run2,acc_run3,n_runs,mean,sd,range
 OpenGVLab/InternVL3-8B,code,A_text,0.632,0.62,0.642,3,0.631333,0.0110151,0.022
 OpenGVLab/InternVL3-8B,code,B_image,0.506,0.51,0.512,3,0.509333,0.00305505,0.006

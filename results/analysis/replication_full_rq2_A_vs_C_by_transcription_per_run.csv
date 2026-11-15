@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: cf37829eb7af74527bb7f3fa537ed81abb9b6bee
-# created_utc: 2026-11-15T17:32:53Z
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:14Z
 run,model_id,content_type,subset_rule,transcription_correct,comparison,n_pairs,both_correct,b_first_only,c_second_only,both_wrong,acc_first,acc_second,gap_A_minus_C,diff_ci_lo,diff_ci_hi,discordant_or,or_ci_lo,or_ci_hi,p_mcnemar_exact,p_holm,p_holm_within_rule_run
 1,OpenGVLab/InternVL3-8B,code,exact,True,A_text vs C_image_transcribe,336,190,42,26,78,0.690476,0.642857,0.047619,-0.00059234,0.095531,1.61538,0.96761,2.74435,0.0681187,0.613068,1
 1,OpenGVLab/InternVL3-8B,math,exact,True,A_text vs C_image_transcribe,468,414,18,11,25,0.923077,0.90812,0.0149573,-0.00843028,0.0391355,1.63636,0.731916,3.83398,0.264931,1,1

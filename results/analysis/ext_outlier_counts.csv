@@ -1,0 +1,40 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:14Z
+model_id,content_type,condition,n,n_outlier_tokens,n_finish_length
+OpenGVLab/InternVL3_5-8B,code,A_text,500,5,1
+OpenGVLab/InternVL3_5-8B,code,B_image,500,4,0
+OpenGVLab/InternVL3_5-8B,code,C_image_transcribe,500,7,3
+OpenGVLab/InternVL3_5-8B,math,A_text,500,3,0
+OpenGVLab/InternVL3_5-8B,math,B_image,500,3,1
+OpenGVLab/InternVL3_5-8B,math,C_image_transcribe,500,10,2
+OpenGVLab/InternVL3_5-8B,table,A_text,500,13,1
+OpenGVLab/InternVL3_5-8B,table,B_image,500,14,0
+OpenGVLab/InternVL3_5-8B,table,C_image_transcribe,500,16,0
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,A_text,500,5,1
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,B_image,500,8,1
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,C_image_transcribe,500,4,0
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,A_text,500,3,1
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,B_image,500,1,0
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,C_image_transcribe,500,2,0
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,A_text,500,9,0
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,B_image,500,15,1
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,C_image_transcribe,500,7,3
+Qwen/Qwen3-VL-8B-Instruct,code,A_text,500,63,45
+Qwen/Qwen3-VL-8B-Instruct,code,B_image,500,50,39
+Qwen/Qwen3-VL-8B-Instruct,code,C_image_transcribe,500,43,31
+Qwen/Qwen3-VL-8B-Instruct,math,A_text,500,19,6
+Qwen/Qwen3-VL-8B-Instruct,math,B_image,500,14,6
+Qwen/Qwen3-VL-8B-Instruct,math,C_image_transcribe,500,12,5
+Qwen/Qwen3-VL-8B-Instruct,table,A_text,500,24,14
+Qwen/Qwen3-VL-8B-Instruct,table,B_image,500,17,6
+Qwen/Qwen3-VL-8B-Instruct,table,C_image_transcribe,500,15,9
+google/gemma-3-27b-it,code,A_text,500,9,0
+google/gemma-3-27b-it,code,B_image,500,12,2
+google/gemma-3-27b-it,code,C_image_transcribe,500,10,0
+google/gemma-3-27b-it,math,A_text,500,6,0
+google/gemma-3-27b-it,math,B_image,500,3,0
+google/gemma-3-27b-it,math,C_image_transcribe,500,3,0
+google/gemma-3-27b-it,table,A_text,500,13,0
+google/gemma-3-27b-it,table,B_image,500,9,0
+google/gemma-3-27b-it,table,C_image_transcribe,500,5,5

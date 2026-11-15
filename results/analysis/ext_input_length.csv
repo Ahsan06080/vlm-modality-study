@@ -1,0 +1,7 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:14Z
+content_type,n_items,chars_mean,chars_median,chars_min,chars_max,lines_mean,lines_median,lines_min,lines_max
+code,500,169.412,166,72,296,7.544,7,4,14
+math,500,233.292,215,83,694,3.426,3,2,9
+table,500,1735.29,1452.5,474,5880,20.384,18,10,45

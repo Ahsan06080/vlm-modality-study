@@ -1,0 +1,6 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:19Z
+resizes_image,n_models,mean_gap_run1,min_gap_run1,max_gap_run1,note
+False,5,0.0644,0.034,0.122,descriptive only; family is confounded with image handling
+True,4,0.1435,0.108,0.194,descriptive only; family is confounded with image handling

@@ -1,0 +1,16 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:18Z
+model_id,content_type,comparison,n_items,mean_acc_first,mean_acc_second,mean_diff,n_perm,seed,p_perm,p_holm
+OpenGVLab/InternVL3_5-8B,code,A_text vs B_image,500,0.728,0.63,0.098,10000,630,9.999e-05,0.00119988
+OpenGVLab/InternVL3_5-8B,math,A_text vs B_image,500,0.954667,0.836667,0.118,10000,630,9.999e-05,0.00119988
+OpenGVLab/InternVL3_5-8B,table,A_text vs B_image,500,0.766667,0.717333,0.0493333,10000,630,0.0125987,0.0755924
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,A_text vs B_image,500,0.81,0.751333,0.0586667,10000,630,9.999e-05,0.00119988
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,A_text vs B_image,500,0.966,0.957333,0.00866667,10000,630,0.216378,0.649135
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,A_text vs B_image,500,0.816667,0.805333,0.0113333,10000,630,0.492251,0.884512
+Qwen/Qwen3-VL-8B-Instruct,code,A_text vs B_image,500,0.796,0.689333,0.106667,10000,630,9.999e-05,0.00119988
+Qwen/Qwen3-VL-8B-Instruct,math,A_text vs B_image,500,0.948667,0.941333,0.00733333,10000,630,0.442256,0.884512
+Qwen/Qwen3-VL-8B-Instruct,table,A_text vs B_image,500,0.824,0.774667,0.0493333,10000,630,0.00169983,0.0118988
+google/gemma-3-27b-it,code,A_text vs B_image,500,0.756,0.612,0.144,10000,630,9.999e-05,0.00119988
+google/gemma-3-27b-it,math,A_text vs B_image,500,0.969333,0.947333,0.022,10000,630,0.0238976,0.119488
+google/gemma-3-27b-it,table,A_text vs B_image,500,0.769333,0.738,0.0313333,10000,630,0.122788,0.491151

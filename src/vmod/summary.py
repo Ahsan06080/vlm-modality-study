@@ -56,7 +56,12 @@ def gpu_hours():
         elif (model, s) in starts or s.endswith("_rep2"):
             base = s.replace("_rep2", "")
             st = starts.get((model, s)) or starts.get((model, base))
-            tp = 2 if "32B" in model else 1
+            from .run import find_model
+
+            try:
+                tp = 2 if find_model(load_config(), model)["params_b"] > 20 else 1
+            except StopIteration:
+                tp = 1
             rows.append(dict(model=short(model), set=s, wall_h=(ts - st).total_seconds() / 3600, gpus=tp))
             starts[(model, s.replace("_rep2", "") + "_rep2")] = ts  # rep2 starts when the first pass ends
     d = pd.DataFrame(rows)

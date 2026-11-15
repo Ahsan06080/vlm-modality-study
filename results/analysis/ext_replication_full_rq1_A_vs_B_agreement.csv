@@ -1,0 +1,16 @@
+# study_id: vlm-modality-v1
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:18Z
+model_id,content_type,diff_run1,diff_run2,diff_run3,diff_ci_hi_run1,diff_ci_hi_run2,diff_ci_hi_run3,diff_ci_lo_run1,diff_ci_lo_run2,diff_ci_lo_run3,direction_run1,direction_run2,direction_run3,p_holm_run1,p_holm_run2,p_holm_run3,sig_holm_run1,sig_holm_run2,sig_holm_run3,n_runs_sig,sig_agree_all_runs,direction_agree_all_runs,sig_and_direction_agree
+OpenGVLab/InternVL3_5-8B,code,0.108,0.098,0.088,0.145222,0.132752,0.124013,0.0704466,0.0630326,0.0517486,1,1,1,2.43624e-07,5.60293e-07,2.59145e-05,True,True,True,3,True,True,True
+OpenGVLab/InternVL3_5-8B,math,0.116,0.118,0.12,0.14867,0.150823,0.153064,0.085977,0.0877732,0.0896243,1,1,1,9.18128e-13,4.94308e-13,2.65842e-13,True,True,True,3,True,True,True
+OpenGVLab/InternVL3_5-8B,table,0.05,0.056,0.042,0.0897184,0.0962265,0.0829149,0.0102115,0.0156888,0.00100183,1,1,1,0.105654,0.058919,0.329453,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,0.04,0.066,0.07,0.0739902,0.0990785,0.103058,0.00618472,0.0332698,0.0373524,1,1,1,0.132584,0.000898149,0.000310781,False,True,True,2,False,True,False
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,0.01,0.008,0.008,0.0259575,0.0242972,0.0242972,-0.00443266,-0.00713082,-0.00713082,1,1,1,0.679688,1,1,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-72B-Instruct-AWQ,table,0.004,0.012,0.018,0.0372551,0.0443456,0.0510545,-0.0292244,-0.0202424,-0.0149062,1,1,1,0.904975,1,1,False,False,False,0,True,True,True
+Qwen/Qwen3-VL-8B-Instruct,code,0.122,0.098,0.1,0.15897,0.134687,0.137593,0.0850881,0.0613695,0.0623415,1,1,1,1.64155e-09,2.25818e-06,3.11023e-06,True,True,True,3,True,True,True
+Qwen/Qwen3-VL-8B-Instruct,math,0.01,0.006,0.006,0.0299491,0.025763,0.0249996,-0.00908467,-0.0132622,-0.0124513,1,1,1,0.766621,1,1,False,False,False,0,True,True,True
+Qwen/Qwen3-VL-8B-Instruct,table,0.05,0.048,0.05,0.0846691,0.0832849,0.0846691,0.0156294,0.0129325,0.0156294,1,1,1,0.0469657,0.058919,0.041095,True,False,True,2,False,True,False
+google/gemma-3-27b-it,code,0.146,0.134,0.152,0.184776,0.173094,0.190417,0.106723,0.0944007,0.1131,1,1,1,7.00326e-12,6.72396e-10,4.15512e-13,True,True,True,3,True,True,True
+google/gemma-3-27b-it,math,0.026,0.022,0.018,0.047364,0.0432216,0.0403974,0.00697621,0.00273094,-0.00307246,1,1,1,0.0743542,0.173448,0.610391,False,False,False,0,True,True,True
+google/gemma-3-27b-it,table,0.036,0.028,0.03,0.0760747,0.0681043,0.0706563,-0.00409915,-0.0121372,-0.0106987,1,1,1,0.380175,0.808692,0.702561,False,False,False,0,True,True,True

@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: cf37829eb7af74527bb7f3fa537ed81abb9b6bee
-# created_utc: 2026-11-15T17:32:52Z
+# git_commit: c91952f507ba96fede27e4f541daf902d4d43114
+# created_utc: 2026-11-15T19:33:13Z
 model_id,content_type,comparison,n_items,mean_acc_first,mean_acc_second,mean_diff,n_perm,seed,p_perm,p_holm
 OpenGVLab/InternVL3-8B,code,A_text vs B_image,500,0.631333,0.509333,0.122,10000,630,9.999e-05,0.00149985
 OpenGVLab/InternVL3-8B,math,A_text vs B_image,500,0.918,0.863333,0.0546667,10000,630,9.999e-05,0.00149985
