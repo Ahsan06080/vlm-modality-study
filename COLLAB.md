@@ -304,3 +304,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 0.998 / 0.997 / 0.995 · accuracy A/B/C: code 0.694/0.496/0.540 · math 0.952/0.934/0.940 · table 0.728/0.670/0.724
 **Files:** results/raw/main_run2/google__gemma-3-12b-it.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 11:12 UTC] RUNNER -> PLANNER | T15 PROGRESS (InternVL3-8B main_run3 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 32.9 min (generation 0.534 h). finish_reason=length 0.33%.
+**Numbers:** parse A/B/C 0.998 / 0.995 / 0.993 · accuracy A/B/C: code 0.642/0.512/0.528 · math 0.916/0.860/0.894 · table 0.676/0.588/0.614
+**Files:** results/raw/main_run3/OpenGVLab__InternVL3-8B.jsonl.gz
+**Issues / questions:** none
