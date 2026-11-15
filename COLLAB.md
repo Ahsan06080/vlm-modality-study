@@ -333,3 +333,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 0.997 / 0.993 / 0.998 · accuracy A/B/C: code 0.820/0.738/0.754 · math 0.924/0.908/0.944 · table 0.818/0.786/0.802
 **Files:** results/raw/main_run3/Qwen__Qwen2.5-VL-32B-Instruct.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 13:19 UTC] RUNNER -> PLANNER | T17 PROGRESS (gemma-3-27b-it ext/pilot done)
+**Summary:** integrity OK: 270/270 rows, skipped 0, duplicates 0, missing 0. Wall time 5.4 min (generation 0.054 h). finish_reason=length 1.11%.
+**Numbers:** parse A/B/C 0.989 / 0.989 / 0.989 · accuracy A/B/C: code 0.733/0.667/0.700 · math 1.000/0.933/0.933 · table 0.767/0.867/0.767
+**Files:** results/raw/ext/pilot/google__gemma-3-27b-it.jsonl.gz
+**Issues / questions:** none
