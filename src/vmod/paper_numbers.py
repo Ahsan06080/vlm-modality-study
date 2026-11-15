@@ -1,0 +1,170 @@
+"""T18: reports/paper_numbers.md -- compact index of every number/table the paper needs, each with its source CSV.
+Numbers only, no prose."""
+from __future__ import annotations
+
+import pandas as pd
+
+from .config import REPORTS, RESULTS
+from .meta import provenance
+from .summary import md
+
+AN = RESULTS / "analysis"
+SRC = lambda n: f"`results/analysis/{n}`"
+
+
+def _r(name):
+    p = AN / name
+    return pd.read_csv(p, comment="#") if p.exists() else None
+
+
+def _short(df):
+    df = df.copy()
+    df["model_id"] = df.model_id.str.split("/").str[-1].str.replace("-Instruct", "").str.replace("-it", "")
+    return df
+
+
+def rq1_block(name, title):
+    r = _r(name)
+    if r is None:
+        return []
+    r = _short(r)
+    sig = r[r.p_holm < 0.05]
+    t = r[["model_id", "content_type", "acc_first", "acc_second", "diff", "diff_ci_lo", "diff_ci_hi", "b_first_only",
+           "c_second_only", "p_holm"]]
+    return [f"### {title}", f"source: {SRC(name)}", "",
+            f"- Holm p < .05: {len(sig)}/{len(r)} cells; first > second in {int((sig['diff'] > 0).sum())}, second > first in {int((sig['diff'] < 0).sum())}",
+            "", md(t), ""]
+
+
+def main(args=None):
+    L = ["# Paper numbers index", "", "<!--", *(f"{k}: {v}" for k, v in provenance().items()), "-->", "",
+         "Numbers and tables only. Each block names its source CSV. Full tables: `reports/summary.md`.", ""]
+
+    # design / data
+    L += ["## Design and data", ""]
+    d = _r("descriptives.csv")
+    if d is not None:
+        L += [f"- primary models: {d.model_id.nunique()}; items per content type: {int(d.n.iloc[0])}; responses (run 1): {int(d.n.sum())} — source: {SRC('descriptives.csv')}"]
+    il = _r("input_length.csv")
+    if il is not None:
+        L += ["", f"input length — source: {SRC('input_length.csv')}", "", md(il, ".1f"), ""]
+    L += ["- exclusions and sampling: `data/items/summary.json`; deviations: `reports/deviations.md`", ""]
+
+    # RQ1
+    L += ["## RQ1 modality effect (primary: run 1, 5 models, Holm within family of 15)", ""]
+    if d is not None:
+        a = _short(d).pivot_table(index=["model_id", "content_type"], columns="condition", values="accuracy").reset_index()
+        L += [f"### Accuracy per cell (95% Wilson CI in source)", f"source: {SRC('descriptives.csv')}", "", md(a), ""]
+    L += rq1_block("rq1_A_vs_B.csv", "A (text) vs B (image), McNemar exact")
+    L += rq1_block("rq1_A_vs_C.csv", "A (text) vs C (image + transcribe)")
+    L += rq1_block("rq1_B_vs_C.csv", "B (image) vs C (image + transcribe)")
+    for name, title in (("rq1_A_vs_B_sens_parseable.csv", "sensitivity: unparseable pairs excluded"),
+                        ("rq1_A_vs_B_sens_strict_parser.csv", "sensitivity: strict same-line parser")):
+        r = _r(name)
+        if r is not None:
+            L += [f"- A vs B {title}: Holm p < .05 in {int((r.p_holm < .05).sum())}/{len(r)} — source: {SRC(name)}"]
+    cq = _r("rq1_cochran_q.csv")
+    if cq is not None:
+        L += [f"- Cochran's Q (A/B/C) Holm p < .05: {int((cq.p_holm < .05).sum())}/{len(cq)} — source: {SRC('rq1_cochran_q.csv')}", ""]
+
+    # RQ2
+    L += ["## RQ2 perception vs reasoning (condition C transcription)", ""]
+    t = _r("rq2_transcription.csv")
+    if t is not None:
+        L += [f"### Transcription quality", f"source: {SRC('rq2_transcription.csv')}", "",
+              md(_short(t)[["model_id", "content_type", "pct_with_transcription", "exact_rate", "exact_lenient_rate",
+                            "pct_cer_le_002", "cer_median", "cer_mean"]]), "",
+              "- table measures: CER ≤ 0.02 and lenient exact (primary exact ≈ 0 for tables; deviation #15)", ""]
+    s = _r("rq2_A_vs_C_by_transcription.csv")
+    if s is not None:
+        s = _short(s)
+        w = s.pivot_table(index=["model_id", "content_type", "subset_rule"], columns="transcription_correct",
+                          values=["gap_A_minus_C", "n_pairs"], aggfunc="first")
+        w.columns = [f"{a}_{'correct' if b else 'wrong'}" for a, b in w.columns]
+        L += ["### A−C gap split by transcription correctness", f"source: {SRC('rq2_A_vs_C_by_transcription.csv')}", "",
+              md(w.reset_index()), ""]
+    lg = _r("rq2_logit_B_on_cer.csv")
+    if lg is not None:
+        L += ["### Logit correct(B) ~ CER(C) + model", f"source: {SRC('rq2_logit_B_on_cer.csv')}", "",
+              md(lg[["content_type", "predictor", "n", "coef", "se", "odds_ratio", "or_ci_lo", "or_ci_hi", "p_value"]], ".4f"), ""]
+
+    # RQ3
+    r3 = _r("rq3_tokens_wilcoxon.csv")
+    if r3 is not None:
+        L += ["## RQ3 output length A vs B (Wilcoxon signed-rank, Holm)", f"source: {SRC('rq3_tokens_wilcoxon.csv')}", "",
+              f"- Holm p < .05: {int((r3.p_holm < .05).sum())}/{len(r3)}", "",
+              md(_short(r3)[["model_id", "content_type", "median_A", "median_B", "median_diff_A_minus_B", "p_holm"]], ".1f"), ""]
+    fc = _r("flip_counts.csv")
+    if fc is not None:
+        L += [f"- A-correct/B-wrong flips available per content type — source: {SRC('flip_counts.csv')}; coded sample: `results/coding/error_sample.csv`", "",
+              md(fc, ".0f"), ""]
+
+    # replication
+    for pre, title in (("replication_full", "primary models"), ("ext_replication_full", "extension models (exploratory)")):
+        a = _r(f"{pre}_accuracy.csv")
+        if a is None:
+            continue
+        L += [f"## Replication, runs 1-3, {title}", "",
+              f"- cell accuracy SD across runs: max {a.sd.max():.4f}; range: max {a['range'].max():.3f} — source: {SRC(pre + '_accuracy.csv')}"]
+        st = _r(f"{pre}_stability.csv")
+        if st is not None:
+            L += [f"- Fleiss' kappa per cell: min {st.fleiss_kappa.min():.3f}, median {st.fleiss_kappa.median():.3f}, max {st.fleiss_kappa.max():.3f}; "
+                  f"% items mixed: min {st.pct_mixed.min():.1f}, median {st.pct_mixed.median():.1f}, max {st.pct_mixed.max():.1f} — source: {SRC(pre + '_stability.csv')}"]
+        for tag in ("A_vs_B", "A_vs_C"):
+            w = _r(f"{pre}_rq1_{tag}_agreement.csv")
+            if w is None:
+                continue
+            nr = len([c for c in w.columns if c.startswith("sig_holm_run")])
+            w = _short(w)
+            L += [f"- {tag.replace('_', ' ')} significant in all {nr} runs: {int((w.n_runs_sig == nr).sum())}/{len(w)} "
+                  f"({', '.join(w[w.n_runs_sig == nr].model_id + ' ' + w[w.n_runs_sig == nr].content_type)}); "
+                  f"in some runs: {int(((w.n_runs_sig > 0) & (w.n_runs_sig < nr)).sum())}; direction agrees in all runs: "
+                  f"{int(w.direction_agree_all_runs.sum())}/{len(w)} — source: {SRC(pre + '_rq1_' + tag + '_agreement.csv')}"]
+            mv = _r(f"{pre}_rq1_{tag}_majority_vote.csv")
+            if mv is not None:
+                L += [f"- {tag.replace('_', ' ')} majority vote Holm p < .05: {int((mv.p_holm < .05).sum())}/{len(mv)} — source: {SRC(pre + '_rq1_' + tag + '_majority_vote.csv')}"]
+        pm = _r(f"{pre}_rq1_A_vs_B_permutation_mean.csv")
+        if pm is not None:
+            L += [f"- A vs B permutation test on per-item mean correctness, Holm p < .05: {int((pm.p_holm < .05).sum())}/{len(pm)} — source: {SRC(pre + '_rq1_A_vs_B_permutation_mean.csv')}"]
+        pc = _r(f"{pre}_rq2_pattern_check.csv")
+        if pc is not None:
+            g = pc.groupby(["content_type", "subset_rule"]).pattern_wrong_gt_correct.agg(["sum", "count"]).reset_index()
+            g = g.rename(columns={"sum": "n_gap_wrong_gt_correct", "count": "n_model_runs"})
+            L += ["", f"RQ2 pattern (A−C gap larger when transcription is wrong), per model × run — source: {SRC(pre + '_rq2_pattern_check.csv')}", "", md(g, ".0f")]
+        w = _r(f"{pre}_rq1_A_vs_B_agreement.csv")
+        if w is not None:
+            cols = ["model_id", "content_type"] + [c for c in w.columns if c.startswith(("diff_run", "p_holm_run"))] + ["n_runs_sig"]
+            L += ["", f"A vs B per run — source: {SRC(pre + '_rq1_A_vs_B_agreement.csv')}", "", md(_short(w)[cols])]
+        L += [""]
+
+    # extension
+    if _r("ext_rq1_A_vs_B.csv") is not None:
+        L += ["## Extension models, run 1 (exploratory; own Holm family)", ""]
+        e = _r("ext_descriptives.csv")
+        if e is not None:
+            a = _short(e).pivot_table(index=["model_id", "content_type"], columns="condition", values="accuracy").reset_index()
+            L += [f"source: {SRC('ext_descriptives.csv')}", "", md(a), ""]
+        L += rq1_block("ext_rq1_A_vs_B.csv", "Extension A vs B")
+        L += rq1_block("ext_rq1_A_vs_C.csv", "Extension A vs C")
+        t = _r("ext_rq2_transcription.csv")
+        if t is not None:
+            L += [f"### Extension transcription quality", f"source: {SRC('ext_rq2_transcription.csv')}", "",
+                  md(_short(t)[["model_id", "content_type", "pct_with_transcription", "exact_rate", "exact_lenient_rate", "pct_cer_le_002", "cer_median"]]), ""]
+        r3 = _r("ext_rq3_tokens_wilcoxon.csv")
+        if r3 is not None:
+            L += [f"- extension RQ3 Wilcoxon Holm p < .05: {int((r3.p_holm < .05).sum())}/{len(r3)} — source: {SRC('ext_rq3_tokens_wilcoxon.csv')}", ""]
+    for name, title in (("combined_gap_A_minus_B_all_models.csv", "A−B gap, all models (run 1)"),
+                        ("resolution_check_code_gap.csv", "Resolution check: A−B code gap by image handling (descriptive; family confound)"),
+                        ("resolution_check_code_gap_summary.csv", "Resolution check summary")):
+        r = _r(name)
+        if r is not None:
+            if "model_id" in r:
+                r = _short(r)
+            if name.startswith("combined"):
+                r = r[["model_id", "group", "content_type", "diff", "diff_ci_lo", "diff_ci_hi", "p_holm"]]
+            L += [f"## {title}", f"source: {SRC(name)}", "", md(r), ""]
+
+    L += ["## Figures", "", *[f"- `results/figures/{p.name}`" for p in sorted((RESULTS / "figures").glob("*.png"))], ""]
+    (REPORTS / "paper_numbers.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    print("wrote reports/paper_numbers.md")
+    return 0

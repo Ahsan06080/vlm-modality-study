@@ -473,6 +473,16 @@ def main(args):
 
         replication_check()
         return 0
+    if what == "phase4":
+        from .ext_analysis import main as ext
+        from .paper_numbers import main as pn
+        from .replication import main as rep
+        from .summary import main as summ
+
+        rep("primary")
+        ext()
+        summ()
+        return pn()
     if what in ("replication_full", "ext_replication"):
         from .replication import main as rep
 
