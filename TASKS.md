@@ -207,12 +207,12 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 - Output paths: `results/raw/main_run{2,3}/` for replicates and `results/raw/ext/run{1,2,3}/` for extension models. Same schema, plus a `run` column.
 - Post progress in COLLAB.md after every completed model-run, with accuracy per content × condition and wall time. Analyze as you go; don't wait until the end.
 
-### T15 Full replicate runs 2 and 3, primary models: `IN-PROGRESS`
+### T15 Full replicate runs 2 and 3, primary models: `DONE`
 - Run the main set again for all 5 primary models, twice: run 2 with order seed 631 and run 3 with seed 632. Each run uses a fresh process. Keep the same model revisions as run 1 and check them against `reports/summary.md`.
 - Integrity check per run, the same as T08.
 - **Done when:** 10 model-runs are committed (`.jsonl.gz`).
 
-### T16 Replication analysis: `TODO`
+### T16 Replication analysis: `DONE`
 For the 5 primary models, using runs 1-3:
 - Per model × content × condition: accuracy in each run, the mean, SD and range across runs.
 - Item-level stability: Fleiss' kappa on `correct` across the 3 runs, % of items correct in all 3, in none, or mixed.
@@ -223,7 +223,7 @@ For the 5 primary models, using runs 1-3:
 - Re-run RQ2 (A vs C split by transcription correctness, primary and CER ≤ 0.02 rules) on runs 2 and 3, and report whether the code-content pattern holds.
 - **Output:** `results/analysis/replication_full_*.csv` and a figure: accuracy per cell, with the 3 runs as dots.
 
-### T17 Extension models: `TODO`
+### T17 Extension models: `IN-PROGRESS`
 Work through `config/extension.yaml → extension_models` in priority order until the time budget runs out. For each model:
 1. Check availability and fit within 2 GPUs. If the model is gated or unavailable, report it and skip it.
 2. Run the pilot set (270 requests). Apply G2 rule 1: keep the model only if the parse rate is at least 80% in every condition. Rule 3 can't change max_new_tokens now (it's frozen at 4096), so only report the % of `finish_reason=length`. Record the effective image resolution handling, as in T06.

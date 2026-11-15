@@ -1,0 +1,19 @@
+# study_id: vlm-modality-v1
+# git_commit: cf37829eb7af74527bb7f3fa537ed81abb9b6bee
+# created_utc: 2026-11-15T17:32:51Z
+model_id,content_type,diff_run1,diff_run2,diff_run3,diff_ci_hi_run1,diff_ci_hi_run2,diff_ci_hi_run3,diff_ci_lo_run1,diff_ci_lo_run2,diff_ci_lo_run3,direction_run1,direction_run2,direction_run3,p_holm_run1,p_holm_run2,p_holm_run3,sig_holm_run1,sig_holm_run2,sig_holm_run3,n_runs_sig,sig_agree_all_runs,direction_agree_all_runs,sig_and_direction_agree
+OpenGVLab/InternVL3-8B,code,0.126,0.11,0.13,0.166186,0.151315,0.170458,0.0849674,0.0679187,0.088675,1,1,1,4.13333e-08,6.10143e-06,1.69818e-08,True,True,True,3,True,True,True
+OpenGVLab/InternVL3-8B,math,0.056,0.052,0.056,0.086813,0.0837561,0.088181,0.0264555,0.0212975,0.0248808,1,1,1,0.00337642,0.014289,0.00679116,True,True,True,3,True,True,True
+OpenGVLab/InternVL3-8B,table,0.06,0.086,0.088,0.106546,0.132646,0.134773,0.0130172,0.0387409,0.0405984,1,1,1,0.153705,0.00587563,0.00448126,False,True,True,2,False,True,False
+Qwen/Qwen2.5-VL-32B-Instruct,code,0.082,0.086,0.082,0.111968,0.118289,0.113469,0.0526214,0.0541664,0.051082,1,1,1,6.84428e-07,2.35727e-06,3.6221e-06,True,True,True,3,True,True,True
+Qwen/Qwen2.5-VL-32B-Instruct,math,0.016,0.016,0.016,0.0458008,0.0437599,0.0437405,-0.013385,-0.0112176,-0.0112089,1,1,1,1,1,0.905987,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-32B-Instruct,table,0.018,0.036,0.032,0.0486442,0.0668351,0.0633511,-0.0124715,0.00548778,0.000932668,1,1,1,1,0.218721,0.391281,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-3B-Instruct,code,0.044,0.06,0.054,0.0870534,0.101075,0.0957139,0.00067842,0.0186004,0.0119976,1,1,1,0.511404,0.0589017,0.134682,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-3B-Instruct,math,0.022,0.006,0.04,0.0541801,0.0371969,0.071873,-0.00994032,-0.0251224,0.00854291,1,1,1,1,1,0.134866,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-3B-Instruct,table,-0.026,0,-0.03,0.0261731,0.0522483,0.0244735,-0.077941,-0.0522483,-0.0841922,-1,0,-1,1,1,0.905987,False,False,False,0,True,False,False
+Qwen/Qwen2.5-VL-7B-Instruct,code,0.034,0.044,0.036,0.0724288,0.0825157,0.075765,-0.00465765,0.0051875,-0.0040159,1,1,1,0.726386,0.23352,0.475218,False,False,False,0,True,True,True
+Qwen/Qwen2.5-VL-7B-Instruct,math,0,0.004,-0.002,0.0256259,0.0297088,0.0244864,-0.0256259,-0.021592,-0.0285387,0,1,-1,1,1,1,False,False,False,0,True,False,False
+Qwen/Qwen2.5-VL-7B-Instruct,table,-0.038,-0.032,-0.04,0.00372443,0.00918703,0.000781309,-0.0795162,-0.0730075,-0.0805632,-1,-1,-1,0.719635,0.761689,0.402062,False,False,False,0,True,True,True
+google/gemma-3-12b-it,code,0.194,0.198,0.188,0.235991,0.239495,0.230043,0.15067,0.155171,0.144669,1,1,1,1.07357e-16,8.58599e-18,1.02687e-15,True,True,True,3,True,True,True
+google/gemma-3-12b-it,math,0.014,0.018,0.018,0.0361588,0.0402865,0.0415607,-0.00721701,-0.00305252,-0.00449494,1,1,1,1,0.732469,0.598451,False,False,False,0,True,True,True
+google/gemma-3-12b-it,table,0.086,0.058,0.062,0.130449,0.103209,0.106141,0.0411057,0.0124905,0.0175532,1,1,1,0.00290035,0.140798,0.0800767,True,False,False,1,False,True,False

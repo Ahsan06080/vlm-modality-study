@@ -411,3 +411,29 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 1.000 / 1.000 / 1.000 · accuracy A/B/C: code 0.800/0.667/0.667 · math 0.967/0.900/0.967 · table 0.767/0.767/0.800
 **Files:** results/raw/ext/pilot/Qwen__Qwen2.5-VL-72B-Instruct-AWQ.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 17:33 UTC] RUNNER -> PLANNER | T15 DONE
+**Summary:** 10 replicate model-runs (5 primary models × runs 2 and 3, seeds 631/632) are committed. Every run passed integrity (4,500/4,500 rows, 0 skipped, 0 duplicates, 0 missing). Revisions match run 1 for all 5 models (3B 66285546, 7B cc594898, InternVL 853e3a79, Gemma 96b6f1ec, 32B 7cfb30d7). Wall time 09:44-13:13 UTC on GPU 0,1. Per-run wall times: 3B 10-11 min, 7B 17-18, InternVL 33-34, Gemma 32-33, 32B 54 (TP=2).
+**Files:** results/raw/main_run{2,3}/*.jsonl.gz (+ .meta.json, .skipped.csv), results/scored/main_run{2,3}_all.csv.gz
+**Issues / questions:** this post comes late; the RUNNER session was interrupted between 13:13 and 17:30 UTC. The tmux pipeline kept running and posted every model-run on time. The 32B took 54 min per run against 35 min in run 1, probably because of gpu_memory_utilization 0.80 (deviation #16) and the other user's jobs on GPU 0,1.
+
+### [2026-11-15 17:33 UTC] RUNNER -> PLANNER | T16 DONE
+**Summary:** Replication analysis on runs 1-3 for all 5 primary models: per-cell accuracy across runs, item stability (Fleiss' kappa), per-run RQ1 McNemar (Holm within each run, 15 tests), majority vote, permutation test on per-item mean correctness, and RQ2 per run.
+**Numbers:**
+- Cell accuracy across runs: SD at most .017; max range .032 (3B table A).
+- Fleiss' kappa per cell: .73-.95 (median .88). Items mixed across runs: 1.0-19.8% (median 6.8%).
+- **A vs B, significant in all 3 runs:** InternVL code (diff .126/.110/.130), InternVL math (.056/.052/.056), 32B code (.082/.086/.082), Gemma code (.194/.198/.188).
+  - Significant in some runs only: InternVL table (runs 2 and 3), Gemma table (run 1 only).
+  - The other 9 cells are significant in no run. In 13/15 cells the direction is the same in all runs; the 2 exceptions are 3B table and 7B math, where diffs are within ±.03.
+  - Majority vote, Holm-significant: InternVL code/math/table, 32B code, Gemma code/table (6/15).
+  - Permutation test (10,000 perms, seed 630), Holm-significant: the same 6 plus 3B code (7/15).
+- **A vs C, significant in all 3 runs:** InternVL code, 32B code, Gemma code, 3B math.
+  - In 1 run only: 3B table, 7B code.
+  - Majority vote: 4/15 (the 4 cells above).
+- **RQ2 code:** in all 15/15 model × run combinations the A−C gap is larger for wrong transcriptions than for correct ones, under both the exact and CER ≤ 0.02 rules. Gap, wrong vs exact transcription:
+  - InternVL .238/.165/.217 vs .048/.054/.065
+  - 32B .252/.245/.220 vs .021/.008/.023
+  - Gemma .158/.171/.158 vs .040/-.022/.023
+  - Math: 15/15 under exact, 12/15 under CER ≤ 0.02. Table: 11/15 under CER ≤ 0.02. Table under exact is not meaningful (the exact subset is about empty, see deviation #15).
+**Files:** results/analysis/replication_full_{accuracy,stability,rq1_A_vs_B_per_run,rq1_A_vs_B_agreement,rq1_A_vs_B_majority_vote,rq1_A_vs_B_permutation_mean,rq1_A_vs_C_per_run,rq1_A_vs_C_agreement,rq1_A_vs_C_majority_vote,rq2_A_vs_C_by_transcription_per_run,rq2_pattern_check}.csv, results/figures/replication_full_accuracy_runs.{png,pdf}
+**Issues / questions:** none
