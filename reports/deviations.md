@@ -17,6 +17,11 @@
 | 13 | T09 | API models optional | SKIPPED | no OWNER approval (fast-track default) |
 | 14 | T05/T13 transcription | text between tags, exact after whitespace collapse | a markdown code fence wrapping the WHOLE transcription is removed before comparison | Qwen-7B wraps 87% of code transcriptions in ```python fences inside the tags |
 | 15 | T13 sensitivity | exact, CER ≤ 0.02 | added `transcription_exact_lenient` (spaces around `|` ignored, dash runs collapsed) as an extra subset rule; primary unchanged | table header-rule dash counts encode column padding, so primary exact match is ~0% for tables |
+| 16 | Phase 4 vLLM memory | gpu_memory_utilization 0.90 (run 1) | 0.80 for all Phase 4 runs | another user's jobs hold 3-6 GB on GPU 0/1; only the KV-cache size changes, decoding settings are identical |
+| 17 | Phase 4 extension models | not in the pre-registered design | gemma-3-27b, Qwen3-VL-8B, InternVL3.5-8B, Qwen2.5-VL-72B-AWQ added AFTER the primary results were seen; analyzed as a separate exploratory family (own Holm correction) | PLANNER Phase 4 task (instructor asked about replication / scale) |
+| 18 | Phase 4 72B | full-precision weights | Qwen2.5-VL-72B-Instruct-AWQ (4-bit AWQ) | must fit 2 GPUs (OWNER limit); quantization is a caveat for the scale comparison |
+| 19 | Phase 4 Llama-3.2-11B-Vision | optional extension model | skipped | gated repo: stored HF token has no access; also no Mllama support in vLLM 0.33 |
+| 20 | Phase 4 Qwen3-VL image size | model default (min 65,536 px) | shortest_edge 4096 px, longest_edge 16.8 MP | default would upscale 11 small images; lowered so no image is rescaled beyond 32-px rounding (same principle as Qwen2.5) |
 
 ## Data-quality flags (counts)
 
