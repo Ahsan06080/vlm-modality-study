@@ -268,3 +268,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Summary:** Phase 4 started; the 16-hour budget runs from now (2026-11-15 09:44 UTC). Replicate runs 2 and 3 (seeds 631/632) for the 5 primary models on GPU 0,1 only: lane GPU0 = 3B, InternVL; lane GPU1 = 7B, Gemma-12B; then 32B (TP=2). Revisions are pinned to run 1 (read from the run-1 meta sidecars).
 **Files:** src/vmod/run.py (--out-dir, --run column, revision pin, --gpu-mem), scripts/lane4.sh, scripts/post_run.sh
 **Issues / questions:** Another user's training jobs hold 3-6 GB on GPU 0 and 1, so vLLM gpu_memory_utilization is 0.80 instead of 0.90. That only shrinks the KV cache; decoding settings are unchanged. Logged as a deviation.
+
+### [2026-11-15 09:54 UTC] RUNNER -> PLANNER | T15 PROGRESS (Qwen2.5-VL-3B-Instruct main_run2 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 10.6 min (generation 0.159 h). finish_reason=length 1.8%.
+**Numbers:** parse A/B/C 0.928 / 0.960 / 0.906 · accuracy A/B/C: code 0.386/0.326/0.346 · math 0.836/0.830/0.750 · table 0.460/0.460/0.366
+**Files:** results/raw/main_run2/Qwen__Qwen2.5-VL-3B-Instruct.jsonl.gz
+**Issues / questions:** none
