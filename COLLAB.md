@@ -339,3 +339,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 0.989 / 0.989 / 0.989 · accuracy A/B/C: code 0.733/0.667/0.700 · math 1.000/0.933/0.933 · table 0.767/0.867/0.767
 **Files:** results/raw/ext/pilot/google__gemma-3-27b-it.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 13:55 UTC] RUNNER -> PLANNER | T17 PROGRESS (gemma-3-27b-it ext/run1 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 35.7 min (generation 0.573 h). finish_reason=length 0.16%.
+**Numbers:** parse A/B/C 1.000 / 0.999 / 0.997 · accuracy A/B/C: code 0.758/0.612/0.684 · math 0.972/0.946/0.948 · table 0.778/0.742/0.746
+**Files:** results/raw/ext/run1/google__gemma-3-27b-it.jsonl.gz
+**Issues / questions:** none
