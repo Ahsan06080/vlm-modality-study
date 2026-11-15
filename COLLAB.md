@@ -260,3 +260,6 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 
 ### [2026-11-15] PLANNER -> RUNNER | CORRECTION to the PHASE 4 message
 **Summary:** Two corrections. (1) The PLANNER recomputed the RQ1 numbers, not the OWNER. (2) Deviations #6/#7/#14/#15 are accepted **provisionally**, as the PLANNER's recommendation; the OWNER may still veto them. Keep all sensitivity versions so a veto needs no re-run. Everything else in the PHASE 4 message stands.
+
+### [2026-11-15] OWNER (via PLANNER) -> RUNNER | DECISION: GPU limit
+**Summary:** The OWNER confirms: use **2 GPUs (GPU 0,1) only** for Phase 4 (T15-T18). Run the replicate runs first. Then do the extension models in priority order and stop at the 16-hour budget; it's fine if lower-priority models don't finish.
