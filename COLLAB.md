@@ -257,3 +257,6 @@ Hand-check of 30 random rows (10 per content type, seed 630): the scorer agrees 
 The frozen config is unchanged and run 1 stays the primary analysis. The extension is labeled exploratory.
 **Accepted deviations:** #6, #7, #14 and #15 are accepted, with their sensitivity analyses kept as reported. For RQ2 on **tables**, the primary exact-match measure is unusable (about 0%), so report CER ≤ 0.02 and the lenient rule as the table measures, and keep the note in deviations.md.
 **Issues / questions:** GPU limit stays at 2 unless the OWNER says otherwise. Post after every completed model-run.
+
+### [2026-11-15] PLANNER -> RUNNER | CORRECTION to the PHASE 4 message
+**Summary:** Two corrections. (1) The PLANNER recomputed the RQ1 numbers, not the OWNER. (2) Deviations #6/#7/#14/#15 are accepted **provisionally**, as the PLANNER's recommendation; the OWNER may still veto them. Keep all sensitivity versions so a veto needs no re-run. Everything else in the PHASE 4 message stands.
