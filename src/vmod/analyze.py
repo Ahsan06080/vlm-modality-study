@@ -51,7 +51,12 @@ def params_b(mid):
     for m in load_config()["models"]["local"]:
         if m["id"] == mid:
             return m["params_b"]
-    return np.nan
+    from .run import find_model  # Phase 4 extension models (config/extension.yaml)
+
+    try:
+        return find_model(load_config(), mid)["params_b"]
+    except StopIteration:
+        return np.nan
 
 
 def wilson(k, n, z=1.959964):
@@ -241,7 +246,7 @@ def figures_t11(df, d):
     plt.close(fig)
 
     # accuracy gap (A - B) vs model size, Qwen family, from the paired Newcombe CIs if available
-    q = [m for m in models if "Qwen" in m]
+    q = [m for m in models if "Qwen2.5" in m]
     if q:
         fig, ax = plt.subplots(figsize=(4.8, 3.4))
         ct_colors = {ct: PALETTE[i] for i, ct in enumerate(CONTENT_TYPES)}

@@ -161,8 +161,84 @@ def main(args=None):
     pk = ["vllm", "torch", "transformers", "datasets", "pillow", "pandas", "numpy", "scipy", "statsmodels", "matplotlib", "rapidfuzz"]
     L += ["## Package versions", "", md(pd.DataFrame([dict(package=p, version=metadata.version(p)) for p in pk])), "",
           "Full lock file: `env/requirements.lock.txt`.", ""]
+    L += phase4_section()
     dev = REPORTS / "deviations.md"
     if dev.exists():
         L += [dev.read_text()]
     (REPORTS / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("wrote reports/summary.md")
+
+
+# ---------------------------------------------------------------- Phase 4 (T15-T18)
+def _opt(name):
+    return t(name) if (AN / name).exists() else None
+
+
+def _sh(df):
+    if df is not None and "model_id" in df:
+        df = df.copy()
+        df["model_id"] = df.model_id.map(short)
+    return df
+
+
+def phase4_section():
+    L = []
+    if not (AN / "replication_full_accuracy.csv").exists():
+        return L
+    L += ["# Phase 4 (added 2026-11-15): replication runs and extension models", "",
+          "Run 1 of the 5 primary models remains the primary analysis. Extension models are exploratory (own Holm families).", ""]
+    for pre, title in (("replication_full", "primary models"), ("ext_replication_full", "extension models (exploratory)")):
+        a = _sh(_opt(f"{pre}_accuracy.csv"))
+        if a is None:
+            continue
+        L += [f"## T16/T18 accuracy across runs, {title}", "", md(a), ""]
+        st = _sh(_opt(f"{pre}_stability.csv"))
+        if st is not None:
+            L += [f"## Item-level stability across 3 runs, {title}", "", md(st), ""]
+        for tag in ("A_vs_B", "A_vs_C"):
+            w = _sh(_opt(f"{pre}_rq1_{tag}_agreement.csv"))
+            if w is None:
+                continue
+            runs = sorted(int(c[-1]) for c in w.columns if c.startswith("sig_holm_run"))
+            cols = ["model_id", "content_type"] + [f"{k}_run{r}" for r in runs for k in ("diff", "p_holm", "sig_holm")] + \
+                   ["n_runs_sig", "sig_agree_all_runs", "direction_agree_all_runs"]
+            L += [f"## RQ1 {tag.replace('_', ' ')} per run (Holm within each run), {title}", "", md(w[cols]), "",
+                  f"- cells significant in all runs: {int((w.n_runs_sig == len(runs)).sum())}; in some but not all: "
+                  f"{int(((w.n_runs_sig > 0) & (w.n_runs_sig < len(runs))).sum())}; in none: {int((w.n_runs_sig == 0).sum())} (of {len(w)})", ""]
+            mv = _sh(_opt(f"{pre}_rq1_{tag}_majority_vote.csv"))
+            if mv is not None:
+                L += [f"## RQ1 {tag.replace('_', ' ')} on majority vote (correct in >= 2 of 3 runs), {title}", "",
+                      md(mv[["model_id", "content_type", "n_pairs", "acc_first", "acc_second", "b_first_only", "c_second_only",
+                             "diff", "diff_ci_lo", "diff_ci_hi", "p_mcnemar_exact", "p_holm"]]), ""]
+        pm = _sh(_opt(f"{pre}_rq1_A_vs_B_permutation_mean.csv"))
+        if pm is not None:
+            L += [f"## RQ1 A vs B paired permutation test on per-item mean correctness (10,000 perms, seed 630), {title}", "", md(pm), ""]
+        pc = _sh(_opt(f"{pre}_rq2_pattern_check.csv"))
+        if pc is not None:
+            L += [f"## RQ2 A−C gap, wrong vs correct transcription, per run, {title}", "", md(pc), ""]
+    for name, title in (("ext_descriptives.csv", "T18 extension run 1: accuracy (95% Wilson CI)"),):
+        d = _sh(_opt(name))
+        if d is not None:
+            L += [f"## {title}", "", md(d[["model_id", "content_type", "condition", "n", "accuracy", "ci95_lo", "ci95_hi",
+                                         "parse_rate", "parse_rate_strict", "pct_finish_length"]]), ""]
+    for fam in ("A_vs_B", "A_vs_C", "B_vs_C"):
+        r = _sh(_opt(f"ext_rq1_{fam}.csv"))
+        if r is not None:
+            L += [f"## T18 extension RQ1 McNemar {fam.replace('_', ' ')} (exploratory; Holm within the extension family)", "",
+                  md(r[["model_id", "content_type", "n_pairs", "acc_first", "acc_second", "b_first_only", "c_second_only", "diff",
+                        "diff_ci_lo", "diff_ci_hi", "p_mcnemar_exact", "p_holm"]]), ""]
+    for name, title, ff in (("ext_rq2_transcription.csv", "T18 extension RQ2 transcription (condition C)", ".3f"),
+                            ("ext_rq2_A_vs_C_by_transcription.csv", "T18 extension RQ2 A vs C split by transcription correctness", ".3f"),
+                            ("ext_rq3_tokens_wilcoxon.csv", "T18 extension RQ3 output tokens A vs B (Wilcoxon, Holm)", ".1f"),
+                            ("combined_gap_A_minus_B_all_models.csv", "T18 A−B gap, all models (run 1)", ".3f"),
+                            ("resolution_check_code_gap.csv", "T18 resolution check: A−B code gap by image handling (descriptive; family is a confound)", ".3f"),
+                            ("resolution_check_code_gap_summary.csv", "T18 resolution check summary", ".3f")):
+        d = _sh(_opt(name))
+        if d is not None:
+            if name == "combined_gap_A_minus_B_all_models.csv":
+                d = d[["model_id", "group", "content_type", "acc_first", "acc_second", "diff", "diff_ci_lo", "diff_ci_hi", "p_holm"]]
+            L += [f"## {title}", "", md(d, ff), ""]
+    ext = ROOT / "logs" / "ext_gate.log"
+    if ext.exists():
+        L += ["## T17 extension pilot gate (G2 rule 1: parse >= 80% in every condition)", "", "```", ext.read_text().strip(), "```", ""]
+    return L
