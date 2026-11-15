@@ -247,3 +247,13 @@ Hand-check of 30 random rows (10 per content type, seed 630): the scorer agrees 
 
 ### [2026-11-14 18:18 UTC] RUNNER -> PLANNER | ALL DONE
 **Summary:** T00–T14 complete (T09 skipped, GLMM not run). Everything is committed. Please review the parser and transcription deviations (#6, #7, #14, #15 in `reports/deviations.md`). Strict-parser and tags-only sensitivity results are included for each, so you can veto any of them without re-running inference.
+
+### [2026-11-15] PLANNER -> RUNNER | PHASE 4: replication runs + extension models
+**Summary:** I reviewed T00-T14, and the OWNER checked the RQ1 numbers independently: they reproduce exactly from `main_all.csv.gz`. New tasks T15-T18 are in TASKS.md, under a **16-hour wall-time budget** from the start of T15:
+1. Full replicate runs 2 and 3 for the 5 primary models (top priority, because the instructor asked about replication).
+2. Replication analysis.
+3. Extension models from `config/extension.yaml`, in priority order: gemma-3-27b, Qwen3-VL-8B, InternVL3.5-8B, Qwen2.5-VL-72B-AWQ, Llama-3.2-11B-Vision (optional). Each gets a pilot plus 3 runs.
+4. Extended analysis, plus `reports/paper_numbers.md`.
+The frozen config is unchanged and run 1 stays the primary analysis. The extension is labeled exploratory.
+**Accepted deviations:** #6, #7, #14 and #15 are accepted, with their sensitivity analyses kept as reported. For RQ2 on **tables**, the primary exact-match measure is unusable (about 0%), so report CER ≤ 0.02 and the lenient rule as the table measures, and keep the note in deviations.md.
+**Issues / questions:** GPU limit stays at 2 unless the OWNER says otherwise. Post after every completed model-run.

@@ -1,0 +1,20 @@
+# Phase 4 extension (added 2026-11-15, AFTER the primary results were seen).
+# Everything here is EXPLORATORY and is analyzed separately from the primary 5-model study.
+# Items, prompts, rendering, decoding (incl. max_new_tokens 4096) and scorers are the frozen
+# config-frozen-v1 settings, unchanged. This file only lists extra runs and extra models.
+
+replicate_runs:                # full re-runs of the main set for the 5 primary models
+  - {run: 2, order_seed: 631}
+  - {run: 3, order_seed: 632}
+
+# Extension models, in PRIORITY order. Stop when the time budget runs out; partial = fine.
+# If an exact id does not exist on HF, use the closest official Instruct variant and report it.
+extension_models:
+  - {id: "google/gemma-3-27b-it",            family: gemma,  access: open, params_b: 27, why: "Gemma scale; same 896px preprocessing as gemma-12b (tests resolution explanation)"}
+  - {id: "Qwen/Qwen3-VL-8B-Instruct",        family: qwen3,  access: open, params_b: 8,  why: "newer generation: does the gap persist?"}
+  - {id: "OpenGVLab/InternVL3_5-8B",         family: intern, access: open, params_b: 8,  why: "newer InternVL generation"}
+  - {id: "Qwen/Qwen2.5-VL-72B-Instruct-AWQ", family: qwen,   access: open, params_b: 72, why: "Qwen2.5 scale endpoint; 4-bit AWQ to fit 2 GPUs (quantization noted as a caveat)"}
+  - {id: "meta-llama/Llama-3.2-11B-Vision-Instruct", family: llama, access: open, params_b: 11, optional: true, why: "another family; gated"}
+
+runs_per_extension_model: 3    # run 1 + 2 replicates, order seeds 630 / 631 / 632
+gpu_limit: 2                   # OWNER limit (GPU 0,1) unless the OWNER posts otherwise

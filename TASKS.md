@@ -194,3 +194,48 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
   - total GPU hours
   - any deviation from the plan
 - Commit everything and post `ALL DONE` in COLLAB.md.
+
+---
+
+## Phase 4: replication runs and extension models (added 2026-11-15)
+
+**Time budget:** 16 hours of wall time from when T15 starts. Hard stop at that point: finish the current run, then go straight to T18 with whatever is complete. Partial results are fine. Never leave a model with only part of a run.
+
+**Rules:**
+- Use the frozen `config-frozen-v1` settings for everything: items, prompts, rendering, decoding (max_new_tokens 4096), scorers and parser. Extra runs and models are listed in `config/extension.yaml`. Do not edit `experiment.yaml` or the prompts.
+- The **primary analysis stays as it is**: run 1 of the 5 primary models. Phase 4 adds a replication analysis and an exploratory extension. It never replaces or overwrites run 1.
+- Output paths: `results/raw/main_run{2,3}/` for replicates and `results/raw/ext/run{1,2,3}/` for extension models. Same schema, plus a `run` column.
+- Post progress in COLLAB.md after every completed model-run, with accuracy per content × condition and wall time. Analyze as you go; don't wait until the end.
+
+### T15 Full replicate runs 2 and 3, primary models: `TODO`
+- Run the main set again for all 5 primary models, twice: run 2 with order seed 631 and run 3 with seed 632. Each run uses a fresh process. Keep the same model revisions as run 1 and check them against `reports/summary.md`.
+- Integrity check per run, the same as T08.
+- **Done when:** 10 model-runs are committed (`.jsonl.gz`).
+
+### T16 Replication analysis: `TODO`
+For the 5 primary models, using runs 1-3:
+- Per model × content × condition: accuracy in each run, the mean, SD and range across runs.
+- Item-level stability: Fleiss' kappa on `correct` across the 3 runs, % of items correct in all 3, in none, or mixed.
+- **Key table:** for each run separately, the RQ1 A vs B McNemar results with Holm correction (15 tests). Show which cells are significant in run 1, run 2 and run 3, and whether the direction and significance agree across runs. Do the same for A vs C.
+- **Sensitivity:**
+  - **Majority vote:** an item counts as correct if it was correct in at least 2 of 3 runs. Re-run the RQ1 McNemar tests and Holm correction on that.
+  - **Mean accuracy:** a paired permutation test on per-item mean correctness (A vs B), 10,000 permutations, seed 630.
+- Re-run RQ2 (A vs C split by transcription correctness, primary and CER ≤ 0.02 rules) on runs 2 and 3, and report whether the code-content pattern holds.
+- **Output:** `results/analysis/replication_full_*.csv` and a figure: accuracy per cell, with the 3 runs as dots.
+
+### T17 Extension models: `TODO`
+Work through `config/extension.yaml → extension_models` in priority order until the time budget runs out. For each model:
+1. Check availability and fit within 2 GPUs. If the model is gated or unavailable, report it and skip it.
+2. Run the pilot set (270 requests). Apply G2 rule 1: keep the model only if the parse rate is at least 80% in every condition. Rule 3 can't change max_new_tokens now (it's frozen at 4096), so only report the % of `finish_reason=length`. Record the effective image resolution handling, as in T06.
+3. Do main runs 1, 2 and 3 (order seeds 630/631/632), with integrity checks.
+4. Score the runs, and post a short report per model.
+- Order runs to make good use of 2 GPUs: TP=1 models in parallel lanes, and TP=2 models (gemma-27b, 72B-AWQ) alone.
+- **Done when:** all extension models are done or skipped, or the time budget has run out. List which models finished.
+
+### T18 Extended analysis and summary update: `TODO`
+- **Extension models, run 1:** the same descriptives, RQ1 (with its **own** Holm family, labeled *exploratory*), RQ2 and RQ3 as T11-T14. Then the same 3-run replication table as T16.
+- **Combined figure:** A−B gap per content type for all models (primary and extension visually distinguished), with 95% CIs. Also a gap-vs-size figure per family (Qwen2.5: 3/7/32/72; Gemma: 12/27).
+- **Resolution check:** compare the A−B code gap for models that resize images (Gemma, InternVL) with those that use native resolution (Qwen), in a table. This is descriptive only; family is a confound, so note that.
+- Update `reports/summary.md`, keeping the earlier sections unchanged and adding a "Phase 4" section. Update `reports/deviations.md`: models were added after the primary results were seen, and 72B is quantized.
+- Write `reports/paper_numbers.md`: a compact index of every number and table the paper will need (RQ1, RQ2, RQ3, replication, extension), each with its source CSV path. **Numbers only. No paper prose.**
+- Post `PHASE 4 DONE`.
