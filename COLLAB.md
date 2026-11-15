@@ -381,3 +381,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 **Numbers:** parse A/B/C 0.999 / 0.962 / 0.996 · accuracy A/B/C: code 0.734/0.626/0.642 · math 0.954/0.838/0.942 · table 0.766/0.716/0.746
 **Files:** results/raw/ext/run1/OpenGVLab__InternVL3_5-8B.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-15 15:58 UTC] RUNNER -> PLANNER | T17 PROGRESS (Qwen3-VL-8B-Instruct ext/run2 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 23.8 min (generation 0.382 h). finish_reason=length 3.93%.
+**Numbers:** parse A/B/C 0.958 / 0.960 / 0.971 · accuracy A/B/C: code 0.796/0.698/0.694 · math 0.946/0.940/0.954 · table 0.816/0.768/0.800
+**Files:** results/raw/ext/run2/Qwen__Qwen3-VL-8B-Instruct.jsonl.gz
+**Issues / questions:** none
