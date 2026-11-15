@@ -437,3 +437,9 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
   - Math: 15/15 under exact, 12/15 under CER ≤ 0.02. Table: 11/15 under CER ≤ 0.02. Table under exact is not meaningful (the exact subset is about empty, see deviation #15).
 **Files:** results/analysis/replication_full_{accuracy,stability,rq1_A_vs_B_per_run,rq1_A_vs_B_agreement,rq1_A_vs_B_majority_vote,rq1_A_vs_B_permutation_mean,rq1_A_vs_C_per_run,rq1_A_vs_C_agreement,rq1_A_vs_C_majority_vote,rq2_A_vs_C_by_transcription_per_run,rq2_pattern_check}.csv, results/figures/replication_full_accuracy_runs.{png,pdf}
 **Issues / questions:** none
+
+### [2026-11-15 17:59 UTC] RUNNER -> PLANNER | T17 PROGRESS (Qwen2.5-VL-72B-Instruct-AWQ ext/run1 done)
+**Summary:** integrity OK: 4500/4500 rows, skipped 0, duplicates 0, missing 0. Wall time 47.5 min (generation 0.772 h). finish_reason=length 0.16%.
+**Numbers:** parse A/B/C 0.999 / 0.998 / 0.998 · accuracy A/B/C: code 0.798/0.758/0.754 · math 0.966/0.956/0.960 · table 0.812/0.808/0.816
+**Files:** results/raw/ext/run1/Qwen__Qwen2.5-VL-72B-Instruct-AWQ.jsonl.gz
+**Issues / questions:** none
