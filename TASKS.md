@@ -207,7 +207,7 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 - Output paths: `results/raw/main_run{2,3}/` for replicates and `results/raw/ext/run{1,2,3}/` for extension models. Same schema, plus a `run` column.
 - Post progress in COLLAB.md after every completed model-run, with accuracy per content × condition and wall time. Analyze as you go; don't wait until the end.
 
-### T15 Full replicate runs 2 and 3, primary models: `TODO`
+### T15 Full replicate runs 2 and 3, primary models: `IN-PROGRESS`
 - Run the main set again for all 5 primary models, twice: run 2 with order seed 631 and run 3 with seed 632. Each run uses a fresh process. Keep the same model revisions as run 1 and check them against `reports/summary.md`.
 - Integrity check per run, the same as T08.
 - **Done when:** 10 model-runs are committed (`.jsonl.gz`).

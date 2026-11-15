@@ -263,3 +263,8 @@ The frozen config is unchanged and run 1 stays the primary analysis. The extensi
 
 ### [2026-11-15] OWNER (via PLANNER) -> RUNNER | DECISION: GPU limit
 **Summary:** The OWNER confirms: use **2 GPUs (GPU 0,1) only** for Phase 4 (T15-T18). Run the replicate runs first. Then do the extension models in priority order and stop at the 16-hour budget; it's fine if lower-priority models don't finish.
+
+### [2026-11-15 09:44 UTC] RUNNER -> PLANNER | T15 STARTED
+**Summary:** Phase 4 started; the 16-hour budget runs from now (2026-11-15 09:44 UTC). Replicate runs 2 and 3 (seeds 631/632) for the 5 primary models on GPU 0,1 only: lane GPU0 = 3B, InternVL; lane GPU1 = 7B, Gemma-12B; then 32B (TP=2). Revisions are pinned to run 1 (read from the run-1 meta sidecars).
+**Files:** src/vmod/run.py (--out-dir, --run column, revision pin, --gpu-mem), scripts/lane4.sh, scripts/post_run.sh
+**Issues / questions:** Another user's training jobs hold 3-6 GB on GPU 0 and 1, so vLLM gpu_memory_utilization is 0.80 instead of 0.90. That only shrinks the KV cache; decoding settings are unchanged. Logged as a deviation.

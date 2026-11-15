@@ -13,3 +13,5 @@ hf_cache/
 .pytest_cache/
 *.egg-info/
 results/raw/main/*.jsonl
+results/raw/main_run*/*.jsonl
+results/raw/ext/run*/*.jsonl

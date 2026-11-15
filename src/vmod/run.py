@@ -26,7 +26,7 @@ MODEL_SETTINGS = {
 
 def load_set(set_name: str, limit: int | None):
     items = []
-    base = "pilot" if set_name.startswith("pilot") else set_name
+    base = "pilot" if "pilot" in set_name else "main"  # main, main_run2, ext/run1 -> main items; pilot* / ext/pilot -> pilot
     for ct in CONTENT_TYPES:
         rows = [json.loads(l) for l in open(DATA / "items" / f"{base}_{ct}.jsonl", encoding="utf-8")]
         items += rows[:limit] if limit else rows
@@ -41,13 +41,33 @@ def image_shas():
     return out
 
 
+def find_model(cfg, model_id):
+    """Primary models from experiment.yaml, Phase 4 extension models from extension.yaml."""
+    for m in cfg["models"]["local"]:
+        if m["id"] == model_id:
+            return m
+    import yaml
+    from .config import ROOT
+    ext = yaml.safe_load(open(ROOT / "config" / "extension.yaml", encoding="utf-8"))
+    return next(m for m in ext["extension_models"] if m["id"] == model_id)
+
+
+def pinned_revision(model_id):
+    """Phase 4: replicate runs must use the run-1 revision (from its meta sidecar) when one exists."""
+    for set_dir in ("main", "ext/run1", "ext/pilot", "pilot"):
+        p = RESULTS / "raw" / set_dir / f"{model_slug(model_id)}.jsonl.meta.json"
+        if p.exists():
+            return json.loads(p.read_text())["model_revision"]
+    return None
+
+
 def main(args):
     cfg = load_config()
-    mcfg = next(m for m in cfg["models"]["local"] if m["id"] == args.model)
+    mcfg = find_model(cfg, args.model)
     dec = cfg["decoding"]
     settings = MODEL_SETTINGS[mcfg["family"]]
     tp = args.tp or (2 if mcfg["params_b"] > 20 else 1)
-    set_name = args.set + args.out_suffix
+    set_name = args.out_dir or (args.set + args.out_suffix)
     out_dir = RESULTS / "raw" / set_name
     out_dir.mkdir(parents=True, exist_ok=True)
     slug = model_slug(args.model)
@@ -77,18 +97,19 @@ def main(args):
     from PIL import Image
     from vllm import LLM, SamplingParams
 
-    revision = HfApi().model_info(args.model).sha
+    revision = (None if args.out_dir is None and args.run == 1 else pinned_revision(args.model)) or HfApi().model_info(args.model).sha
     max_len = 16384
     llm = LLM(model=args.model, revision=revision, tensor_parallel_size=tp, max_model_len=max_len,
               limit_mm_per_prompt={"image": 1, "video": 0}, mm_processor_kwargs=settings["mm_processor_kwargs"],
               hf_overrides=settings.get("hf_overrides"),
               trust_remote_code=settings.get("trust_remote_code", False), seed=cfg["seed"],
-              gpu_memory_utilization=0.90, max_num_seqs=128)
+              gpu_memory_utilization=args.gpu_mem, max_num_seqs=128, **settings.get("llm_kwargs", {}))
     sp = SamplingParams(temperature=dec["temperature"], top_p=dec["top_p"], max_tokens=dec["max_new_tokens"],
                         n=dec["n"], seed=cfg["seed"])
     write_meta_sidecar(out_path, model_id=args.model, model_revision=revision, tensor_parallel_size=tp,
                        max_model_len=max_len, mm_processor_kwargs=settings["mm_processor_kwargs"],
-                       hf_overrides=settings.get("hf_overrides"), resolution_note=settings["resolution_note"], decoding=dec,
+                       hf_overrides=settings.get("hf_overrides"), resolution_note=settings["resolution_note"], decoding=dec, run=args.run, order_seed=args.shuffle_seed,
+                       gpu_memory_utilization=args.gpu_mem,
                        vllm_version=__import__("vllm").__version__, chat_template="model default (llm.chat), no system message")
 
     def messages(it, cond):
@@ -106,7 +127,7 @@ def main(args):
                     model_revision=revision, prompt_sha256=sha256_text(text),
                     image_sha256=None if cond == "A_text" else shas[it["item_id"]], response=c.text,
                     input_tokens=len(o.prompt_token_ids), output_tokens=len(c.token_ids), finish_reason=c.finish_reason,
-                    started_utc=started, gen_seconds=round(secs, 4))
+                    started_utc=started, gen_seconds=round(secs, 4), run=args.run)
 
     chunk = args.chunk
     skipf_new = not skip_path.exists()
