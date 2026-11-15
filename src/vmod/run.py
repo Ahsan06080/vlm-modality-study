@@ -19,6 +19,10 @@ MODEL_SETTINGS = {
                  resolution_note="Qwen2.5-VL native resolution; smart_resize rounds each side to a multiple of 28 (<=14 px change), max_pixels 12.8 MP > largest image, so no downscaling"),
     "intern": dict(mm_processor_kwargs={}, hf_overrides={"max_dynamic_patch": 24}, trust_remote_code=True,
                    resolution_note="InternVL3 dynamic tiling, 448 px tiles, max_dynamic_patch=24 (+thumbnail); image is resized to the closest tile grid (can up- or downscale slightly)"),
+    # Phase 4 extension: Qwen3-VL (patch 16, merge 2 -> sides rounded to multiples of 32). Default shortest_edge 65536 px
+    # would UPSCALE 11 small images; lowered to 4096 px so no image is rescaled beyond the 32-px rounding (verified).
+    "qwen3": dict(mm_processor_kwargs={"size": {"shortest_edge": 4096, "longest_edge": 16777216}},
+                  resolution_note="Qwen3-VL native resolution; sides rounded to a multiple of 32 (<=16 px change), min 4096 px / max 16.8 MP, so no up- or downscaling"),
     "gemma": dict(mm_processor_kwargs={"do_pan_and_scan": True},
                   resolution_note="Gemma 3 SigLIP encoder is fixed at 896x896: every image is resized to 896x896 (DOWNSCALES wide images); pan-and-scan adds 896x896 crops of the full-resolution image"),
 }

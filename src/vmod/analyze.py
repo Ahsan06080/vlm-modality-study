@@ -468,6 +468,10 @@ def main(args):
 
         replication_check()
         return 0
+    if what in ("replication_full", "ext_replication"):
+        from .replication import main as rep
+
+        return rep("primary" if what == "replication_full" else "ext")
     df = load_scored()
     if what in ("all", "t11", "desc"):
         descriptives(df)
