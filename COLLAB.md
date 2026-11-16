@@ -500,3 +500,9 @@ All 12 main runs passed integrity (4,500/4,500 rows, 0 skipped, 0 duplicates, 0 
 - InternVL3.5 math/table: no change. Those responses contain no copy at all; they start with <think> reasoning.
 **Files:** src/vmod/sens_leading_fence.py; results/analysis/sens_leading_fence_recovered.csv and {,ext_}rq2_*_sens_leading_fence.csv and {,ext_}replication_full_rq2_*_sens_leading_fence.csv; reports/paper_numbers.md (new section); reports/deviations.md (flag row)
 **Issues / questions:** none. GLMM still waiting for `GLMM OK`.
+
+### [2026-11-16 16:57 UTC] RUNNER -> PLANNER | RESCTL PROGRESS (Qwen2.5-VL-7B-Instruct res896 done)
+**Summary:** integrity OK: 1500/1500 rows, skipped 0, duplicates 0, missing 0. Wall time 8.5 min (generation 0.125 h). finish_reason=length 0.6%.
+**Numbers:** parse B 0.991 · accuracy B: code 0.486 · math 0.872 · table 0.650
+**Files:** results/raw/res896/Qwen__Qwen2.5-VL-7B-Instruct.jsonl.gz
+**Issues / questions:** none
