@@ -22,7 +22,9 @@ def check(model_id: str, set_name: str = "main") -> dict:
     seen = Counter((r["item_id"], r["condition"]) for r in rows)
     sk = RESULTS / "raw" / set_name / f"{slug}.skipped.csv"
     skipped = {(r["item_id"], r["condition"]) for r in csv.DictReader(open(sk, encoding="utf-8"))} if sk.exists() else set()
-    expected = {(it["item_id"], c) for it in load_set(set_name, None) for c in CONDITIONS}
+    mp = RESULTS / "raw" / set_name / f"{slug}.jsonl.meta.json"
+    conds = json.loads(mp.read_text()).get("conditions") or CONDITIONS if mp.exists() else CONDITIONS
+    expected = {(it["item_id"], c) for it in load_set(set_name, None) for c in conds}
     dup = [k for k, v in seen.items() if v > 1]
     missing = expected - set(seen) - skipped
     extra = set(seen) - expected
@@ -34,8 +36,8 @@ def check(model_id: str, set_name: str = "main") -> dict:
     res = dict(model_id=model_id, ok=ok, rows=len(rows), expected=len(expected), skipped=len(skipped),
                duplicates=len(dup), missing=len(missing), extra=len(extra),
                pct_length=round(100 * (df.finish_reason == "length").mean(), 2),
-               parse={c: round(parse.get(c, float("nan")), 3) for c in CONDITIONS},
-               acc={ct: {c: round(acc.loc[ct, c], 3) for c in CONDITIONS} for ct in acc.index},
+               parse={c: round(parse.get(c, float("nan")), 3) for c in conds},
+               acc={ct: {c: round(acc.loc[ct, c], 3) for c in conds} for ct in acc.index},
                gen_hours=round(df.gen_seconds.sum() / 3600, 3))
     if ok:
         with open(p, "rb") as fi, gzip.open(str(p) + ".gz", "wb", compresslevel=9) as fo:

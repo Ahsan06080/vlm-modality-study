@@ -69,7 +69,15 @@ def main(args):
     cfg = load_config()
     mcfg = find_model(cfg, args.model)
     dec = cfg["decoding"]
-    settings = MODEL_SETTINGS[mcfg["family"]]
+    settings = dict(MODEL_SETTINGS[mcfg["family"]])
+    # resolution control: override processor kwargs (e.g. Gemma do_pan_and_scan=false) and/or stretch images to 896x896
+    if getattr(args, "mm_override", None):
+        settings["mm_processor_kwargs"] = {**settings["mm_processor_kwargs"], **json.loads(args.mm_override)}
+        settings["resolution_note"] += f"; RESOLUTION CONTROL override {args.mm_override}"
+    variant = getattr(args, "image_variant", "native")
+    if variant == "896":
+        settings["resolution_note"] += ("; RESOLUTION CONTROL: every image stretched to 896x896 (PIL BILINEAR, no pad) before the "
+                                        "processor, as Gemma3ImageProcessor does (resample=2); image_sha256 = sha256 of resized RGB pixel bytes")
     tp = args.tp or (2 if mcfg["params_b"] > 20 else 1)
     set_name = args.out_dir or (args.set + args.out_suffix)
     out_dir = RESULTS / "raw" / set_name
@@ -88,7 +96,9 @@ def main(args):
 
     items = load_set(args.set, args.limit)
     shas = image_shas()
-    reqs = [(it, c) for it in items for c in CONDITIONS if (it["item_id"], c) not in done]
+    conds = args.conditions.split(",") if getattr(args, "conditions", None) else CONDITIONS
+    assert all(c in CONDITIONS for c in conds), conds
+    reqs = [(it, c) for it in items for c in conds if (it["item_id"], c) not in done]
     if getattr(args, "shuffle_seed", None) is not None:
         random.Random(args.shuffle_seed).shuffle(reqs)
     print(f"{args.model}: {len(reqs)} requests to run ({len(done)} already done)", flush=True)
@@ -113,8 +123,10 @@ def main(args):
     write_meta_sidecar(out_path, model_id=args.model, model_revision=revision, tensor_parallel_size=tp,
                        max_model_len=max_len, mm_processor_kwargs=settings["mm_processor_kwargs"],
                        hf_overrides=settings.get("hf_overrides"), resolution_note=settings["resolution_note"], decoding=dec, run=args.run, order_seed=args.shuffle_seed,
-                       gpu_memory_utilization=args.gpu_mem,
+                       gpu_memory_utilization=args.gpu_mem, conditions=conds, image_variant=variant,
                        vllm_version=__import__("vllm").__version__, chat_template="model default (llm.chat), no system message")
+
+    img_sha = {}
 
     def messages(it, cond):
         text = build_prompt(it["content_type"], cond, it["content"])
@@ -122,6 +134,9 @@ def main(args):
             content = [{"type": "text", "text": text}]
         else:
             img = Image.open(image_path(it["item_id"])).convert("RGB")
+            if variant == "896":
+                img = img.resize((896, 896), Image.BILINEAR)
+                img_sha[it["item_id"]] = hashlib.sha256(img.tobytes()).hexdigest()
             content = [{"type": "image_pil", "image_pil": img}, {"type": "text", "text": text}]
         return [{"role": "user", "content": content}], text
 
@@ -129,7 +144,7 @@ def main(args):
         c = o.outputs[0]
         return dict(item_id=it["item_id"], content_type=it["content_type"], condition=cond, model_id=args.model,
                     model_revision=revision, prompt_sha256=sha256_text(text),
-                    image_sha256=None if cond == "A_text" else shas[it["item_id"]], response=c.text,
+                    image_sha256=None if cond == "A_text" else img_sha.get(it["item_id"], shas[it["item_id"]]), response=c.text,
                     input_tokens=len(o.prompt_token_ids), output_tokens=len(c.token_ids), finish_reason=c.finish_reason,
                     started_utc=started, gen_seconds=round(secs, 4), run=args.run)
 

@@ -1,0 +1,19 @@
+# study_id: vlm-modality-v1
+# git_commit: 6bd2e201ad4e9e276042ba1db4a91b68fed2fe6b-dirty
+# created_utc: 2026-11-16T16:49:52Z
+model_id,content_type,n_runs,n_sig_same_dir,sig_direction,replicates,sig_run1,n_runs_agree_with_run1,diff_run1,diff_mean,diff_min,diff_max,max_abs_diff_across_runs,rule
+OpenGVLab/InternVL3-8B,code,3,3,A>B,True,True,2,0.126,0.122,0.11,0.13,0.02,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+OpenGVLab/InternVL3-8B,math,3,3,A>B,True,True,2,0.056,0.0546667,0.052,0.056,0.004,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+OpenGVLab/InternVL3-8B,table,3,2,A>B,True,False,0,0.06,0.078,0.06,0.088,0.028,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-32B-Instruct,code,3,3,A>B,True,True,2,0.082,0.0833333,0.082,0.086,0.004,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-32B-Instruct,math,3,0,none,False,False,2,0.016,0.016,0.016,0.016,0,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-32B-Instruct,table,3,0,none,False,False,2,0.018,0.0286667,0.018,0.036,0.018,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-3B-Instruct,code,3,0,none,False,False,2,0.044,0.0526667,0.044,0.06,0.016,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-3B-Instruct,math,3,0,none,False,False,2,0.022,0.0226667,0.006,0.04,0.034,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-3B-Instruct,table,3,0,none,False,False,2,-0.026,-0.0186667,-0.03,0,0.03,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-7B-Instruct,code,3,0,none,False,False,2,0.034,0.038,0.034,0.044,0.01,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-7B-Instruct,math,3,0,none,False,False,2,0,0.000666667,-0.002,0.004,0.006,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+Qwen/Qwen2.5-VL-7B-Instruct,table,3,0,none,False,False,2,-0.038,-0.0366667,-0.04,-0.032,0.008,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+google/gemma-3-12b-it,code,3,3,A>B,True,True,2,0.194,0.193333,0.188,0.198,0.01,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+google/gemma-3-12b-it,math,3,0,none,False,False,2,0.014,0.0166667,0.014,0.018,0.004,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
+google/gemma-3-12b-it,table,3,1,A>B,False,True,0,0.086,0.0686667,0.058,0.086,0.028,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs

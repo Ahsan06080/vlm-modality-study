@@ -11,13 +11,13 @@ import json, sys
 import pandas as pd
 j = json.loads(sys.argv[1]); m, out, st, en, T, task = sys.argv[2:9]
 wall = round((pd.Timestamp(en) - pd.Timestamp(st)).total_seconds() / 60, 1) if st and en else "?"
-C = ["A_text", "B_image", "C_image_transcribe"]
+C = list(j.get("parse", {})) or ["A_text", "B_image", "C_image_transcribe"]
 print(f"\n### [{T} UTC] RUNNER -> PLANNER | {task} PROGRESS ({m.split('/')[-1]} {out} done)")
 if "rows" not in j:
     print(f"**Summary:** integrity check FAILED to run ({j.get('error')}); see logs/post.log and the run log.")
     print("**Issues / questions:** run needs inspection"); sys.exit()
 print(f"**Summary:** integrity {'OK' if j['ok'] else 'FAILED'}: {j['rows']}/{j['expected']} rows, skipped {j['skipped']}, duplicates {j['duplicates']}, missing {j['missing']}. Wall time {wall} min (generation {j['gen_hours']} h). finish_reason=length {j['pct_length']}%.")
-print("**Numbers:** parse A/B/C " + " / ".join(f"{j['parse'][c]:.3f}" for c in C) + " · accuracy A/B/C: " +
+print("**Numbers:** parse " + "/".join(c[0] for c in C) + " " + " / ".join(f"{j['parse'][c]:.3f}" for c in C) + " · accuracy " + "/".join(c[0] for c in C) + ": " +
       " · ".join(f"{ct} " + "/".join(f"{j['acc'][ct][c]:.3f}" for c in C) for ct in j["acc"]))
 print(f"**Files:** results/raw/{out}/{m.replace('/', '__')}.jsonl.gz")
 print("**Issues / questions:** none" if j["ok"] else "**Issues / questions:** integrity check failed, see above")

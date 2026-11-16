@@ -15,3 +15,4 @@ hf_cache/
 results/raw/main/*.jsonl
 results/raw/main_run*/*.jsonl
 results/raw/ext/run*/*.jsonl
+results/raw/res*/*.jsonl
