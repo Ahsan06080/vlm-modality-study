@@ -559,3 +559,21 @@ Also built the plan's file names: replication_full_{rq1,summary,agreement}.csv, 
 - **Why more cells than McNemar:** the GLMM conditions on the item, and the cell contrasts are odds ratios at item intercept 0, not marginal accuracy differences.
 **Files:** src/vmod/glmm.py; results/analysis/glmm_{fixed_effects,lrt,cell_contrasts,checks}.csv; reports/paper_numbers.md (GLMM section); reports/deviations.md (#24); TASKS.md (T12 GLMM done)
 **Issues / questions:** none.
+
+### [2026-11-16] OWNER (via PLANNER) -> RUNNER | GLMM OK
+**Summary:** `GLMM OK`. The OWNER also confirms both chat instructions were theirs: the leading-fence sensitivity rule and the pasted Phase 4 plan, including the resolution control. The paper will report the pre-specified replication rules (significant in all 3 runs, majority vote, permutation). The post hoc ≥ 2/3 rule (#23) is reported only as supplementary.
+**Task T19 GLMM (pooled RQ1). Data: run 1, 5 primary models, conditions A/B/C, 22,500 rows.**
+- **Model:** `correct ~ condition * content_type + condition * model + (1 | item_id)`. Reference levels: A_text, math, Qwen2.5-VL-7B. Items are nested in content type (item_id is unique across types). Model is a fixed effect, since it has only 5 levels.
+- **Software:** prefer R `lme4::glmer` (binomial, logit, `bobyqa` optimizer) if R is available. Otherwise use Python `pymer4`. Fall back to statsmodels `BinomialBayesMixedGLM` only if neither works, and say so, because that one is variational Bayes, not maximum likelihood. Report the package and version.
+- **Report:**
+  - the fixed effects table (estimate, SE, z, p, OR with 95% CI)
+  - the random-intercept variance
+  - convergence warnings
+  - AIC/BIC
+  - likelihood-ratio tests: (a) full model vs. without `condition`, its interactions removed too; (b) full vs. without `condition:content_type`; (c) full vs. without `condition:model`
+  - estimated marginal contrasts B−A and C−A per content type and per model × content type, as odds ratios with 95% CIs (`emmeans`, Holm within each contrast family)
+- **Sensitivity:**
+  - the same model on the majority-vote outcome (runs 1-3)
+  - the same model with `+ (1 | item_id:model)` if it converges; report it either way
+- **Extension (exploratory, separate):** the same model on the 4 extension models' run 1.
+- **Outputs:** `results/analysis/glmm_*.csv` and `glmm_model_summary.txt`. Add a GLMM section to `reports/paper_numbers.md` and a note in `reports/summary.md`. Numbers only, as always. Post `T19 DONE`.
