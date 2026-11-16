@@ -200,6 +200,49 @@ def main(args=None):
               md(w.reset_index(), ".4f"), "",
               f"- checks (run 1): GH 40 vs 80 nodes and statsmodels VB — source: {SRC('glmm_checks.csv')}", ""]
 
+    # T19 GLMM (PLANNER spec 2026-11-16): reference levels A_text / math / Qwen2.5-VL-7B, emmeans-style contrasts
+    fi = _r("glmm_t19_fit_info.csv")
+    if fi is not None:
+        fe, re_, lr, ct, vb = (_r(f"glmm_t19_{n}.csv") for n in ("fixed_effects", "random_effects", "lrt", "emm_contrasts",
+                                                                   "vb_fallback_fixed_effects"))
+        prim = "primary run 1"
+        esc = lambda df: df.assign(fit=df.fit.str.replace("|", "\\|", regex=False))
+        L += ["## T19 GLMM: correct ~ condition * content_type + condition * model + (1 | item_id)",
+              "- reference levels: A_text, math, Qwen2.5-VL-7B (extension fit: Qwen3-VL-8B); exact ML, Gauss-Hermite quadrature "
+              "(40 nodes; nested fit 25 x 25); R/lme4 and pymer4 not installed — "
+              f"model summaries: `results/analysis/glmm_model_summary.txt`", "",
+              "### Fit information (all fits)", f"source: {SRC('glmm_t19_fit_info.csv')}", "",
+              md(esc(fi)[["fit", "n_obs", "n_items", "n_par", "loglik", "aic", "bic", "converged", "max_scaled_gradient", "warnings"]], ".6g"), "",
+              "### Random effects", f"source: {SRC('glmm_t19_random_effects.csv')}", "",
+              md(esc(re_)[["fit", "group", "variance", "var_ci_lo", "var_ci_hi", "sd", "icc_latent_total"]], ".4f"), "",
+              "### Fixed effects, primary run 1", f"source: {SRC('glmm_t19_fixed_effects.csv')}", "",
+              md(fe[fe.fit == prim][["term", "estimate", "se", "z", "p_value", "odds_ratio", "or_ci_lo", "or_ci_hi"]], ".4f"), "",
+              "### Likelihood-ratio tests", f"source: {SRC('glmm_t19_lrt.csv')}", "",
+              md(esc(lr)[["fit", "test", "loglik_full", "loglik_reduced", "chisq", "df", "p_value"]], ".4g"), ""]
+        avg = ct[ct.model == "(average of models)"]
+        cell = ct[ct.model != "(average of models)"]
+        nsig = cell.assign(sig=cell.p_holm < .05).groupby(["fit", "contrast"]).sig.sum().reset_index(name="n_cells_p_holm_lt_05")
+        L += ["### emmeans-style contrasts per content type (models averaged; OR = odds(B or C) / odds(A); Holm over 3)",
+              f"source: {SRC('glmm_t19_emm_contrasts.csv')}", "",
+              md(esc(avg)[["fit", "contrast", "content_type", "odds_ratio", "or_ci_lo", "or_ci_hi", "p_value", "p_holm"]], ".4g"), "",
+              "### Per model × content type: cells with p_holm < .05 (Holm over 15 per contrast per fit; 12 for the extension)",
+              f"source: {SRC('glmm_t19_emm_contrasts.csv')}", "", md(esc(nsig)), "",
+              "### Per model × content type, primary run 1", f"source: {SRC('glmm_t19_emm_contrasts.csv')}", "",
+              md(cell[cell.fit == prim][["contrast", "model", "content_type", "odds_ratio", "or_ci_lo", "or_ci_hi", "p_value", "p_holm"]], ".4g"), ""]
+        x = fe[fe.fit == prim].merge(vb, on="term")
+        L += ["### Spec fallback: statsmodels BinomialBayesMixedGLM (variational Bayes, not ML), primary run 1",
+              f"source: {SRC('glmm_t19_vb_fallback_fixed_effects.csv')}", "",
+              f"- max |ML estimate − VB posterior mean| over {len(x)} fixed effects: {(x.estimate - x.posterior_mean).abs().max():.3f}; "
+              f"VB sd(item) {vb.sd_item_intercept.iloc[0]:.3f} vs ML {re_[(re_.fit == prim)].sd.iloc[0]:.3f}",
+              ""]
+        qc = _r("glmm_t19_nested_quadrature_check.csv")
+        if qc is not None:
+            sd = qc[qc.term.str.startswith("sd(")]
+            L += [f"- nested fit quadrature check, 25 x 25 vs 35 x 35 nodes: log-lik {qc.loglik_25x25.iloc[0]:.2f} vs "
+                  f"{qc.loglik_35x35.iloc[0]:.2f}; max |difference| over all parameters {qc.abs_diff.max():.4f}; sds "
+                  + ", ".join(f"{r.term} {r.est_25x25:.3f} vs {r.est_35x35:.3f}" for r in sd.itertuples())
+                  + f" — source: {SRC('glmm_t19_nested_quadrature_check.csv')}", ""]
+
     # OWNER Phase 4 plan files (2026-11-16)
     s = _r("replication_full_summary.csv")
     if s is not None:

@@ -1,0 +1,8 @@
+# study_id: vlm-modality-v1
+# git_commit: bf68344fbbbf27e77db3f3ed30da9640b9680ef7
+# created_utc: 2026-11-16T21:09:35Z
+fit,n_obs,n_items,n_fixed,n_par,loglik,aic,bic,converged,optimizer,optimizer_message,n_iter,max_abs_gradient,max_scaled_gradient,min_hessian_eigenvalue,warnings,seconds
+primary run 1,22500,1500,21,22,-9060.67,18165.3,18341.8,True,scipy L-BFGS-B (analytic gradient),CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH,73,0.000189619,7.11402e-07,7.12779,none,14.4
+sensitivity: majority vote (runs 1-3),22500,1500,21,22,-8878.74,17801.5,17978,True,scipy L-BFGS-B (analytic gradient),CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH,71,5.64567e-05,2.00379e-06,6.99459,none,13.6
+"sensitivity: + (1 | item_id:model), run 1",22500,1500,21,23,-8791.13,17628.3,17812.7,True,scipy L-BFGS-B (analytic gradient),CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH,77,3.13123e-05,1.36447e-06,5.37565,none,181
+extension (exploratory) run 1,18000,1500,18,19,-5475.1,10988.2,11136.4,True,scipy L-BFGS-B (analytic gradient),CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH,71,4.66181e-05,1.58749e-06,2.9782,none,5.2

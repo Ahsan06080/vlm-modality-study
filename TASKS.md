@@ -240,3 +240,11 @@ Work through `config/extension.yaml → extension_models` in priority order unti
 - Update `reports/summary.md`, keeping the earlier sections unchanged and adding a "Phase 4" section. Update `reports/deviations.md`: models were added after the primary results were seen, and 72B is quantized.
 - Write `reports/paper_numbers.md`: a compact index of every number and table the paper will need (RQ1, RQ2, RQ3, replication, extension), each with its source CSV path. **Numbers only. No paper prose.**
 - Post `PHASE 4 DONE`.
+
+### T19 GLMM, pooled RQ1 (PLANNER spec in COLLAB.md, 2026-11-16): `DONE`
+- Full spec: COLLAB.md, "OWNER (via PLANNER) -> RUNNER | GLMM OK".
+- `correct ~ condition * content_type + condition * model + (1 | item_id)`; reference levels A_text, math, Qwen2.5-VL-7B; run 1, 5 primary models.
+- Software: R/lme4 and pymer4 are not installed on the server. Primary: exact ML (Gauss-Hermite quadrature, `src/vmod/glmm.py`, deviation #24). The spec's fallback, statsmodels BinomialBayesMixedGLM (variational Bayes), is reported alongside.
+- Report: fixed effects, random-intercept variance, convergence, AIC/BIC, 3 LRTs, emmeans-style B−A and C−A odds ratios per content type and per model × content (Holm within each family).
+- Sensitivities: majority-vote outcome; `+ (1 | item_id:model)`. Extension (exploratory): 4 extension models, run 1.
+- Outputs: `results/analysis/glmm_t19_*.csv`, `results/analysis/glmm_model_summary.txt`, a paper_numbers section, a summary.md note. Post `T19 DONE`.

@@ -1,0 +1,150 @@
+Software: Python 3.12.13, numpy 2.3.5, scipy 1.18.1, patsy 1.0.3, statsmodels 0.15.0. In-house exact-ML GLMM (src/vmod/glmm.py GHGLMM, src/vmod/glmm_t19.py NestedGHGLMM). R/lme4 and pymer4 not installed on the server.
+Contrasts: emmeans-style, link scale, random effects at 0; per-content-type contrasts average the models with equal weights; odds ratio = odds(B or C) / odds(A). Holm within each family (contrast x grouping).
+AIC/BIC: k = fixed effects + random-effect SDs; BIC uses n = number of observations (as lme4).
+
+=== primary run 1 ===
+Generalized linear mixed model fit by maximum likelihood (Gauss-Hermite quadrature)
+  Family: binomial ( logit )
+  Formula: correct ~ condition * content_type + condition * model + (1 | item_id)
+  Reference levels: condition=A_text, content_type=math, model=Qwen2.5-VL-7B
+  Quadrature: 40 nodes
+  Observations: 22500; items: 1500
+       AIC        BIC     logLik   deviance
+   18165.34   18341.81   -9060.67   18121.34
+Random effects:
+  item_id          (Intercept)  Variance 5.0011  Std.Dev. 2.2363
+Fixed effects:
+  term                                                        Estimate   Std.Err        z   Pr(>|z|)
+  Intercept                                                     3.3752    0.1608   20.984    9.1e-98
+  condition[T.B_image]                                          0.0205    0.1517    0.135      0.893
+  condition[T.C_image_transcribe]                              -0.0559    0.1518   -0.368      0.713
+  content_type[T.code]                                         -3.0660    0.1853  -16.548   1.66e-61
+  content_type[T.table]                                        -2.8417    0.1864  -15.244    1.8e-52
+  model[T.InternVL3-8B]                                         0.5502    0.1104    4.984   6.22e-07
+  model[T.Qwen2.5-VL-32B]                                       1.8248    0.1237   14.749   3.13e-49
+  model[T.Qwen2.5-VL-3B]                                       -0.9923    0.1057   -9.390   5.98e-21
+  model[T.gemma-3-12b]                                          1.1288    0.1152    9.800   1.13e-22
+  condition[T.B_image]:content_type[T.code]                    -0.3178    0.1430   -2.223     0.0262
+  condition[T.C_image_transcribe]:content_type[T.code]         -0.2542    0.1437   -1.769     0.0768
+  condition[T.B_image]:content_type[T.table]                    0.2736    0.1411    1.939     0.0526
+  condition[T.C_image_transcribe]:content_type[T.table]         0.3402    0.1420    2.396     0.0166
+  condition[T.B_image]:model[T.InternVL3-8B]                   -0.7347    0.1541   -4.768   1.86e-06
+  condition[T.C_image_transcribe]:model[T.InternVL3-8B]        -0.4625    0.1545   -2.994    0.00275
+  condition[T.B_image]:model[T.Qwen2.5-VL-32B]                 -0.4778    0.1694   -2.821    0.00479
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B]      -0.1784    0.1712   -1.042      0.297
+  condition[T.B_image]:model[T.Qwen2.5-VL-3B]                  -0.1256    0.1490   -0.843      0.399
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B]       -0.3897    0.1489   -2.618    0.00885
+  condition[T.B_image]:model[T.gemma-3-12b]                    -0.9690    0.1584   -6.119   9.44e-10
+  condition[T.C_image_transcribe]:model[T.gemma-3-12b]         -0.5940    0.1593   -3.729   0.000192
+Convergence: CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH; iterations 73; max |gradient| 0.00019; max scaled gradient 7.1e-07; min Hessian eigenvalue 7.13
+Convergence warnings: none
+
+=== sensitivity: majority vote (runs 1-3) ===
+Generalized linear mixed model fit by maximum likelihood (Gauss-Hermite quadrature)
+  Family: binomial ( logit )
+  Formula: correct ~ condition * content_type + condition * model + (1 | item_id)
+  Reference levels: condition=A_text, content_type=math, model=Qwen2.5-VL-7B
+  Quadrature: 40 nodes
+  Observations: 22500; items: 1500
+       AIC        BIC     logLik   deviance
+   17801.48   17977.95   -8878.74   17757.48
+Random effects:
+  item_id          (Intercept)  Variance 5.3818  Std.Dev. 2.3199
+Fixed effects:
+  term                                                        Estimate   Std.Err        z   Pr(>|z|)
+  Intercept                                                     3.3893    0.1627   20.826   2.49e-96
+  condition[T.B_image]                                          0.0994    0.1535    0.648      0.517
+  condition[T.C_image_transcribe]                               0.0887    0.1540    0.576      0.564
+  content_type[T.code]                                         -3.1684    0.1913  -16.566   1.22e-61
+  content_type[T.table]                                        -2.8882    0.1888  -15.294    8.4e-53
+  model[T.InternVL3-8B]                                         0.7014    0.1121    6.257   3.93e-10
+  model[T.Qwen2.5-VL-32B]                                       2.0012    0.1263   15.845   1.52e-56
+  model[T.Qwen2.5-VL-3B]                                       -0.9145    0.1067   -8.573   1.01e-17
+  model[T.gemma-3-12b]                                          1.2148    0.1165   10.429   1.82e-25
+  condition[T.B_image]:content_type[T.code]                    -0.3019    0.1451   -2.080     0.0375
+  condition[T.C_image_transcribe]:content_type[T.code]         -0.2321    0.1461   -1.589      0.112
+  condition[T.B_image]:content_type[T.table]                    0.2399    0.1432    1.675      0.094
+  condition[T.C_image_transcribe]:content_type[T.table]         0.2137    0.1443    1.481      0.139
+  condition[T.B_image]:model[T.InternVL3-8B]                   -0.9259    0.1563   -5.923   3.15e-09
+  condition[T.C_image_transcribe]:model[T.InternVL3-8B]        -0.6714    0.1567   -4.283   1.84e-05
+  condition[T.B_image]:model[T.Qwen2.5-VL-32B]                 -0.5607    0.1725   -3.251    0.00115
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B]      -0.3251    0.1740   -1.868     0.0618
+  condition[T.B_image]:model[T.Qwen2.5-VL-3B]                  -0.2600    0.1508   -1.725     0.0846
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B]       -0.6104    0.1509   -4.045   5.22e-05
+  condition[T.B_image]:model[T.gemma-3-12b]                    -0.9948    0.1604   -6.201   5.61e-10
+  condition[T.C_image_transcribe]:model[T.gemma-3-12b]         -0.6428    0.1615   -3.981   6.86e-05
+Convergence: CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH; iterations 71; max |gradient| 5.6e-05; max scaled gradient 2e-06; min Hessian eigenvalue 6.99
+Convergence warnings: none
+
+=== sensitivity: + (1 | item_id:model), run 1 ===
+Generalized linear mixed model fit by maximum likelihood (Gauss-Hermite quadrature)
+  Family: binomial ( logit )
+  Formula: correct ~ condition * content_type + condition * model + (1 | item_id) + (1 | item_id:model)
+  Reference levels: condition=A_text, content_type=math, model=Qwen2.5-VL-7B
+  Quadrature: nested 25 x 25 nodes
+  Observations: 22500; items: 1500
+       AIC        BIC     logLik   deviance
+   17628.25   17812.74   -8791.13   17582.25
+Random effects:
+  item_id          (Intercept)  Variance 7.3512  Std.Dev. 2.7113
+  item_id:model    (Intercept)  Variance 2.2105  Std.Dev. 1.4868
+Fixed effects:
+  term                                                        Estimate   Std.Err        z   Pr(>|z|)
+  Intercept                                                     4.1882    0.2037   20.556   6.84e-94
+  condition[T.B_image]                                          0.0391    0.1708    0.229      0.819
+  condition[T.C_image_transcribe]                              -0.0639    0.1708   -0.374      0.708
+  content_type[T.code]                                         -3.7541    0.2339  -16.047   5.97e-58
+  content_type[T.table]                                        -3.4532    0.2305  -14.984   9.35e-51
+  model[T.InternVL3-8B]                                         0.6879    0.1434    4.796   1.62e-06
+  model[T.Qwen2.5-VL-32B]                                       2.2689    0.1622   13.989   1.82e-44
+  model[T.Qwen2.5-VL-3B]                                       -1.2771    0.1376   -9.279   1.72e-20
+  model[T.gemma-3-12b]                                          1.4055    0.1499    9.379   6.66e-21
+  condition[T.B_image]:content_type[T.code]                    -0.4307    0.1605   -2.684    0.00728
+  condition[T.C_image_transcribe]:content_type[T.code]         -0.3413    0.1611   -2.119     0.0341
+  condition[T.B_image]:content_type[T.table]                    0.3436    0.1572    2.185     0.0289
+  condition[T.C_image_transcribe]:content_type[T.table]         0.4334    0.1580    2.743     0.0061
+  condition[T.B_image]:model[T.InternVL3-8B]                   -0.9386    0.1758   -5.340    9.3e-08
+  condition[T.C_image_transcribe]:model[T.InternVL3-8B]        -0.5951    0.1757   -3.387   0.000707
+  condition[T.B_image]:model[T.Qwen2.5-VL-32B]                 -0.6242    0.1936   -3.224    0.00126
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B]      -0.2375    0.1953   -1.216      0.224
+  condition[T.B_image]:model[T.Qwen2.5-VL-3B]                  -0.1633    0.1677   -0.974       0.33
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B]       -0.4799    0.1676   -2.864    0.00419
+  condition[T.B_image]:model[T.gemma-3-12b]                    -1.2290    0.1814   -6.775   1.25e-11
+  condition[T.C_image_transcribe]:model[T.gemma-3-12b]         -0.7533    0.1816   -4.148   3.36e-05
+Convergence: CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH; iterations 77; max |gradient| 3.1e-05; max scaled gradient 1.4e-06; min Hessian eigenvalue 5.38
+Convergence warnings: none
+
+=== extension (exploratory) run 1 ===
+Generalized linear mixed model fit by maximum likelihood (Gauss-Hermite quadrature)
+  Family: binomial ( logit )
+  Formula: correct ~ condition * content_type + condition * model + (1 | item_id)
+  Reference levels: condition=A_text, content_type=math, model=Qwen3-VL-8B
+  Quadrature: 40 nodes
+  Observations: 18000; items: 1500
+       AIC        BIC     logLik   deviance
+   10988.20   11136.37   -5475.10   10950.20
+Random effects:
+  item_id          (Intercept)  Variance 7.9389  Std.Dev. 2.8176
+Fixed effects:
+  term                                                        Estimate   Std.Err        z   Pr(>|z|)
+  Intercept                                                     6.2248    0.2630   23.664  8.42e-124
+  condition[T.B_image]                                         -1.3893    0.2322   -5.982    2.2e-09
+  condition[T.C_image_transcribe]                              -0.5816    0.2448   -2.376     0.0175
+  content_type[T.code]                                         -3.3914    0.2862  -11.849   2.19e-32
+  content_type[T.table]                                        -3.3023    0.2793  -11.825   2.89e-32
+  model[T.InternVL3_5-8B]                                      -0.6785    0.1434   -4.731   2.23e-06
+  model[T.Qwen2.5-VL-72B-AWQ]                                  -0.0667    0.1491   -0.447      0.655
+  model[T.gemma-3-27b]                                         -0.4209    0.1455   -2.893    0.00382
+  condition[T.B_image]:content_type[T.code]                     0.2238    0.2211    1.012      0.311
+  condition[T.C_image_transcribe]:content_type[T.code]         -0.4181    0.2335   -1.791     0.0734
+  condition[T.B_image]:content_type[T.table]                    0.9388    0.2210    4.248   2.16e-05
+  condition[T.C_image_transcribe]:content_type[T.table]         0.2083    0.2336    0.892      0.373
+  condition[T.B_image]:model[T.InternVL3_5-8B]                 -0.1989    0.1904   -1.045      0.296
+  condition[T.C_image_transcribe]:model[T.InternVL3_5-8B]       0.1365    0.1951    0.700      0.484
+  condition[T.B_image]:model[T.Qwen2.5-VL-72B-AWQ]              0.6072    0.2026    2.996    0.00273
+  condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-72B-AWQ]    0.4411    0.2050    2.151     0.0314
+  condition[T.B_image]:model[T.gemma-3-27b]                    -0.0127    0.1938   -0.065      0.948
+  condition[T.C_image_transcribe]:model[T.gemma-3-27b]          0.0803    0.1977    0.406      0.685
+Convergence: CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH; iterations 71; max |gradient| 4.7e-05; max scaled gradient 1.6e-06; min Hessian eigenvalue 2.98
+Convergence warnings: none
+

@@ -1,0 +1,27 @@
+# study_id: vlm-modality-v1
+# git_commit: bf68344fbbbf27e77db3f3ed30da9640b9680ef7-dirty
+# created_utc: 2026-11-16T21:19:39Z
+term,est_25x25,est_35x35,abs_diff,loglik_25x25,loglik_35x35
+Intercept,4.18817,4.18472,0.00344556,-8791.13,-8790.97
+condition[T.B_image],0.0390913,0.039086,5.38875e-06,-8791.13,-8790.97
+condition[T.C_image_transcribe],-0.0638926,-0.0638691,2.34573e-05,-8791.13,-8790.97
+content_type[T.code],-3.75412,-3.74851,0.00560583,-8791.13,-8790.97
+content_type[T.table],-3.45321,-3.45127,0.00194156,-8791.13,-8790.97
+model[T.InternVL3-8B],0.687873,0.687871,2.14542e-06,-8791.13,-8790.97
+model[T.Qwen2.5-VL-32B],2.26893,2.26903,0.000102974,-8791.13,-8790.97
+model[T.Qwen2.5-VL-3B],-1.27705,-1.27711,6.10667e-05,-8791.13,-8790.97
+model[T.gemma-3-12b],1.40552,1.40553,6.96822e-06,-8791.13,-8790.97
+condition[T.B_image]:content_type[T.code],-0.430679,-0.430686,7.59359e-06,-8791.13,-8790.97
+condition[T.C_image_transcribe]:content_type[T.code],-0.341285,-0.341317,3.2412e-05,-8791.13,-8790.97
+condition[T.B_image]:content_type[T.table],0.343567,0.343613,4.56579e-05,-8791.13,-8790.97
+condition[T.C_image_transcribe]:content_type[T.table],0.433398,0.433412,1.41001e-05,-8791.13,-8790.97
+condition[T.B_image]:model[T.InternVL3-8B],-0.938579,-0.938628,4.94285e-05,-8791.13,-8790.97
+condition[T.C_image_transcribe]:model[T.InternVL3-8B],-0.595087,-0.595128,4.11487e-05,-8791.13,-8790.97
+condition[T.B_image]:model[T.Qwen2.5-VL-32B],-0.624233,-0.624244,1.07298e-05,-8791.13,-8790.97
+condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B],-0.237498,-0.237496,2.57513e-06,-8791.13,-8790.97
+condition[T.B_image]:model[T.Qwen2.5-VL-3B],-0.163281,-0.163326,4.46339e-05,-8791.13,-8790.97
+condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B],-0.479859,-0.479913,5.37637e-05,-8791.13,-8790.97
+condition[T.B_image]:model[T.gemma-3-12b],-1.22903,-1.22899,4.4237e-05,-8791.13,-8790.97
+condition[T.C_image_transcribe]:model[T.gemma-3-12b],-0.753267,-0.753266,3.69652e-07,-8791.13,-8790.97
+sd(item_id),2.71131,2.71474,0.00343676,-8791.13,-8790.97
+sd(item_id:model),1.48679,1.48587,0.000923567,-8791.13,-8790.97

@@ -1,0 +1,25 @@
+# study_id: vlm-modality-v1
+# git_commit: bf68344fbbbf27e77db3f3ed30da9640b9680ef7
+# created_utc: 2026-11-16T21:09:35Z
+term,posterior_mean,posterior_sd,z,p_value_approx,odds_ratio,or_ci_lo,or_ci_hi,sd_item_intercept,method,seconds
+Intercept,3.35414,0.0203493,164.828,0,28.6209,27.5018,29.7854,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image],0.0282842,0.0346452,0.816397,0.414273,1.02869,0.961155,1.10097,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe],-0.048062,0.0351386,-1.36778,0.17138,0.953075,0.889645,1.02103,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+content_type[T.code],-3.02411,0.0322622,-93.7356,0,0.0486009,0.0456228,0.0517733,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+content_type[T.table],-2.79499,0.031527,-88.6539,0,0.0611155,0.0574533,0.065011,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+model[T.InternVL3-8B],0.545492,0.0445022,12.2577,1.52846e-34,1.72546,1.58134,1.88272,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+model[T.Qwen2.5-VL-32B],1.82136,0.0529946,34.3688,7.39023e-259,6.18025,5.57054,6.8567,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+model[T.Qwen2.5-VL-3B],-1.00148,0.0417543,-23.985,3.9866e-127,0.367336,0.338472,0.398662,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+model[T.gemma-3-12b],1.12389,0.0465171,24.1609,5.7414e-129,3.07681,2.8087,3.37051,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image]:content_type[T.code],-0.336965,0.0550376,-6.12246,9.21408e-10,0.713934,0.640929,0.795254,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe]:content_type[T.code],-0.272319,0.0556845,-4.89039,1.00635e-06,0.761611,0.682865,0.849439,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image]:content_type[T.table],0.255887,0.0538162,4.75483,1.98609e-06,1.29161,1.16231,1.43529,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe]:content_type[T.table],0.323649,0.0549197,5.89312,3.78975e-09,1.38216,1.24111,1.53924,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image]:model[T.InternVL3-8B],-0.726145,0.0752719,-9.64696,5.06329e-22,0.48377,0.417414,0.560674,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe]:model[T.InternVL3-8B],-0.453784,0.0765253,-5.92985,3.03209e-09,0.63522,0.546746,0.738011,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image]:model[T.Qwen2.5-VL-32B],-0.462731,0.0885692,-5.22452,1.7461e-07,0.629562,0.529235,0.748908,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B],-0.163633,0.0923141,-1.77257,0.0762994,0.849053,0.708528,1.01745,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image]:model[T.Qwen2.5-VL-3B],-0.120722,0.0724524,-1.66622,0.0956692,0.886281,0.768953,1.02151,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B],-0.388426,0.0721121,-5.38643,7.18722e-08,0.678123,0.588744,0.781071,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.B_image]:model[T.gemma-3-12b],-0.957672,0.0772551,-12.3962,2.73927e-35,0.383785,0.329859,0.446527,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44
+condition[T.C_image_transcribe]:model[T.gemma-3-12b],-0.582354,0.0797507,-7.30218,2.83133e-13,0.558582,0.477752,0.653086,2.19543,"statsmodels 0.15.0 BinomialBayesMixedGLM.fit_vb (variational Bayes, not ML)",44

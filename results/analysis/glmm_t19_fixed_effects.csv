@@ -1,0 +1,85 @@
+# study_id: vlm-modality-v1
+# git_commit: bf68344fbbbf27e77db3f3ed30da9640b9680ef7
+# created_utc: 2026-11-16T21:09:35Z
+fit,term,estimate,se,z,p_value,odds_ratio,or_ci_lo,or_ci_hi
+primary run 1,Intercept,3.3752,0.160843,20.9844,9.104e-98,29.2301,21.3265,40.0627
+primary run 1,condition[T.B_image],0.0204863,0.151709,0.135036,0.892583,1.0207,0.758162,1.37414
+primary run 1,condition[T.C_image_transcribe],-0.0558699,0.151756,-0.368155,0.712758,0.945662,0.702361,1.27324
+primary run 1,content_type[T.code],-3.06598,0.185278,-16.548,1.65638e-61,0.0466082,0.0324155,0.0670149
+primary run 1,content_type[T.table],-2.84166,0.186412,-15.244,1.80443e-52,0.0583288,0.0404771,0.0840537
+primary run 1,model[T.InternVL3-8B],0.550212,0.11039,4.98424,6.22068e-07,1.73362,1.39633,2.15238
+primary run 1,model[T.Qwen2.5-VL-32B],1.82481,0.123725,14.7489,3.12703e-49,6.2016,4.86619,7.90349
+primary run 1,model[T.Qwen2.5-VL-3B],-0.992329,0.105675,-9.39043,5.9758e-21,0.370712,0.301361,0.456023
+primary run 1,model[T.gemma-3-12b],1.12884,0.115193,9.79954,1.13097e-22,3.09207,2.46716,3.87527
+primary run 1,condition[T.B_image]:content_type[T.code],-0.317777,0.142961,-2.22282,0.0262281,0.727765,0.549923,0.963119
+primary run 1,condition[T.C_image_transcribe]:content_type[T.code],-0.254175,0.143652,-1.76937,0.0768317,0.775556,0.585243,1.02776
+primary run 1,condition[T.B_image]:content_type[T.table],0.273573,0.141126,1.9385,0.0525619,1.31465,0.996976,1.73355
+primary run 1,condition[T.C_image_transcribe]:content_type[T.table],0.340166,0.141956,2.39628,0.0165623,1.40518,1.0639,1.85595
+primary run 1,condition[T.B_image]:model[T.InternVL3-8B],-0.734738,0.154111,-4.7676,1.86432e-06,0.479631,0.354591,0.648764
+primary run 1,condition[T.C_image_transcribe]:model[T.InternVL3-8B],-0.462533,0.154494,-2.99386,0.00275468,0.629686,0.465178,0.852373
+primary run 1,condition[T.B_image]:model[T.Qwen2.5-VL-32B],-0.477786,0.169395,-2.82055,0.00479408,0.620155,0.44495,0.864349
+primary run 1,condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B],-0.178404,0.171228,-1.04191,0.297453,0.836604,0.598095,1.17023
+primary run 1,condition[T.B_image]:model[T.Qwen2.5-VL-3B],-0.125585,0.149042,-0.842614,0.399444,0.881981,0.658558,1.1812
+primary run 1,condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B],-0.389737,0.148887,-2.61766,0.00885348,0.677235,0.505832,0.906719
+primary run 1,condition[T.B_image]:model[T.gemma-3-12b],-0.96897,0.158367,-6.11852,9.44462e-10,0.379474,0.278214,0.517587
+primary run 1,condition[T.C_image_transcribe]:model[T.gemma-3-12b],-0.594028,0.159302,-3.72894,0.00019229,0.552099,0.404035,0.754424
+sensitivity: majority vote (runs 1-3),Intercept,3.38928,0.162739,20.8265,2.49142e-96,29.6447,21.5488,40.7822
+sensitivity: majority vote (runs 1-3),condition[T.B_image],0.0993869,0.153489,0.64752,0.517296,1.10449,0.817548,1.49215
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe],0.0887438,0.153984,0.576318,0.5644,1.0928,0.808108,1.47779
+sensitivity: majority vote (runs 1-3),content_type[T.code],-3.16837,0.191254,-16.5664,1.2201e-61,0.0420719,0.0289199,0.0612051
+sensitivity: majority vote (runs 1-3),content_type[T.table],-2.88824,0.188849,-15.2939,8.40254e-53,0.0556743,0.0384509,0.0806128
+sensitivity: majority vote (runs 1-3),model[T.InternVL3-8B],0.701387,0.112101,6.25672,3.93153e-10,2.01655,1.61878,2.51206
+sensitivity: majority vote (runs 1-3),model[T.Qwen2.5-VL-32B],2.00118,0.126296,15.8452,1.517e-56,7.39781,5.77564,9.47559
+sensitivity: majority vote (runs 1-3),model[T.Qwen2.5-VL-3B],-0.914508,0.106671,-8.57316,1.00686e-17,0.400714,0.325114,0.493893
+sensitivity: majority vote (runs 1-3),model[T.gemma-3-12b],1.21476,0.116475,10.4293,1.82197e-25,3.36948,2.68175,4.23357
+sensitivity: majority vote (runs 1-3),condition[T.B_image]:content_type[T.code],-0.301876,0.145148,-2.07978,0.0375458,0.73943,0.556348,0.982759
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe]:content_type[T.code],-0.232146,0.146116,-1.58878,0.11211,0.792831,0.595397,1.05573
+sensitivity: majority vote (runs 1-3),condition[T.B_image]:content_type[T.table],0.239861,0.143233,1.67462,0.0940086,1.27107,0.959953,1.68302
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe]:content_type[T.table],0.213659,0.144272,1.48095,0.13862,1.2382,0.933226,1.64284
+sensitivity: majority vote (runs 1-3),condition[T.B_image]:model[T.InternVL3-8B],-0.925898,0.156309,-5.92349,3.15178e-09,0.396176,0.291633,0.538194
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe]:model[T.InternVL3-8B],-0.671377,0.156737,-4.28347,1.84001e-05,0.511004,0.375846,0.694767
+sensitivity: majority vote (runs 1-3),condition[T.B_image]:model[T.Qwen2.5-VL-32B],-0.560654,0.172464,-3.25085,0.00115062,0.570835,0.407108,0.80041
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B],-0.325108,0.174044,-1.86796,0.0617674,0.722449,0.513642,1.01614
+sensitivity: majority vote (runs 1-3),condition[T.B_image]:model[T.Qwen2.5-VL-3B],-0.26005,0.150791,-1.72457,0.0846055,0.771013,0.57373,1.03613
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B],-0.610406,0.15089,-4.04536,5.22422e-05,0.54313,0.404079,0.730032
+sensitivity: majority vote (runs 1-3),condition[T.B_image]:model[T.gemma-3-12b],-0.994815,0.160431,-6.20089,5.61443e-10,0.369792,0.270021,0.506426
+sensitivity: majority vote (runs 1-3),condition[T.C_image_transcribe]:model[T.gemma-3-12b],-0.642814,0.161473,-3.98094,6.86422e-05,0.525811,0.383163,0.721565
+"sensitivity: + (1 | item_id:model), run 1",Intercept,4.18817,0.203747,20.5557,6.83694e-94,65.9019,44.2047,98.2489
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image],0.0390913,0.170804,0.228866,0.818973,1.03987,0.744026,1.45334
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe],-0.0638926,0.170783,-0.374116,0.708318,0.938106,0.671246,1.31106
+"sensitivity: + (1 | item_id:model), run 1",content_type[T.code],-3.75412,0.233941,-16.0473,5.97271e-58,0.0234212,0.0148074,0.0370458
+"sensitivity: + (1 | item_id:model), run 1",content_type[T.table],-3.45321,0.230461,-14.9839,9.35206e-51,0.031644,0.0201429,0.0497118
+"sensitivity: + (1 | item_id:model), run 1",model[T.InternVL3-8B],0.687873,0.143415,4.79638,1.61561e-06,1.98948,1.50198,2.63521
+"sensitivity: + (1 | item_id:model), run 1",model[T.Qwen2.5-VL-32B],2.26893,0.162193,13.9891,1.81763e-44,9.66904,7.03598,13.2875
+"sensitivity: + (1 | item_id:model), run 1",model[T.Qwen2.5-VL-3B],-1.27705,0.137635,-9.2785,1.71881e-20,0.278859,0.212926,0.365207
+"sensitivity: + (1 | item_id:model), run 1",model[T.gemma-3-12b],1.40552,0.149859,9.37894,6.66393e-21,4.07766,3.03984,5.4698
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image]:content_type[T.code],-0.430679,0.160472,-2.68383,0.00727833,0.650068,0.474641,0.890332
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe]:content_type[T.code],-0.341285,0.161061,-2.11897,0.0340927,0.710857,0.518426,0.974715
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image]:content_type[T.table],0.343567,0.157238,2.18501,0.0288883,1.40997,1.03602,1.91889
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe]:content_type[T.table],0.433398,0.158026,2.74258,0.00609587,1.54249,1.13165,2.10249
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image]:model[T.InternVL3-8B],-0.938579,0.175765,-5.33998,9.29585e-08,0.391183,0.277185,0.552067
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe]:model[T.InternVL3-8B],-0.595087,0.1757,-3.38695,0.000706751,0.551514,0.390841,0.778239
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image]:model[T.Qwen2.5-VL-32B],-0.624233,0.193598,-3.22438,0.00126244,0.535672,0.366529,0.78287
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B],-0.237498,0.195262,-1.21631,0.223869,0.788598,0.537834,1.15628
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image]:model[T.Qwen2.5-VL-3B],-0.163281,0.167653,-0.973924,0.330094,0.849353,0.611479,1.17976
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B],-0.479859,0.167574,-2.86357,0.00418902,0.618871,0.445616,0.859487
+"sensitivity: + (1 | item_id:model), run 1",condition[T.B_image]:model[T.gemma-3-12b],-1.22903,0.181412,-6.77481,1.24572e-11,0.292576,0.205032,0.417501
+"sensitivity: + (1 | item_id:model), run 1",condition[T.C_image_transcribe]:model[T.gemma-3-12b],-0.753267,0.181607,-4.14778,3.3572e-05,0.470826,0.329819,0.672117
+extension (exploratory) run 1,Intercept,6.22484,0.263048,23.6642,8.42182e-124,505.142,301.652,845.902
+extension (exploratory) run 1,condition[T.B_image],-1.38934,0.232242,-5.98229,2.20021e-09,0.249241,0.158101,0.392919
+extension (exploratory) run 1,condition[T.C_image_transcribe],-0.581613,0.244824,-2.37564,0.0175185,0.558996,0.345951,0.903239
+extension (exploratory) run 1,content_type[T.code],-3.39138,0.286224,-11.8487,2.1861e-32,0.0336622,0.0192092,0.0589899
+extension (exploratory) run 1,content_type[T.table],-3.30227,0.279252,-11.8254,2.88514e-32,0.0367997,0.0212884,0.0636126
+extension (exploratory) run 1,model[T.InternVL3_5-8B],-0.6785,0.143404,-4.73138,2.23003e-06,0.507378,0.383059,0.672043
+extension (exploratory) run 1,model[T.Qwen2.5-VL-72B-AWQ],-0.0666755,0.149092,-0.447212,0.654722,0.935499,0.698451,1.253
+extension (exploratory) run 1,model[T.gemma-3-27b],-0.420879,0.145503,-2.89257,0.00382104,0.65647,0.493585,0.873107
+extension (exploratory) run 1,condition[T.B_image]:content_type[T.code],0.223795,0.22108,1.01228,0.311405,1.25081,0.810978,1.9292
+extension (exploratory) run 1,condition[T.C_image_transcribe]:content_type[T.code],-0.418104,0.233503,-1.79058,0.0733613,0.658293,0.416545,1.04035
+extension (exploratory) run 1,condition[T.B_image]:content_type[T.table],0.938796,0.220991,4.24812,2.15569e-05,2.5569,1.65808,3.94295
+extension (exploratory) run 1,condition[T.C_image_transcribe]:content_type[T.table],0.208338,0.23364,0.891703,0.372552,1.23163,0.779121,1.94695
+extension (exploratory) run 1,condition[T.B_image]:model[T.InternVL3_5-8B],-0.198895,0.190393,-1.04466,0.296181,0.819636,0.564363,1.19037
+extension (exploratory) run 1,condition[T.C_image_transcribe]:model[T.InternVL3_5-8B],0.1365,0.195069,0.699754,0.484081,1.14626,0.782057,1.68006
+extension (exploratory) run 1,condition[T.B_image]:model[T.Qwen2.5-VL-72B-AWQ],0.607167,0.202634,2.99637,0.00273214,1.83522,1.23369,2.73006
+extension (exploratory) run 1,condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-72B-AWQ],0.441068,0.20502,2.15134,0.0314491,1.55437,1.04002,2.32309
+extension (exploratory) run 1,condition[T.B_image]:model[T.gemma-3-27b],-0.0126724,0.193799,-0.0653894,0.947864,0.987408,0.675359,1.44364
+extension (exploratory) run 1,condition[T.C_image_transcribe]:model[T.gemma-3-27b],0.0803288,0.19773,0.406256,0.684555,1.08364,0.735493,1.59659

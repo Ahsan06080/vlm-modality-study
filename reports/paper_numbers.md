@@ -2,8 +2,8 @@
 
 <!--
 study_id: vlm-modality-v1
-git_commit: ddde07f9da5a086ca48c0917f3cd2ab51e488bf0-dirty
-created_utc: 2026-11-16T18:23:34Z
+git_commit: bf68344fbbbf27e77db3f3ed30da9640b9680ef7-dirty
+created_utc: 2026-11-16T21:20:00Z
 -->
 
 Numbers and tables only. Each block names its source CSV. Full tables: `reports/summary.md`.
@@ -575,6 +575,159 @@ source: `results/analysis/glmm_cell_contrasts.csv`
 
 - checks (run 1): GH 40 vs 80 nodes and statsmodels VB — source: `results/analysis/glmm_checks.csv`
 
+## T19 GLMM: correct ~ condition * content_type + condition * model + (1 | item_id)
+- reference levels: A_text, math, Qwen2.5-VL-7B (extension fit: Qwen3-VL-8B); exact ML, Gauss-Hermite quadrature (40 nodes; nested fit 25 x 25); R/lme4 and pymer4 not installed — model summaries: `results/analysis/glmm_model_summary.txt`
+
+### Fit information (all fits)
+source: `results/analysis/glmm_t19_fit_info.csv`
+
+| fit | n_obs | n_items | n_par | loglik | aic | bic | converged | max_scaled_gradient | warnings |
+|---|---|---|---|---|---|---|---|---|---|
+| primary run 1 | 22500 | 1500 | 22 | -9060.67 | 18165.3 | 18341.8 | True | 7.11e-07 | none |
+| sensitivity: majority vote (runs 1-3) | 22500 | 1500 | 22 | -8878.74 | 17801.5 | 17978 | True | 2.00e-06 | none |
+| sensitivity: + (1 \| item_id:model), run 1 | 22500 | 1500 | 23 | -8791.13 | 17628.3 | 17812.7 | True | 1.36e-06 | none |
+| extension (exploratory) run 1 | 18000 | 1500 | 19 | -5475.1 | 10988.2 | 11136.4 | True | 1.59e-06 | none |
+
+### Random effects
+source: `results/analysis/glmm_t19_random_effects.csv`
+
+| fit | group | variance | var_ci_lo | var_ci_hi | sd | icc_latent_total |
+|---|---|---|---|---|---|---|
+| primary run 1 | item_id | 5.0011 | 4.4794 | 5.5835 | 2.2363 | 0.6032 |
+| sensitivity: majority vote (runs 1-3) | item_id | 5.3818 | 4.8265 | 6.0009 | 2.3199 | 0.6206 |
+| sensitivity: + (1 \| item_id:model), run 1 | item_id | 7.3512 | 6.5184 | 8.2903 | 2.7113 | 0.7440 |
+| sensitivity: + (1 \| item_id:model), run 1 | item_id:model | 2.2105 | 1.9124 | 2.5551 | 1.4868 | 0.7440 |
+| extension (exploratory) run 1 | item_id | 7.9389 | 6.9467 | 9.0728 | 2.8176 | 0.7070 |
+
+### Fixed effects, primary run 1
+source: `results/analysis/glmm_t19_fixed_effects.csv`
+
+| term | estimate | se | z | p_value | odds_ratio | or_ci_lo | or_ci_hi |
+|---|---|---|---|---|---|---|---|
+| Intercept | 3.3752 | 0.1608 | 20.9844 | 9.10e-98 | 29.2301 | 21.3265 | 40.0627 |
+| condition[T.B_image] | 0.0205 | 0.1517 | 0.1350 | 0.8926 | 1.0207 | 0.7582 | 1.3741 |
+| condition[T.C_image_transcribe] | -0.0559 | 0.1518 | -0.3682 | 0.7128 | 0.9457 | 0.7024 | 1.2732 |
+| content_type[T.code] | -3.0660 | 0.1853 | -16.5480 | 1.66e-61 | 0.0466 | 0.0324 | 0.0670 |
+| content_type[T.table] | -2.8417 | 0.1864 | -15.2440 | 1.80e-52 | 0.0583 | 0.0405 | 0.0841 |
+| model[T.InternVL3-8B] | 0.5502 | 0.1104 | 4.9842 | 6.22e-07 | 1.7336 | 1.3963 | 2.1524 |
+| model[T.Qwen2.5-VL-32B] | 1.8248 | 0.1237 | 14.7489 | 3.13e-49 | 6.2016 | 4.8662 | 7.9035 |
+| model[T.Qwen2.5-VL-3B] | -0.9923 | 0.1057 | -9.3904 | 5.98e-21 | 0.3707 | 0.3014 | 0.4560 |
+| model[T.gemma-3-12b] | 1.1288 | 0.1152 | 9.7995 | 1.13e-22 | 3.0921 | 2.4672 | 3.8753 |
+| condition[T.B_image]:content_type[T.code] | -0.3178 | 0.1430 | -2.2228 | 0.0262 | 0.7278 | 0.5499 | 0.9631 |
+| condition[T.C_image_transcribe]:content_type[T.code] | -0.2542 | 0.1437 | -1.7694 | 0.0768 | 0.7756 | 0.5852 | 1.0278 |
+| condition[T.B_image]:content_type[T.table] | 0.2736 | 0.1411 | 1.9385 | 0.0526 | 1.3147 | 0.9970 | 1.7335 |
+| condition[T.C_image_transcribe]:content_type[T.table] | 0.3402 | 0.1420 | 2.3963 | 0.0166 | 1.4052 | 1.0639 | 1.8559 |
+| condition[T.B_image]:model[T.InternVL3-8B] | -0.7347 | 0.1541 | -4.7676 | 1.86e-06 | 0.4796 | 0.3546 | 0.6488 |
+| condition[T.C_image_transcribe]:model[T.InternVL3-8B] | -0.4625 | 0.1545 | -2.9939 | 0.0028 | 0.6297 | 0.4652 | 0.8524 |
+| condition[T.B_image]:model[T.Qwen2.5-VL-32B] | -0.4778 | 0.1694 | -2.8205 | 0.0048 | 0.6202 | 0.4450 | 0.8643 |
+| condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B] | -0.1784 | 0.1712 | -1.0419 | 0.2975 | 0.8366 | 0.5981 | 1.1702 |
+| condition[T.B_image]:model[T.Qwen2.5-VL-3B] | -0.1256 | 0.1490 | -0.8426 | 0.3994 | 0.8820 | 0.6586 | 1.1812 |
+| condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B] | -0.3897 | 0.1489 | -2.6177 | 0.0089 | 0.6772 | 0.5058 | 0.9067 |
+| condition[T.B_image]:model[T.gemma-3-12b] | -0.9690 | 0.1584 | -6.1185 | 9.44e-10 | 0.3795 | 0.2782 | 0.5176 |
+| condition[T.C_image_transcribe]:model[T.gemma-3-12b] | -0.5940 | 0.1593 | -3.7289 | 1.92e-04 | 0.5521 | 0.4040 | 0.7544 |
+
+### Likelihood-ratio tests
+source: `results/analysis/glmm_t19_lrt.csv`
+
+| fit | test | loglik_full | loglik_reduced | chisq | df | p_value |
+|---|---|---|---|---|---|---|
+| primary run 1 | full vs no condition (and its interactions) | -9061 | -9153 | 184.1 | 14 | 9.47e-32 |
+| primary run 1 | full vs no condition:content_type | -9061 | -9079 | 37.57 | 4 | 1.37e-07 |
+| primary run 1 | full vs no condition:model | -9061 | -9093 | 63.78 | 8 | 8.41e-11 |
+| sensitivity: majority vote (runs 1-3) | full vs no condition (and its interactions) | -8879 | -8973 | 189.1 | 14 | 9.04e-33 |
+| sensitivity: majority vote (runs 1-3) | full vs no condition:content_type | -8879 | -8892 | 25.96 | 4 | 3.22e-05 |
+| sensitivity: majority vote (runs 1-3) | full vs no condition:model | -8879 | -8916 | 74.83 | 8 | 5.34e-13 |
+| extension (exploratory) run 1 | full vs no condition (and its interactions) | -5475 | -5581 | 211.5 | 12 | 1.38e-38 |
+| extension (exploratory) run 1 | full vs no condition:content_type | -5475 | -5496 | 42.16 | 4 | 1.55e-08 |
+| extension (exploratory) run 1 | full vs no condition:model | -5475 | -5486 | 21.07 | 6 | 0.001781 |
+
+### emmeans-style contrasts per content type (models averaged; OR = odds(B or C) / odds(A); Holm over 3)
+source: `results/analysis/glmm_t19_emm_contrasts.csv`
+
+| fit | contrast | content_type | odds_ratio | or_ci_lo | or_ci_hi | p_value | p_holm |
+|---|---|---|---|---|---|---|---|
+| primary run 1 | B_image - A_text | math | 0.6434 | 0.5095 | 0.8126 | 2.13e-04 | 4.26e-04 |
+| primary run 1 | B_image - A_text | code | 0.4683 | 0.4 | 0.5482 | 3.80e-21 | 1.14e-20 |
+| primary run 1 | B_image - A_text | table | 0.8459 | 0.7264 | 0.9851 | 0.03129 | 0.03129 |
+| primary run 1 | C_image_transcribe - A_text | math | 0.6833 | 0.5404 | 0.864 | 0.001464 | 0.002928 |
+| primary run 1 | C_image_transcribe - A_text | code | 0.5299 | 0.4525 | 0.6206 | 3.34e-15 | 1.00e-14 |
+| primary run 1 | C_image_transcribe - A_text | table | 0.9602 | 0.8232 | 1.12 | 0.6048 | 0.6048 |
+| sensitivity: majority vote (runs 1-3) | B_image - A_text | math | 0.6383 | 0.5036 | 0.8091 | 2.06e-04 | 4.13e-04 |
+| sensitivity: majority vote (runs 1-3) | B_image - A_text | code | 0.472 | 0.4023 | 0.5538 | 3.31e-20 | 9.92e-20 |
+| sensitivity: majority vote (runs 1-3) | B_image - A_text | table | 0.8114 | 0.695 | 0.9472 | 0.008106 | 0.008106 |
+| sensitivity: majority vote (runs 1-3) | C_image_transcribe - A_text | math | 0.6968 | 0.5488 | 0.8849 | 0.003044 | 0.006087 |
+| sensitivity: majority vote (runs 1-3) | C_image_transcribe - A_text | code | 0.5525 | 0.4707 | 0.6485 | 3.89e-13 | 1.17e-12 |
+| sensitivity: majority vote (runs 1-3) | C_image_transcribe - A_text | table | 0.8628 | 0.7382 | 1.009 | 0.06385 | 0.06385 |
+| sensitivity: + (1 \| item_id:model), run 1 | B_image - A_text | math | 0.5758 | 0.4442 | 0.7465 | 3.09e-05 | 6.18e-05 |
+| sensitivity: + (1 \| item_id:model), run 1 | B_image - A_text | code | 0.3743 | 0.312 | 0.4491 | 4.10e-26 | 1.23e-25 |
+| sensitivity: + (1 \| item_id:model), run 1 | B_image - A_text | table | 0.8119 | 0.6843 | 0.9634 | 0.01696 | 0.01696 |
+| sensitivity: + (1 \| item_id:model), run 1 | C_image_transcribe - A_text | math | 0.6206 | 0.4782 | 0.8055 | 3.37e-04 | 6.74e-04 |
+| sensitivity: + (1 \| item_id:model), run 1 | C_image_transcribe - A_text | code | 0.4412 | 0.3678 | 0.5291 | 1.14e-18 | 3.41e-18 |
+| sensitivity: + (1 \| item_id:model), run 1 | C_image_transcribe - A_text | table | 0.9573 | 0.8057 | 1.137 | 0.6198 | 0.6198 |
+| extension (exploratory) run 1 | B_image - A_text | math | 0.2752 | 0.1877 | 0.4034 | 3.80e-11 | 7.60e-11 |
+| extension (exploratory) run 1 | B_image - A_text | code | 0.3442 | 0.28 | 0.4231 | 4.22e-24 | 1.27e-23 |
+| extension (exploratory) run 1 | B_image - A_text | table | 0.7035 | 0.5729 | 0.864 | 7.96e-04 | 7.96e-04 |
+| extension (exploratory) run 1 | C_image_transcribe - A_text | math | 0.6589 | 0.4376 | 0.9922 | 0.0458 | 0.0916 |
+| extension (exploratory) run 1 | C_image_transcribe - A_text | code | 0.4338 | 0.353 | 0.533 | 1.95e-15 | 5.84e-15 |
+| extension (exploratory) run 1 | C_image_transcribe - A_text | table | 0.8116 | 0.66 | 0.9979 | 0.04771 | 0.0916 |
+
+### Per model × content type: cells with p_holm < .05 (Holm over 15 per contrast per fit; 12 for the extension)
+source: `results/analysis/glmm_t19_emm_contrasts.csv`
+
+| fit | contrast | n_cells_p_holm_lt_05 |
+|---|---|---|
+| extension (exploratory) run 1 | B_image - A_text | 11 |
+| extension (exploratory) run 1 | C_image_transcribe - A_text | 4 |
+| primary run 1 | B_image - A_text | 8 |
+| primary run 1 | C_image_transcribe - A_text | 7 |
+| sensitivity: + (1 \| item_id:model), run 1 | B_image - A_text | 11 |
+| sensitivity: + (1 \| item_id:model), run 1 | C_image_transcribe - A_text | 8 |
+| sensitivity: majority vote (runs 1-3) | B_image - A_text | 9 |
+| sensitivity: majority vote (runs 1-3) | C_image_transcribe - A_text | 8 |
+
+### Per model × content type, primary run 1
+source: `results/analysis/glmm_t19_emm_contrasts.csv`
+
+| contrast | model | content_type | odds_ratio | or_ci_lo | or_ci_hi | p_value | p_holm |
+|---|---|---|---|---|---|---|---|
+| B_image - A_text | InternVL3-8B | math | 0.4896 | 0.3618 | 0.6624 | 3.65e-06 | 3.65e-05 |
+| B_image - A_text | InternVL3-8B | code | 0.3563 | 0.2779 | 0.4567 | 3.84e-16 | 5.38e-15 |
+| B_image - A_text | InternVL3-8B | table | 0.6436 | 0.5044 | 0.8212 | 3.94e-04 | 0.003548 |
+| B_image - A_text | Qwen2.5-VL-32B | math | 0.633 | 0.4504 | 0.8896 | 0.008454 | 0.05918 |
+| B_image - A_text | Qwen2.5-VL-32B | code | 0.4607 | 0.3486 | 0.6087 | 5.03e-08 | 6.03e-07 |
+| B_image - A_text | Qwen2.5-VL-32B | table | 0.8322 | 0.6285 | 1.102 | 0.1996 | 0.6342 |
+| B_image - A_text | Qwen2.5-VL-3B | math | 0.9002 | 0.6819 | 1.189 | 0.4584 | 0.9169 |
+| B_image - A_text | Qwen2.5-VL-3B | code | 0.6552 | 0.5148 | 0.8339 | 5.89e-04 | 0.004714 |
+| B_image - A_text | Qwen2.5-VL-3B | table | 1.183 | 0.9364 | 1.496 | 0.1585 | 0.6342 |
+| B_image - A_text | Qwen2.5-VL-7B | math | 1.021 | 0.7582 | 1.374 | 0.8926 | 0.9169 |
+| B_image - A_text | Qwen2.5-VL-7B | code | 0.7428 | 0.5817 | 0.9486 | 0.01717 | 0.09907 |
+| B_image - A_text | Qwen2.5-VL-7B | table | 1.342 | 1.055 | 1.707 | 0.01651 | 0.09907 |
+| B_image - A_text | gemma-3-12b | math | 0.3873 | 0.2829 | 0.5302 | 3.22e-09 | 4.19e-08 |
+| B_image - A_text | gemma-3-12b | code | 0.2819 | 0.218 | 0.3644 | 4.37e-22 | 6.56e-21 |
+| B_image - A_text | gemma-3-12b | table | 0.5092 | 0.3951 | 0.6563 | 1.85e-07 | 2.03e-06 |
+| C_image_transcribe - A_text | InternVL3-8B | math | 0.5955 | 0.439 | 0.8078 | 8.62e-04 | 0.008617 |
+| C_image_transcribe - A_text | InternVL3-8B | code | 0.4618 | 0.3599 | 0.5925 | 1.24e-09 | 1.74e-08 |
+| C_image_transcribe - A_text | InternVL3-8B | table | 0.8367 | 0.6545 | 1.07 | 0.1549 | 0.7747 |
+| C_image_transcribe - A_text | Qwen2.5-VL-32B | math | 0.7911 | 0.5602 | 1.117 | 0.1834 | 0.7747 |
+| C_image_transcribe - A_text | Qwen2.5-VL-32B | code | 0.6136 | 0.4625 | 0.814 | 7.08e-04 | 0.007788 |
+| C_image_transcribe - A_text | Qwen2.5-VL-32B | table | 1.112 | 0.8351 | 1.48 | 0.4681 | 1 |
+| C_image_transcribe - A_text | Qwen2.5-VL-3B | math | 0.6404 | 0.4858 | 0.8442 | 0.001572 | 0.01414 |
+| C_image_transcribe - A_text | Qwen2.5-VL-3B | code | 0.4967 | 0.3897 | 0.633 | 1.55e-08 | 2.01e-07 |
+| C_image_transcribe - A_text | Qwen2.5-VL-3B | table | 0.8999 | 0.7115 | 1.138 | 0.3791 | 1 |
+| C_image_transcribe - A_text | Qwen2.5-VL-7B | math | 0.9457 | 0.7024 | 1.273 | 0.7128 | 1 |
+| C_image_transcribe - A_text | Qwen2.5-VL-7B | code | 0.7334 | 0.5743 | 0.9367 | 0.01299 | 0.104 |
+| C_image_transcribe - A_text | Qwen2.5-VL-7B | table | 1.329 | 1.045 | 1.69 | 0.02056 | 0.1273 |
+| C_image_transcribe - A_text | gemma-3-12b | math | 0.5221 | 0.3799 | 0.7175 | 6.15e-05 | 7.38e-04 |
+| C_image_transcribe - A_text | gemma-3-12b | code | 0.4049 | 0.3126 | 0.5245 | 7.38e-12 | 1.11e-10 |
+| C_image_transcribe - A_text | gemma-3-12b | table | 0.7336 | 0.5674 | 0.9487 | 0.01819 | 0.1273 |
+
+### Spec fallback: statsmodels BinomialBayesMixedGLM (variational Bayes, not ML), primary run 1
+source: `results/analysis/glmm_t19_vb_fallback_fixed_effects.csv`
+
+- max |ML estimate − VB posterior mean| over 21 fixed effects: 0.047; VB sd(item) 2.195 vs ML 2.236
+
+- nested fit quadrature check, 25 x 25 vs 35 x 35 nodes: log-lik -8791.13 vs -8790.97; max |difference| over all parameters 0.0056; sds sd(item_id) 2.711 vs 2.715, sd(item_id:model) 1.487 vs 1.486 — source: `results/analysis/glmm_t19_nested_quadrature_check.csv`
+
 ## Replication summary, OWNER plan rule (post hoc: replicates = Holm-sig same direction in >= 2/3 runs)
 source: `results/analysis/replication_full_summary.csv`
 
@@ -715,6 +868,7 @@ source: `results/analysis/res_gap_A_minus_B_by_setting.csv`
 - `results/figures/gap_A_minus_B_vs_size_by_family.png`
 - `results/figures/gap_A_minus_B_vs_size_qwen.png`
 - `results/figures/gap_vs_size_all.png`
+- `results/figures/input_length_gap.png`
 - `results/figures/output_tokens_boxplot.png`
 - `results/figures/replication_full_accuracy_runs.png`
 

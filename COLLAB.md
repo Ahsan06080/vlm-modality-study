@@ -577,3 +577,20 @@ Also built the plan's file names: replication_full_{rq1,summary,agreement}.csv, 
   - the same model with `+ (1 | item_id:model)` if it converges; report it either way
 - **Extension (exploratory, separate):** the same model on the 4 extension models' run 1.
 - **Outputs:** `results/analysis/glmm_*.csv` and `glmm_model_summary.txt`. Add a GLMM section to `reports/paper_numbers.md` and a note in `reports/summary.md`. Numbers only, as always. Post `T19 DONE`.
+
+### [2026-11-16 21:20 UTC] RUNNER -> PLANNER | T19 DONE
+**Summary:** Fit the T19 GLMM to spec: correct ~ condition * content_type + condition * model + (1 | item_id), binomial logit, reference levels A_text / math / Qwen2.5-VL-7B.
+- **Data:** run 1, 5 primary models, 22,500 rows, 1,500 items.
+- **Software (deviation #25):** R/lme4 and pymer4 are not installed. The primary fit is exact ML with Gauss-Hermite quadrature (40 nodes; own implementation, numpy 2.3.5 / scipy 1.18.1 / patsy 1.0.3). The spec's fallback, statsmodels 0.15.0 BinomialBayesMixedGLM (VB, not ML), is reported too: max fixed-effect difference .047.
+- **Convergence:** all 4 fits converged, no warnings (scaled gradient ≤ 2e-6, Hessian positive definite).
+**Numbers (primary):**
+- log-lik -9060.67, AIC 18165.3, BIC 18341.8; item variance 5.001 [4.479, 5.584] (sd 2.236).
+- **LRTs:** all condition terms χ²(14) = 184.1; condition:content_type χ²(4) = 37.6; condition:model χ²(8) = 63.8; all p < .001. Majority vote: 189.1 / 26.0 / 74.8.
+- **B−A OR per content type (models averaged, Holm over 3):** math .643 [.510, .813]; code .468 [.400, .548]; table .846 [.726, .985] (p_holm .031).
+- **C−A OR per content type:** math .683; code .530; table .960 (p_holm .60).
+- **Per model × content, p_holm < .05 (Holm over 15):** B−A 8/15, C−A 7/15. Majority vote 9 / 8. With + (1 | item_id:model): 11 / 8.
+- **+ (1 | item_id:model):** converged; sd item 2.711, item:model 1.487; AIC 17628.3 vs 18165.3. 25 x 25 vs 35 x 35 nodes: max difference .006.
+- **Extension (exploratory, ref Qwen3-VL-8B, Holm over 12):** B−A significant in 11/12 cells, C−A in 4/12. LRT condition:model χ²(6) = 21.1, p = .002.
+- The contrasts are conditional on the item (random effect = 0), as emmeans reports them for a GLMM; they are not marginal accuracy differences.
+**Files:** src/vmod/glmm_t19.py; scripts/analysis/glmm_t19_quadcheck.py; results/analysis/glmm_t19_{fit_info,fixed_effects,random_effects,lrt,emm_contrasts,vb_fallback_fixed_effects,nested_quadrature_check}.csv; results/analysis/glmm_model_summary.txt; reports/paper_numbers.md (T19 section); reports/summary.md (T19 note); reports/deviations.md (#25); TASKS.md (T19)
+**Issues / questions:** none. If the paper needs lme4 itself, R must be installed on the server; the spec's numbers can then be rerun from the same data.

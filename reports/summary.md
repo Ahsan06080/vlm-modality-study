@@ -1543,3 +1543,12 @@ Run 1 of the 5 primary models remains the primary analysis. Extension models are
 | Phase 4: extension responses with output tokens > Q3 + 3·IQR (run 1) | 456 of 18,000 | ext_outlier_counts.csv |
 | Phase 4: Qwen2.5-VL-32B wall time per run | 54 min vs 35 min in run 1 (gpu_memory_utilization 0.80, GPUs shared with another user's jobs) | logs/lanes.log |
 
+
+## T19 GLMM note (2026-11-16)
+
+- Model: correct ~ condition * content_type + condition * model + (1 | item_id), binomial logit; reference levels A_text, math, Qwen2.5-VL-7B; run 1, 5 primary models, 22,500 responses, 1,500 items. Exact ML (Gauss-Hermite quadrature); R/lme4 and pymer4 are not installed (deviation #25).
+- All 4 fits converged with no warnings (results/analysis/glmm_t19_fit_info.csv). Primary: log-lik -9060.67, AIC 18165.3, BIC 18341.8; item variance 5.001 [4.479, 5.584] (results/analysis/glmm_t19_random_effects.csv).
+- LRTs, primary (results/analysis/glmm_t19_lrt.csv): all condition terms χ²(14) = 184.1; condition:content_type χ²(4) = 37.6; condition:model χ²(8) = 63.8; all p < .001.
+- B−A odds ratio per content type, models averaged (results/analysis/glmm_t19_emm_contrasts.csv): math 0.643 [0.510, 0.813], code 0.468 [0.400, 0.548], table 0.846 [0.726, 0.985]; Holm p .0004 / < .0001 / .031.
+- Per model × content type, p_holm < .05: B−A 8/15, C−A 7/15 (primary); majority vote 9 / 8; + (1 | item_id:model) 11 / 8; extension 11/12 / 4/12.
+- Full tables: reports/paper_numbers.md (section "T19 GLMM"); model summaries: results/analysis/glmm_model_summary.txt.
