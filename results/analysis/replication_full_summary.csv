@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: 6bd2e201ad4e9e276042ba1db4a91b68fed2fe6b-dirty
-# created_utc: 2026-11-16T16:49:52Z
+# git_commit: 505fe9452af0dcc180d68621a0c3849a513c3492-dirty
+# created_utc: 2026-11-16T17:26:12Z
 model_id,content_type,n_runs,n_sig_same_dir,sig_direction,replicates,sig_run1,n_runs_agree_with_run1,diff_run1,diff_mean,diff_min,diff_max,max_abs_diff_across_runs,rule
 OpenGVLab/InternVL3-8B,code,3,3,A>B,True,True,2,0.126,0.122,0.11,0.13,0.02,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs
 OpenGVLab/InternVL3-8B,math,3,3,A>B,True,True,2,0.056,0.0546667,0.052,0.056,0.004,post hoc (OWNER plan written after runs 2-3): replicates = p_Holm < .05 same direction in >= 2 of 3 runs

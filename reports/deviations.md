@@ -22,6 +22,9 @@
 | 18 | Phase 4 72B | full-precision weights | Qwen2.5-VL-72B-Instruct-AWQ (4-bit AWQ) | must fit 2 GPUs (OWNER limit); quantization is a caveat for the scale comparison |
 | 19 | Phase 4 Llama-3.2-11B-Vision | optional extension model | skipped | gated repo: stored HF token has no access; also no Mllama support in vLLM 0.33 |
 | 20 | Phase 4 Qwen3-VL image size | model default (min 65,536 px) | shortest_edge 4096 px, longest_edge 16.8 MP | default would upscale 11 small images; lowered so no image is rescaled beyond 32-px rounding (same principle as Qwen2.5) |
+| 21 | Resolution control (OWNER plan, 2026-11-16) | not in TASKS.md | condition B only, 1,500 items, run-1 revisions, frozen prompts/decoding, gpu_memory_utilization 0.80, order seed 630: Qwen2.5-VL-7B and -32B with every image stretched to 896x896 (results/raw/res896); gemma-3-12b with do_pan_and_scan=false (results/raw/res_gemma_nopas) | added after the Phase 4 results; exploratory. Runner gained --conditions, --image-variant, --mm-override (commit 58cd9fd) |
+| 22 | Resolution control resampling | OWNER plan: PIL BICUBIC | PIL BILINEAR, resized in memory (no files written) | the plan's stated aim is "the same way Gemma's processor does it"; Gemma3ImageProcessor uses resample=2 (BILINEAR). image_sha256 for these rows = sha256 of the resized RGB pixel bytes |
+| 23 | Replication criterion "replicates = significant, same direction, in >= 2 of 3 runs" | not in TASKS.md T16 | reported in replication_full_summary.csv | the OWNER plan that defines it was written after runs 2-3 finished, so it is post hoc, not pre-registered; the T16 tables (n_runs_sig, majority vote, permutation) are unchanged. The plan's pre-flight steps (phase4-start tag, pre-registration commit) could not be done before runs that had already happened and were not back-filled |
 
 ## Data-quality flags (counts)
 

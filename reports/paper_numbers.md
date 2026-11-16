@@ -2,8 +2,8 @@
 
 <!--
 study_id: vlm-modality-v1
-git_commit: 630dd83739f570e0efabfcf1e983688fe3b8889a-dirty
-created_utc: 2026-11-16T15:33:16Z
+git_commit: 505fe9452af0dcc180d68621a0c3849a513c3492-dirty
+created_utc: 2026-11-16T17:26:15Z
 -->
 
 Numbers and tables only. Each block names its source CSV. Full tables: `reports/summary.md`.
@@ -505,6 +505,135 @@ source: `results/analysis/sens_leading_fence_recovered.csv`
 | InternVL3_5-8B | exact | 2 | 0.018 | 0.171 | 330.000 | 170 |
 | InternVL3_5-8B | exact | 3 | 0.009 | 0.174 | 328.000 | 172 |
 
+## Replication summary, OWNER plan rule (post hoc: replicates = Holm-sig same direction in >= 2/3 runs)
+source: `results/analysis/replication_full_summary.csv`
+
+- replicates: 5/15 cells
+
+| model_id | content_type | n_sig_same_dir | sig_direction | replicates | diff_run1 | diff_min | diff_max | max_abs_diff_across_runs |
+|---|---|---|---|---|---|---|---|---|
+| InternVL3-8B | code | 3 | A>B | True | 0.126 | 0.110 | 0.130 | 0.020 |
+| InternVL3-8B | math | 3 | A>B | True | 0.056 | 0.052 | 0.056 | 0.004 |
+| InternVL3-8B | table | 2 | A>B | True | 0.060 | 0.060 | 0.088 | 0.028 |
+| Qwen2.5-VL-32B | code | 3 | A>B | True | 0.082 | 0.082 | 0.086 | 0.004 |
+| Qwen2.5-VL-32B | math | 0 | none | False | 0.016 | 0.016 | 0.016 | 0.000 |
+| Qwen2.5-VL-32B | table | 0 | none | False | 0.018 | 0.018 | 0.036 | 0.018 |
+| Qwen2.5-VL-3B | code | 0 | none | False | 0.044 | 0.044 | 0.060 | 0.016 |
+| Qwen2.5-VL-3B | math | 0 | none | False | 0.022 | 0.006 | 0.040 | 0.034 |
+| Qwen2.5-VL-3B | table | 0 | none | False | -0.026 | -0.030 | 0.000 | 0.030 |
+| Qwen2.5-VL-7B | code | 0 | none | False | 0.034 | 0.034 | 0.044 | 0.010 |
+| Qwen2.5-VL-7B | math | 0 | none | False | 0.000 | -0.002 | 0.004 | 0.006 |
+| Qwen2.5-VL-7B | table | 0 | none | False | -0.038 | -0.040 | -0.032 | 0.008 |
+| gemma-3-12b | code | 3 | A>B | True | 0.194 | 0.188 | 0.198 | 0.010 |
+| gemma-3-12b | math | 0 | none | False | 0.014 | 0.014 | 0.018 | 0.004 |
+| gemma-3-12b | table | 1 | A>B | False | 0.086 | 0.058 | 0.086 | 0.028 |
+
+### Run-to-run agreement per model × condition
+source: `results/analysis/replication_full_agreement.csv`
+
+- % identical response text: 35.8-62.1; % correctness agreement: 89.9-98.0; Cohen's kappa: 0.795-0.932; |Δacc| max 0.013
+
+| model_id | condition | pair | pct_identical_text | pct_correct_agree | cohen_kappa | abs_delta_acc |
+|---|---|---|---|---|---|---|
+| InternVL3-8B | A_text | main-rep2 | 38.667 | 94.133 | 0.849 | 0.004 |
+| InternVL3-8B | A_text | main-rep3 | 37.267 | 94.067 | 0.846 | 0.011 |
+| InternVL3-8B | A_text | rep2-rep3 | 37.067 | 94.867 | 0.866 | 0.007 |
+| InternVL3-8B | B_image | main-rep2 | 41.667 | 93.800 | 0.863 | 0.002 |
+| InternVL3-8B | B_image | main-rep3 | 43.133 | 93.267 | 0.851 | 6.67e-04 |
+| InternVL3-8B | B_image | rep2-rep3 | 41.267 | 93.200 | 0.850 | 0.001 |
+| InternVL3-8B | C_image_transcribe | main-rep2 | 40.667 | 94.533 | 0.874 | 0.003 |
+| InternVL3-8B | C_image_transcribe | main-rep3 | 39.200 | 94.400 | 0.871 | 0.003 |
+| InternVL3-8B | C_image_transcribe | rep2-rep3 | 40.800 | 94.667 | 0.878 | 0.000 |
+| Qwen2.5-VL-32B | A_text | main-rep2 | 46.867 | 98.000 | 0.922 | 0.005 |
+| Qwen2.5-VL-32B | A_text | main-rep3 | 45.200 | 97.733 | 0.911 | 0.007 |
+| Qwen2.5-VL-32B | A_text | rep2-rep3 | 47.333 | 97.600 | 0.904 | 0.001 |
+| Qwen2.5-VL-32B | B_image | main-rep2 | 46.867 | 96.467 | 0.886 | 0.002 |
+| Qwen2.5-VL-32B | B_image | main-rep3 | 46.933 | 96.600 | 0.890 | 0.002 |
+| Qwen2.5-VL-32B | B_image | rep2-rep3 | 45.133 | 96.400 | 0.884 | 0.004 |
+| Qwen2.5-VL-32B | C_image_transcribe | main-rep2 | 38.333 | 97.400 | 0.907 | 0.003 |
+| Qwen2.5-VL-32B | C_image_transcribe | main-rep3 | 38.400 | 97.533 | 0.912 | 0.002 |
+| Qwen2.5-VL-32B | C_image_transcribe | rep2-rep3 | 41.933 | 97.333 | 0.904 | 0.001 |
+| Qwen2.5-VL-3B | A_text | main-rep2 | 40.267 | 91.600 | 0.830 | 0.009 |
+| Qwen2.5-VL-3B | A_text | main-rep3 | 38.800 | 89.867 | 0.795 | 0.003 |
+| Qwen2.5-VL-3B | A_text | rep2-rep3 | 39.000 | 91.067 | 0.819 | 0.012 |
+| Qwen2.5-VL-3B | B_image | main-rep2 | 38.733 | 92.733 | 0.854 | 6.67e-04 |
+| Qwen2.5-VL-3B | B_image | main-rep3 | 39.600 | 92.800 | 0.855 | 0.011 |
+| Qwen2.5-VL-3B | B_image | rep2-rep3 | 39.200 | 92.600 | 0.851 | 0.011 |
+| Qwen2.5-VL-3B | C_image_transcribe | main-rep2 | 35.800 | 91.067 | 0.821 | 0.013 |
+| Qwen2.5-VL-3B | C_image_transcribe | main-rep3 | 37.133 | 91.000 | 0.820 | 0.002 |
+| Qwen2.5-VL-3B | C_image_transcribe | rep2-rep3 | 38.533 | 90.600 | 0.812 | 0.011 |
+| Qwen2.5-VL-7B | A_text | main-rep2 | 39.267 | 93.067 | 0.842 | 0.004 |
+| Qwen2.5-VL-7B | A_text | main-rep3 | 38.533 | 93.133 | 0.845 | 0.005 |
+| Qwen2.5-VL-7B | A_text | rep2-rep3 | 39.667 | 92.867 | 0.838 | 0.009 |
+| Qwen2.5-VL-7B | B_image | main-rep2 | 45.533 | 94.000 | 0.864 | 0.003 |
+| Qwen2.5-VL-7B | B_image | main-rep3 | 46.400 | 93.867 | 0.861 | 0.004 |
+| Qwen2.5-VL-7B | B_image | rep2-rep3 | 43.933 | 94.533 | 0.876 | 0.001 |
+| Qwen2.5-VL-7B | C_image_transcribe | main-rep2 | 45.600 | 95.467 | 0.897 | 0.003 |
+| Qwen2.5-VL-7B | C_image_transcribe | main-rep3 | 45.400 | 95.200 | 0.891 | 0.000 |
+| Qwen2.5-VL-7B | C_image_transcribe | rep2-rep3 | 44.600 | 95.867 | 0.906 | 0.003 |
+| gemma-3-12b | A_text | main-rep2 | 62.133 | 97.733 | 0.932 | 0.001 |
+| gemma-3-12b | A_text | main-rep3 | 61.333 | 97.000 | 0.910 | 0.002 |
+| gemma-3-12b | A_text | rep2-rep3 | 61.267 | 97.133 | 0.914 | 0.003 |
+| gemma-3-12b | B_image | main-rep2 | 52.867 | 96.533 | 0.918 | 0.008 |
+| gemma-3-12b | B_image | main-rep3 | 52.800 | 96.800 | 0.924 | 0.007 |
+| gemma-3-12b | B_image | rep2-rep3 | 52.667 | 96.933 | 0.927 | 0.001 |
+| gemma-3-12b | C_image_transcribe | main-rep2 | 47.333 | 95.933 | 0.896 | 0.005 |
+| gemma-3-12b | C_image_transcribe | main-rep3 | 47.400 | 96.800 | 0.918 | 0.005 |
+| gemma-3-12b | C_image_transcribe | rep2-rep3 | 46.733 | 96.467 | 0.909 | 6.67e-04 |
+
+### Extension A vs B, plan's Holm family of 6 (Gemma-27B, Qwen-72B-AWQ)
+source: `results/analysis/ext_rq1_A_vs_B_family6.csv`
+
+| model_id | content_type | acc_first | acc_second | diff | diff_ci_lo | diff_ci_hi | p_holm_family12 | p_holm_family6 |
+|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-VL-72B-AWQ | code | 0.798 | 0.758 | 0.040 | 0.006 | 0.074 | 0.133 | 0.106 |
+| Qwen2.5-VL-72B-AWQ | math | 0.966 | 0.956 | 0.010 | -0.004 | 0.026 | 0.680 | 0.453 |
+| Qwen2.5-VL-72B-AWQ | table | 0.812 | 0.808 | 0.004 | -0.029 | 0.037 | 0.905 | 0.905 |
+| gemma-3-27b | code | 0.758 | 0.612 | 0.146 | 0.107 | 0.185 | 7.00e-12 | 3.82e-12 |
+| gemma-3-27b | math | 0.972 | 0.946 | 0.026 | 0.007 | 0.047 | 0.074 | 0.053 |
+| gemma-3-27b | table | 0.778 | 0.742 | 0.036 | -0.004 | 0.076 | 0.380 | 0.285 |
+
+## Resolution control (exploratory; condition B only)
+source: `results/analysis/res_B_vs_B.csv`
+
+- Holm over 9 cells; p_holm < .05: 0
+
+| model_id | content_type | setting_first | setting_second | acc_B_original | acc_B_rescontrol | diff_original_minus_rescontrol | diff_ci_lo | diff_ci_hi | b_first_only | c_second_only | p_holm |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-VL-7B | code | native resolution | stretched to 896x896 | 0.490 | 0.486 | 0.004 | -0.031 | 0.039 | 40 | 38 | 1.000 |
+| Qwen2.5-VL-7B | math | native resolution | stretched to 896x896 | 0.868 | 0.872 | -0.004 | -0.029 | 0.021 | 18 | 20 | 1.000 |
+| Qwen2.5-VL-7B | table | native resolution | stretched to 896x896 | 0.664 | 0.650 | 0.014 | -0.021 | 0.049 | 42 | 35 | 1.000 |
+| Qwen2.5-VL-32B | code | native resolution | stretched to 896x896 | 0.730 | 0.764 | -0.034 | -0.066 | -0.002 | 25 | 42 | 0.398 |
+| Qwen2.5-VL-32B | math | native resolution | stretched to 896x896 | 0.902 | 0.906 | -0.004 | -0.030 | 0.022 | 20 | 22 | 1.000 |
+| Qwen2.5-VL-32B | table | native resolution | stretched to 896x896 | 0.794 | 0.782 | 0.012 | -0.015 | 0.039 | 26 | 20 | 1.000 |
+| gemma-3-12b | code | 896x896 + pan-and-scan | 896x896, no pan-and-scan | 0.494 | 0.492 | 0.002 | -0.019 | 0.023 | 14 | 13 | 1.000 |
+| gemma-3-12b | math | 896x896 + pan-and-scan | 896x896, no pan-and-scan | 0.934 | 0.928 | 0.006 | -0.004 | 0.017 | 3 | 0 | 1.000 |
+| gemma-3-12b | table | 896x896 + pan-and-scan | 896x896, no pan-and-scan | 0.648 | 0.594 | 0.054 | 0.015 | 0.093 | 64 | 37 | 0.084 |
+
+### A−B gap under each image setting (A = run-1 text)
+source: `results/analysis/res_gap_A_minus_B_by_setting.csv`
+
+| model_id | content_type | B_setting | acc_first | acc_second | gap_A_minus_B | diff_ci_lo | diff_ci_hi | p_holm |
+|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-VL-7B | code | native resolution | 0.524 | 0.490 | 0.034 | -0.005 | 0.072 | 1.000 |
+| Qwen2.5-VL-7B | math | native resolution | 0.868 | 0.868 | 0.000 | -0.026 | 0.026 | 1.000 |
+| Qwen2.5-VL-7B | table | native resolution | 0.626 | 0.664 | -0.038 | -0.080 | 0.004 | 1.000 |
+| Qwen2.5-VL-7B | code | stretched to 896x896 | 0.524 | 0.486 | 0.038 | -0.004 | 0.079 | 1.000 |
+| Qwen2.5-VL-7B | math | stretched to 896x896 | 0.868 | 0.872 | -0.004 | -0.031 | 0.023 | 1.000 |
+| Qwen2.5-VL-7B | table | stretched to 896x896 | 0.626 | 0.650 | -0.024 | -0.064 | 0.016 | 1.000 |
+| Qwen2.5-VL-32B | code | native resolution | 0.812 | 0.730 | 0.082 | 0.053 | 0.112 | 7.90e-07 |
+| Qwen2.5-VL-32B | math | native resolution | 0.918 | 0.902 | 0.016 | -0.013 | 0.046 | 1.000 |
+| Qwen2.5-VL-32B | table | native resolution | 0.812 | 0.794 | 0.018 | -0.012 | 0.049 | 1.000 |
+| Qwen2.5-VL-32B | code | stretched to 896x896 | 0.812 | 0.764 | 0.048 | 0.015 | 0.081 | 0.073 |
+| Qwen2.5-VL-32B | math | stretched to 896x896 | 0.918 | 0.906 | 0.012 | -0.018 | 0.042 | 1.000 |
+| Qwen2.5-VL-32B | table | stretched to 896x896 | 0.812 | 0.782 | 0.030 | -0.002 | 0.063 | 1.000 |
+| gemma-3-12b | code | 896x896 + pan-and-scan | 0.688 | 0.494 | 0.194 | 0.151 | 0.236 | 1.29e-16 |
+| gemma-3-12b | math | 896x896 + pan-and-scan | 0.948 | 0.934 | 0.014 | -0.007 | 0.036 | 1.000 |
+| gemma-3-12b | table | 896x896 + pan-and-scan | 0.734 | 0.648 | 0.086 | 0.041 | 0.130 | 0.003 |
+| gemma-3-12b | code | 896x896, no pan-and-scan | 0.688 | 0.492 | 0.196 | 0.152 | 0.239 | 2.67e-16 |
+| gemma-3-12b | math | 896x896, no pan-and-scan | 0.948 | 0.928 | 0.020 | -0.001 | 0.043 | 1.000 |
+| gemma-3-12b | table | 896x896, no pan-and-scan | 0.734 | 0.594 | 0.140 | 0.095 | 0.184 | 4.09e-08 |
+
 ## Figures
 
 - `results/figures/accuracy_by_condition.png`
@@ -515,6 +644,7 @@ source: `results/analysis/sens_leading_fence_recovered.csv`
 - `results/figures/ext_replication_full_accuracy_runs.png`
 - `results/figures/gap_A_minus_B_vs_size_by_family.png`
 - `results/figures/gap_A_minus_B_vs_size_qwen.png`
+- `results/figures/gap_vs_size_all.png`
 - `results/figures/output_tokens_boxplot.png`
 - `results/figures/replication_full_accuracy_runs.png`
 

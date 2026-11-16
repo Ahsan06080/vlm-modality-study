@@ -1,0 +1,22 @@
+# study_id: vlm-modality-v1
+# git_commit: 505fe9452af0dcc180d68621a0c3849a513c3492-dirty
+# created_utc: 2026-11-16T17:26:13Z
+model_id,content_type,B_setting,comparison,n_pairs,both_correct,b_first_only,c_second_only,both_wrong,acc_first,acc_second,gap_A_minus_B,diff_ci_lo,diff_ci_hi,discordant_or,or_ci_lo,or_ci_hi,p_mcnemar_exact,p_holm
+Qwen/Qwen2.5-VL-7B-Instruct,code,native resolution,A_text vs B_image,500,205,57,40,198,0.524,0.49,0.034,-0.00465765,0.0724288,1.425,0.934634,2.19135,0.103769,1
+Qwen/Qwen2.5-VL-7B-Instruct,math,native resolution,A_text vs B_image,500,414,20,20,46,0.868,0.868,0,-0.0256259,0.0256259,1,0.510615,1.95842,1,1
+Qwen/Qwen2.5-VL-7B-Instruct,table,native resolution,A_text vs B_image,500,266,47,66,121,0.626,0.664,-0.038,-0.0795162,0.00372443,0.712121,0.479181,1.05097,0.0899543,1
+Qwen/Qwen2.5-VL-7B-Instruct,code,stretched to 896x896,A_text vs B_image,500,196,66,47,191,0.524,0.486,0.038,-0.00369954,0.0794236,1.40426,0.951503,2.08689,0.0899543,1
+Qwen/Qwen2.5-VL-7B-Instruct,math,stretched to 896x896,A_text vs B_image,500,413,21,23,43,0.868,0.872,-0.004,-0.0308443,0.0227429,0.913043,0.480635,1.72556,0.880396,1
+Qwen/Qwen2.5-VL-7B-Instruct,table,stretched to 896x896,A_text vs B_image,500,267,46,58,129,0.626,0.65,-0.024,-0.0639517,0.0160772,0.793103,0.526621,1.18832,0.28069,1
+Qwen/Qwen2.5-VL-32B-Instruct,code,native resolution,A_text vs B_image,500,356,50,9,85,0.812,0.73,0.082,0.0526214,0.111968,5.55556,2.70481,12.8499,5.26483e-08,7.89725e-07
+Qwen/Qwen2.5-VL-32B-Instruct,math,native resolution,A_text vs B_image,500,428,31,23,18,0.918,0.902,0.016,-0.013385,0.0458008,1.34783,0.76082,2.42059,0.340891,1
+Qwen/Qwen2.5-VL-32B-Instruct,table,native resolution,A_text vs B_image,500,372,34,25,69,0.812,0.794,0.018,-0.0124715,0.0486442,1.36,0.78786,2.3778,0.297595,1
+Qwen/Qwen2.5-VL-32B-Instruct,code,stretched to 896x896,A_text vs B_image,500,359,47,23,71,0.812,0.764,0.048,0.015215,0.0810729,2.04348,1.21622,3.52592,0.00558267,0.0725747
+Qwen/Qwen2.5-VL-32B-Instruct,math,stretched to 896x896,A_text vs B_image,500,428,31,25,16,0.918,0.906,0.012,-0.0179765,0.0422733,1.24,0.708574,2.19044,0.504404,1
+Qwen/Qwen2.5-VL-32B-Instruct,table,stretched to 896x896,A_text vs B_image,500,365,41,26,68,0.812,0.782,0.03,-0.00230331,0.0625204,1.57692,0.941816,2.68503,0.0864372,1
+google/gemma-3-12b-it,code,896x896 + pan-and-scan,A_text vs B_image,500,227,117,20,136,0.688,0.494,0.194,0.15067,0.235991,5.85,3.62063,9.92778,7.15715e-18,1.28829e-16
+google/gemma-3-12b-it,math,896x896 + pan-and-scan,A_text vs B_image,500,457,17,10,16,0.948,0.934,0.014,-0.00721701,0.0361588,1.7,0.735146,4.15445,0.247789,1
+google/gemma-3-12b-it,table,896x896 + pan-and-scan,A_text vs B_image,500,279,88,45,88,0.734,0.648,0.086,0.0411057,0.130449,1.95556,1.35049,2.86657,0.000241696,0.00338374
+google/gemma-3-12b-it,code,"896x896, no pan-and-scan",A_text vs B_image,500,224,120,22,134,0.688,0.492,0.196,0.151829,0.238781,5.45455,3.44212,9.02874,1.56773e-17,2.66514e-16
+google/gemma-3-12b-it,math,"896x896, no pan-and-scan",A_text vs B_image,500,455,19,9,17,0.948,0.928,0.02,-0.00133762,0.0426243,2.11111,0.91016,5.29818,0.0871586,1
+google/gemma-3-12b-it,table,"896x896, no pan-and-scan",A_text vs B_image,500,262,105,35,98,0.734,0.594,0.14,0.0947824,0.184388,3,2.02884,4.5333,2.55883e-09,4.09413e-08

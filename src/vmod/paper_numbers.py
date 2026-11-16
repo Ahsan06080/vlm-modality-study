@@ -180,6 +180,36 @@ def main(args=None):
                   + f" — source: {SRC(pre + '_rq2_pattern_check_sens_leading_fence.csv')}", "",
                   md(pc[["model_id", "subset_rule", "run", "gap_A_minus_C_correct", "gap_A_minus_C_wrong", "n_pairs_correct", "n_pairs_wrong"]]), ""]
 
+    # OWNER Phase 4 plan files (2026-11-16)
+    s = _r("replication_full_summary.csv")
+    if s is not None:
+        L += ["## Replication summary, OWNER plan rule (post hoc: replicates = Holm-sig same direction in >= 2/3 runs)",
+              f"source: {SRC('replication_full_summary.csv')}", "",
+              f"- replicates: {int(s.replicates.sum())}/{len(s)} cells", "",
+              md(_short(s)[["model_id", "content_type", "n_sig_same_dir", "sig_direction", "replicates", "diff_run1", "diff_min",
+                            "diff_max", "max_abs_diff_across_runs"]]), ""]
+    ag = _r("replication_full_agreement.csv")
+    if ag is not None:
+        L += ["### Run-to-run agreement per model × condition", f"source: {SRC('replication_full_agreement.csv')}", "",
+              f"- % identical response text: {ag.pct_identical_text.min():.1f}-{ag.pct_identical_text.max():.1f}; "
+              f"% correctness agreement: {ag.pct_correct_agree.min():.1f}-{ag.pct_correct_agree.max():.1f}; "
+              f"Cohen's kappa: {ag.cohen_kappa.min():.3f}-{ag.cohen_kappa.max():.3f}; |Δacc| max {ag.abs_delta_acc.max():.3f}", "",
+              md(_short(ag)[["model_id", "condition", "pair", "pct_identical_text", "pct_correct_agree", "cohen_kappa", "abs_delta_acc"]]), ""]
+    f6 = _r("ext_rq1_A_vs_B_family6.csv")
+    if f6 is not None:
+        L += ["### Extension A vs B, plan's Holm family of 6 (Gemma-27B, Qwen-72B-AWQ)", f"source: {SRC('ext_rq1_A_vs_B_family6.csv')}", "",
+              md(_short(f6)[["model_id", "content_type", "acc_first", "acc_second", "diff", "diff_ci_lo", "diff_ci_hi", "p_holm_family12", "p_holm_family6"]]), ""]
+    rb = _r("res_B_vs_B.csv")
+    if rb is not None:
+        L += ["## Resolution control (exploratory; condition B only)", f"source: {SRC('res_B_vs_B.csv')}", "",
+              f"- Holm over {len(rb)} cells; p_holm < .05: {int((rb.p_holm < .05).sum())}", "",
+              md(_short(rb)[["model_id", "content_type", "setting_first", "setting_second", "acc_B_original", "acc_B_rescontrol",
+                             "diff_original_minus_rescontrol", "diff_ci_lo", "diff_ci_hi", "b_first_only", "c_second_only", "p_holm"]]), ""]
+        gg = _r("res_gap_A_minus_B_by_setting.csv")
+        if gg is not None:
+            L += ["### A−B gap under each image setting (A = run-1 text)", f"source: {SRC('res_gap_A_minus_B_by_setting.csv')}", "",
+                  md(_short(gg)[["model_id", "content_type", "B_setting", "acc_first", "acc_second", "gap_A_minus_B", "diff_ci_lo", "diff_ci_hi", "p_holm"]]), ""]
+
     L += ["## Figures", "", *[f"- `results/figures/{p.name}`" for p in sorted((RESULTS / "figures").glob("*.png"))], ""]
     (REPORTS / "paper_numbers.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("wrote reports/paper_numbers.md")

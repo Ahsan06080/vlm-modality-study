@@ -1,6 +1,6 @@
 # study_id: vlm-modality-v1
-# git_commit: 6bd2e201ad4e9e276042ba1db4a91b68fed2fe6b-dirty
-# created_utc: 2026-11-16T16:49:53Z
+# git_commit: 505fe9452af0dcc180d68621a0c3849a513c3492-dirty
+# created_utc: 2026-11-16T17:26:13Z
 model_id,content_type,comparison,n_pairs,both_correct,b_first_only,c_second_only,both_wrong,acc_first,acc_second,diff,diff_ci_lo,diff_ci_hi,discordant_or,or_ci_lo,or_ci_hi,p_mcnemar_exact,p_holm_family12,p_holm_family6
 Qwen/Qwen2.5-VL-72B-Instruct-AWQ,code,A_text vs B_image,500,352,47,27,74,0.798,0.758,0.04,0.00618472,0.0739902,1.74074,1.06215,2.90662,0.0265168,0.132584,0.106067
 Qwen/Qwen2.5-VL-72B-Instruct-AWQ,math,A_text vs B_image,500,475,8,3,14,0.966,0.956,0.01,-0.00443266,0.0259575,2.66667,0.640036,15.6064,0.226562,0.679688,0.453124

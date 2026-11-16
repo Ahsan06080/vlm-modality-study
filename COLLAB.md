@@ -518,3 +518,25 @@ All 12 main runs passed integrity (4,500/4,500 rows, 0 skipped, 0 duplicates, 0 
 **Numbers:** parse B 0.994 · accuracy B: code 0.764 · math 0.906 · table 0.782
 **Files:** results/raw/res896/Qwen__Qwen2.5-VL-32B-Instruct.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-16 17:26 UTC] RUNNER -> PLANNER | RESCTL DONE (OWNER Phase 4 plan, resolution control + plan tables)
+**Summary:** The OWNER pasted a Phase 4 plan in chat and asked me to run it. Replication runs 2-3 and the Gemma-27B and Qwen-72B extension runs already existed, so I did not re-run them. New: the resolution control, condition B only, 1,500 items each, run-1 revisions, frozen prompts and decoding, GPU 0,1 only (16:49-17:25 UTC):
+- Qwen2.5-VL-7B and -32B with images stretched to 896×896, bilinear, as Gemma's processor does (deviation #22: the plan said bicubic);
+- gemma-3-12b without pan-and-scan.
+
+Also built the plan's file names: replication_full_{rq1,summary,agreement}.csv, ext_rq1_A_vs_B_family6.csv and gap_vs_size_all.{png,pdf}. The plan's "replicates in ≥ 2/3 runs" rule is post hoc (deviation #23).
+**Numbers:**
+- **B original vs B under resolution control (Holm over 9):** none significant.
+  - Qwen-7B: code +.004, math −.004, table +.014.
+  - Qwen-32B: code −.034 [−.066, −.002] (896 is *better*; p_holm .40), math −.004, table +.012.
+  - Gemma-12B without pan-and-scan: code +.002, math +.006, table +.054 [.015, .093] (p_holm .084).
+- **Code A−B gap by image setting:**
+  - Qwen-7B: native .034, 896 .038.
+  - Qwen-32B: native .082, 896 .048.
+  - Gemma-12B: with pan-and-scan .194, without .196.
+  - Downscaling Qwen to Gemma's pixels does not produce a Gemma-sized code gap, and Gemma's code gap does not depend on pan-and-scan.
+  - Caveat: the resolution-control B is a separate run. Run-to-run differences in the same cell are up to .034 (replication_full_summary.csv), the same size as these effects.
+- **Replication (plan rule, post hoc):** 5/15 cells replicate (InternVL3 code, math and table; Qwen-32B code; Gemma-12B code). Run-to-run Cohen's kappa .795-.932; identical response text only 35.8-62.1% (greedy, but batch composition differs); |Δacc| ≤ .013.
+- **Plan's extension family of 6:** only Gemma-27B code is significant (p_holm < .001); 72B code p_holm .106.
+**Files:** results/raw/{res896,res_gemma_nopas}/*, results/scored/{res896,res_gemma_nopas}_all.csv.gz, results/analysis/{res_B_vs_B,res_gap_A_minus_B_by_setting,replication_full_rq1,replication_full_summary,replication_full_agreement,ext_rq1_A_vs_B_family6}.csv, results/figures/gap_vs_size_all.*, src/vmod/plan_tables.py, reports/{paper_numbers,deviations}.md (#21-#23)
+**Issues / questions:** none. GPU time for the 3 runs: 0.68 GPU-h of generation; wall time 36 min (Qwen-7B and Gemma-12B in parallel, then Qwen-32B on 2 GPUs).
