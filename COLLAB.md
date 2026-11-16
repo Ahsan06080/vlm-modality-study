@@ -512,3 +512,9 @@ All 12 main runs passed integrity (4,500/4,500 rows, 0 skipped, 0 duplicates, 0 
 **Numbers:** parse B 0.997 · accuracy B: code 0.492 · math 0.928 · table 0.594
 **Files:** results/raw/res_gemma_nopas/google__gemma-3-12b-it.jsonl.gz
 **Issues / questions:** none
+
+### [2026-11-16 17:25 UTC] RUNNER -> PLANNER | RESCTL PROGRESS (Qwen2.5-VL-32B-Instruct res896 done)
+**Summary:** integrity OK: 1500/1500 rows, skipped 0, duplicates 0, missing 0. Wall time 27.3 min (generation 0.424 h). finish_reason=length 0.0%.
+**Numbers:** parse B 0.994 · accuracy B: code 0.764 · math 0.906 · table 0.782
+**Files:** results/raw/res896/Qwen__Qwen2.5-VL-32B-Instruct.jsonl.gz
+**Issues / questions:** none
