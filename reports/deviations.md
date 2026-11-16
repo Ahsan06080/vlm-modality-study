@@ -37,7 +37,8 @@
 | Responses with output tokens > Q3 + 3·IQR (within cell) | 383 of 22,500 | outlier_counts.csv |
 | Scorer hand-check disagreements (T10) | 1 of 30 | handcheck_t10.csv |
 | GLMM (T12) | not run: no `GLMM OK` from OWNER | - |
-| Phase 4: InternVL3.5-8B condition C, no transcription found (code / math / table) | 99.4% / 94.4% / 81.2% (it writes the copy as a leading code fence without tags or a "Transcription" heading; the frozen extractor finds nothing) -> its RQ2 numbers are not interpretable | ext_rq2_transcription.csv |
+| Phase 4: InternVL3.5-8B condition C, no transcription found (code / math / table) | 99.4% / 94.4% / 81.2% (it writes the copy as a leading code fence without tags or a "Transcription" heading; the frozen extractor finds nothing) -> its RQ2 numbers are not interpretable under the frozen extractor; see the approved leading-fence sensitivity (row below) | ext_rq2_transcription.csv |
+| Sensitivity (approved after T18): 'leading code fence = transcription' fallback, applied only where the frozen extractor finds nothing. Condition-C responses recovered per run: InternVL3.5 code 466-469; gemma-3-12b code 312-323, table 35-41; no other model/cell. Primary scored files and primary CSVs unchanged | code % with transcription: InternVL3.5 0.6 -> 93.8, gemma-12b 20.0 -> 82.4 (run 1) | sens_leading_fence_recovered.csv, *_sens_leading_fence.csv |
 | Phase 4: Qwen3-VL-8B finish_reason=length, code A | 9.0% (highest extension cell) | ext_descriptives.csv |
 | Phase 4: extension responses with finish_reason=length (run 1) | 183 of 18,000 | ext_outlier_counts.csv |
 | Phase 4: extension responses with output tokens > Q3 + 3·IQR (run 1) | 456 of 18,000 | ext_outlier_counts.csv |

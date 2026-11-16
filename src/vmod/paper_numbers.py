@@ -164,6 +164,22 @@ def main(args=None):
                 r = r[["model_id", "group", "content_type", "diff", "diff_ci_lo", "diff_ci_hi", "p_holm"]]
             L += [f"## {title}", f"source: {SRC(name)}", "", md(r), ""]
 
+    rc = _r("sens_leading_fence_recovered.csv")
+    if rc is not None:
+        rc = _short(rc[rc.n_recovered_leading_fence > 0])
+        L += ["## Sensitivity: leading code fence = transcription (approved after T18)", f"source: {SRC('sens_leading_fence_recovered.csv')}", "",
+              md(rc[["set", "run", "model_id", "content_type", "pct_with_transcription_frozen", "pct_with_transcription_sens",
+                     "n_recovered_leading_fence", "recovered_exact_rate", "recovered_pct_cer_le_002", "exact_rate_frozen", "exact_rate_sens"]]), ""]
+        for pre in ("replication_full", "ext_replication_full"):
+            pc = _r(f"{pre}_rq2_pattern_check_sens_leading_fence.csv")
+            if pc is None:
+                continue
+            pc = _short(pc[pc.model_id.isin(["google/gemma-3-12b-it", "OpenGVLab/InternVL3_5-8B"]) & (pc.content_type == "code")])
+            g = _r(f"{pre}_rq2_pattern_check_sens_leading_fence.csv").groupby(["content_type", "subset_rule"]).pattern_wrong_gt_correct.agg(["sum", "count"])
+            L += [f"- {pre} RQ2 pattern under the rule, code: " + ", ".join(f"{r}: {int(g.loc[('code', r), 'sum'])}/{int(g.loc[('code', r), 'count'])}" for r in ("exact", "cer_le_0.02"))
+                  + f" — source: {SRC(pre + '_rq2_pattern_check_sens_leading_fence.csv')}", "",
+                  md(pc[["model_id", "subset_rule", "run", "gap_A_minus_C_correct", "gap_A_minus_C_wrong", "n_pairs_correct", "n_pairs_wrong"]]), ""]
+
     L += ["## Figures", "", *[f"- `results/figures/{p.name}`" for p in sorted((RESULTS / "figures").glob("*.png"))], ""]
     (REPORTS / "paper_numbers.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("wrote reports/paper_numbers.md")

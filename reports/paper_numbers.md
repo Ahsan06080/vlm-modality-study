@@ -2,8 +2,8 @@
 
 <!--
 study_id: vlm-modality-v1
-git_commit: c91952f507ba96fede27e4f541daf902d4d43114-dirty
-created_utc: 2026-11-15T19:34:20Z
+git_commit: 630dd83739f570e0efabfcf1e983688fe3b8889a-dirty
+created_utc: 2026-11-16T15:33:16Z
 -->
 
 Numbers and tables only. Each block names its source CSV. Full tables: `reports/summary.md`.
@@ -467,6 +467,43 @@ source: `results/analysis/resolution_check_code_gap_summary.csv`
 |---|---|---|---|---|---|
 | False | 5 | 0.064 | 0.034 | 0.122 | descriptive only; family is confounded with image handling |
 | True | 4 | 0.143 | 0.108 | 0.194 | descriptive only; family is confounded with image handling |
+
+## Sensitivity: leading code fence = transcription (approved after T18)
+source: `results/analysis/sens_leading_fence_recovered.csv`
+
+| set | run | model_id | content_type | pct_with_transcription_frozen | pct_with_transcription_sens | n_recovered_leading_fence | recovered_exact_rate | recovered_pct_cer_le_002 | exact_rate_frozen | exact_rate_sens |
+|---|---|---|---|---|---|---|---|---|---|---|
+| primary | 1 | gemma-3-12b | code | 20.000 | 82.400 | 312 | 0.529 | 84.936 | 0.100 | 0.430 |
+| primary | 1 | gemma-3-12b | table | 82.200 | 90.400 | 41 | 0.000 | 7.317 | 0.000 | 0.000 |
+| primary | 2 | gemma-3-12b | code | 18.000 | 82.200 | 321 | 0.536 | 85.047 | 0.090 | 0.434 |
+| primary | 2 | gemma-3-12b | table | 82.400 | 89.400 | 35 | 0.000 | 8.571 | 0.000 | 0.000 |
+| primary | 3 | gemma-3-12b | code | 18.000 | 82.600 | 323 | 0.529 | 84.830 | 0.088 | 0.430 |
+| primary | 3 | gemma-3-12b | table | 82.000 | 89.800 | 39 | 0.000 | 7.692 | 0.000 | 0.000 |
+| ext | 1 | InternVL3_5-8B | code | 0.600 | 93.800 | 466 | 0.695 | 87.768 | 0.006 | 0.654 |
+| ext | 2 | InternVL3_5-8B | code | 0.800 | 94.600 | 469 | 0.697 | 88.273 | 0.006 | 0.660 |
+| ext | 3 | InternVL3_5-8B | code | 0.800 | 94.200 | 467 | 0.696 | 88.223 | 0.006 | 0.656 |
+
+- replication_full RQ2 pattern under the rule, code: exact: 15/15, cer_le_0.02: 15/15 — source: `results/analysis/replication_full_rq2_pattern_check_sens_leading_fence.csv`
+
+| model_id | subset_rule | run | gap_A_minus_C_correct | gap_A_minus_C_wrong | n_pairs_correct | n_pairs_wrong |
+|---|---|---|---|---|---|---|
+| gemma-3-12b | cer_le_0.02 | 1 | 0.095 | 0.261 | 347.000 | 153 |
+| gemma-3-12b | cer_le_0.02 | 2 | 0.096 | 0.284 | 345.000 | 155 |
+| gemma-3-12b | cer_le_0.02 | 3 | 0.109 | 0.233 | 350.000 | 150 |
+| gemma-3-12b | exact | 1 | 0.051 | 0.218 | 215.000 | 285 |
+| gemma-3-12b | exact | 2 | 0.037 | 0.244 | 217.000 | 283 |
+| gemma-3-12b | exact | 3 | 0.060 | 0.211 | 215.000 | 285 |
+
+- ext_replication_full RQ2 pattern under the rule, code: exact: 12/12, cer_le_0.02: 12/12 — source: `results/analysis/ext_replication_full_rq2_pattern_check_sens_leading_fence.csv`
+
+| model_id | subset_rule | run | gap_A_minus_C_correct | gap_A_minus_C_wrong | n_pairs_correct | n_pairs_wrong |
+|---|---|---|---|---|---|---|
+| InternVL3_5-8B | cer_le_0.02 | 1 | 0.087 | 0.114 | 412.000 | 88 |
+| InternVL3_5-8B | cer_le_0.02 | 2 | 0.062 | 0.110 | 418.000 | 82 |
+| InternVL3_5-8B | cer_le_0.02 | 3 | 0.048 | 0.155 | 416.000 | 84 |
+| InternVL3_5-8B | exact | 1 | 0.046 | 0.179 | 327.000 | 173 |
+| InternVL3_5-8B | exact | 2 | 0.018 | 0.171 | 330.000 | 170 |
+| InternVL3_5-8B | exact | 3 | 0.009 | 0.174 | 328.000 | 172 |
 
 ## Figures
 

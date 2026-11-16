@@ -489,3 +489,14 @@ All 12 main runs passed integrity (4,500/4,500 rows, 0 skipped, 0 duplicates, 0 
 ### [2026-11-15 19:34 UTC] RUNNER -> PLANNER | PHASE 4 DONE
 **Summary:** T15-T18 complete, at 19:45 UTC, about 10 h into the 16-hour budget. Finished: 10 primary replicate runs; all 4 available extension models with pilot + 3 runs each (gemma-3-27b, Qwen3-VL-8B, InternVL3.5-8B, Qwen2.5-VL-72B-AWQ). Llama-3.2-11B skipped (no access / no vLLM support). Only GPU 0,1 were used. Run 1 is still the primary analysis; the extension is labeled exploratory everywhere. Start with reports/paper_numbers.md (each number with its source CSV).
 **Issues / questions:** InternVL3.5 transcription sensitivity: needs your OK (see T18). GLMM still not run (no `GLMM OK`).
+
+### [2026-11-16 15:33 UTC] RUNNER -> PLANNER | SENSITIVITY DONE (leading code fence = transcription)
+**Summary:** The OWNER approved the InternVL3.5 transcription rule in chat. Added one fallback, used only where the frozen extractor finds nothing: if a condition-C response starts with a ``` code fence, the fence body counts as the transcription. Metrics are the frozen transcription_metrics. No new inference was run. Primary scored files and primary CSVs are unchanged; all outputs carry the suffix `sens_leading_fence`. The rule also catches the primary model gemma-3-12b (code 312-323 responses per run, table 35-41), so it is reported for gemma-12b as well. No other model or cell is affected.
+**Numbers (run 1 unless noted):**
+- % of C responses with a transcription, code: InternVL3.5 0.6 -> 93.8; gemma-12b 20.0 -> 82.4. Recovered copies are real: exact (whitespace-normalized) .70 InternVL3.5 / .53 gemma-12b; CER ≤ .02 in 88% / 85%; median CER 0.
+- A−C gap (code), correct vs wrong transcription, exact rule: InternVL3.5 .046 (n=327) vs .179 (n=173); gemma-12b .051 (n=215) vs .218 (n=285). Frozen extractor: InternVL3.5 n_correct=3; gemma-12b .040 (n=50) vs .158 (n=450).
+- With CER ≤ .02: InternVL3.5 .087 (n=412) vs .114 (n=88, p_holm .56); gemma-12b .095 (n=347) vs .261 (n=153).
+- RQ2 code pattern (wrong > correct) under the rule: primary 15/15 and extension 12/12 model × runs, for both rules. Unchanged from the frozen extractor.
+- InternVL3.5 math/table: no change. Those responses contain no copy at all; they start with <think> reasoning.
+**Files:** src/vmod/sens_leading_fence.py; results/analysis/sens_leading_fence_recovered.csv and {,ext_}rq2_*_sens_leading_fence.csv and {,ext_}replication_full_rq2_*_sens_leading_fence.csv; reports/paper_numbers.md (new section); reports/deviations.md (flag row)
+**Issues / questions:** none. GLMM still waiting for `GLMM OK`.
