@@ -25,6 +25,7 @@
 | 21 | Resolution control (OWNER plan, 2026-11-16) | not in TASKS.md | condition B only, 1,500 items, run-1 revisions, frozen prompts/decoding, gpu_memory_utilization 0.80, order seed 630: Qwen2.5-VL-7B and -32B with every image stretched to 896x896 (results/raw/res896); gemma-3-12b with do_pan_and_scan=false (results/raw/res_gemma_nopas) | added after the Phase 4 results; exploratory. Runner gained --conditions, --image-variant, --mm-override (commit 58cd9fd) |
 | 22 | Resolution control resampling | OWNER plan: PIL BICUBIC | PIL BILINEAR, resized in memory (no files written) | the plan's stated aim is "the same way Gemma's processor does it"; Gemma3ImageProcessor uses resample=2 (BILINEAR). image_sha256 for these rows = sha256 of the resized RGB pixel bytes |
 | 23 | Replication criterion "replicates = significant, same direction, in >= 2 of 3 runs" | not in TASKS.md T16 | reported in replication_full_summary.csv | the OWNER plan that defines it was written after runs 2-3 finished, so it is post hoc, not pre-registered; the T16 tables (n_runs_sig, majority vote, permutation) are unchanged. The plan's pre-flight steps (phase4-start tag, pre-registration commit) could not be done before runs that had already happened and were not back-filled |
+| 24 | GLMM estimation method | not specified (lme4-style) | exact ML with the item intercept integrated by Gauss-Hermite quadrature (40 nodes; own implementation, src/vmod/glmm.py), reference levels A_text / code / Qwen2.5-VL-7B; SEs from the numerical Hessian | no R on the server; statsmodels only has a variational-Bayes approximation (used as a check: max coefficient difference .038). 40 vs 80 nodes: max coefficient difference .009, log-lik -9060.67 vs -9060.95. The cell contrasts are conditional (item intercept = 0) log-odds, not the marginal accuracy differences of the McNemar tests; McNemar stays the primary RQ1 test |
 
 ## Data-quality flags (counts)
 
@@ -39,7 +40,7 @@
 | Responses with finish_reason=length (main, all models) | 138 of 22,500 | outlier_counts.csv |
 | Responses with output tokens > Q3 + 3·IQR (within cell) | 383 of 22,500 | outlier_counts.csv |
 | Scorer hand-check disagreements (T10) | 1 of 30 | handcheck_t10.csv |
-| GLMM (T12) | not run: no `GLMM OK` from OWNER | - |
+| GLMM (T12) | run after `GLMM OK` (2026-11-16): run 1 primary + runs 2-3; see deviation #24 | glmm_*.csv |
 | Phase 4: InternVL3.5-8B condition C, no transcription found (code / math / table) | 99.4% / 94.4% / 81.2% (it writes the copy as a leading code fence without tags or a "Transcription" heading; the frozen extractor finds nothing) -> its RQ2 numbers are not interpretable under the frozen extractor; see the approved leading-fence sensitivity (row below) | ext_rq2_transcription.csv |
 | Sensitivity (approved after T18): 'leading code fence = transcription' fallback, applied only where the frozen extractor finds nothing. Condition-C responses recovered per run: InternVL3.5 code 466-469; gemma-3-12b code 312-323, table 35-41; no other model/cell. Primary scored files and primary CSVs unchanged | code % with transcription: InternVL3.5 0.6 -> 93.8, gemma-12b 20.0 -> 82.4 (run 1) | sens_leading_fence_recovered.csv, *_sens_leading_fence.csv |
 | Phase 4: Qwen3-VL-8B finish_reason=length, code A | 9.0% (highest extension cell) | ext_descriptives.csv |

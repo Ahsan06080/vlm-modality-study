@@ -1,0 +1,13 @@
+# study_id: vlm-modality-v1
+# git_commit: ddde07f9da5a086ca48c0917f3cd2ab51e488bf0
+# created_utc: 2026-11-16T18:23:09Z
+run,test,loglik_full,loglik_reduced,lr_stat,df,p_value
+1,no condition:model,-9060.67,-9092.56,63.7779,8,8.41437e-11
+1,no condition:content,-9060.67,-9079.45,37.5719,4,1.37316e-07
+1,no condition terms,-9060.67,-9152.72,184.112,14,9.47408e-32
+2,no condition:model,-8895.08,-8927.69,65.2194,8,4.3673e-11
+2,no condition:content,-8895.08,-8909.01,27.8662,4,1.32764e-05
+2,no condition terms,-8895.08,-8993.2,196.232,14,3.22789e-34
+3,no condition:model,-9014.7,-9044.93,60.4621,8,3.78257e-10
+3,no condition:content,-9014.7,-9030.63,31.856,4,2.04723e-06
+3,no condition terms,-9014.7,-9107.04,184.672,14,7.28948e-32

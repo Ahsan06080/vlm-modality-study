@@ -180,6 +180,26 @@ def main(args=None):
                   + f" — source: {SRC(pre + '_rq2_pattern_check_sens_leading_fence.csv')}", "",
                   md(pc[["model_id", "subset_rule", "run", "gap_A_minus_C_correct", "gap_A_minus_C_wrong", "n_pairs_correct", "n_pairs_wrong"]]), ""]
 
+    # T12 GLMM (GLMM OK, 2026-11-16)
+    gf = _r("glmm_fixed_effects.csv")
+    if gf is not None:
+        g1 = gf[gf.run == 1]
+        L += ["## GLMM: correct ~ condition × content + condition × model + (1 | item), run 1 (exact ML, Gauss-Hermite 40 nodes)",
+              f"source: {SRC('glmm_fixed_effects.csv')}", "",
+              f"- n obs {int(g1.n_obs.iloc[0])}, items {int(g1.n_items.iloc[0])}; log-lik {g1.loglik.iloc[0]:.2f}; "
+              f"sd(item) {g1[g1.term == 'sd(item intercept)'].coef.iloc[0]:.3f}; latent ICC {g1.icc_latent.iloc[0]:.3f}", "",
+              md(g1[["term", "coef", "se", "z", "p_value", "odds_ratio", "or_ci_lo", "or_ci_hi"]], ".4f"), ""]
+        lr = _r("glmm_lrt.csv")
+        L += ["### Likelihood-ratio tests (runs 1-3)", f"source: {SRC('glmm_lrt.csv')}", "", md(lr, ".4g"), ""]
+        cc = _r("glmm_cell_contrasts.csv")
+        ab = cc[(cc.comparison == "A_text vs B_image")]
+        w = ab.pivot_table(index=["model", "content_type"], columns="run", values=["odds_ratio", "p_holm_within_comparison"])
+        w.columns = [f"{a}_run{b}" for a, b in w.columns]
+        L += ["### A vs B per cell from the GLMM (conditional odds ratio, Holm over 15 per run)", f"source: {SRC('glmm_cell_contrasts.csv')}", "",
+              f"- p_holm < .05: run 1 {int((ab[ab.run == 1].p_holm_within_comparison < .05).sum())}/15, run 2 {int((ab[ab.run == 2].p_holm_within_comparison < .05).sum())}/15, run 3 {int((ab[ab.run == 3].p_holm_within_comparison < .05).sum())}/15", "",
+              md(w.reset_index(), ".4f"), "",
+              f"- checks (run 1): GH 40 vs 80 nodes and statsmodels VB — source: {SRC('glmm_checks.csv')}", ""]
+
     # OWNER Phase 4 plan files (2026-11-16)
     s = _r("replication_full_summary.csv")
     if s is not None:

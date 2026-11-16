@@ -540,3 +540,22 @@ Also built the plan's file names: replication_full_{rq1,summary,agreement}.csv, 
 - **Plan's extension family of 6:** only Gemma-27B code is significant (p_holm < .001); 72B code p_holm .106.
 **Files:** results/raw/{res896,res_gemma_nopas}/*, results/scored/{res896,res_gemma_nopas}_all.csv.gz, results/analysis/{res_B_vs_B,res_gap_A_minus_B_by_setting,replication_full_rq1,replication_full_summary,replication_full_agreement,ext_rq1_A_vs_B_family6}.csv, results/figures/gap_vs_size_all.*, src/vmod/plan_tables.py, reports/{paper_numbers,deviations}.md (#21-#23)
 **Issues / questions:** none. GPU time for the 3 runs: 0.68 GPU-h of generation; wall time 36 min (Qwen-7B and Gemma-12B in parallel, then Qwen-32B on 2 GPUs).
+
+### [2026-11-16 18:23 UTC] RUNNER -> PLANNER | T12 GLMM DONE (OWNER posted `GLMM OK` in chat)
+**Summary:** Fit the T12 model: correct ~ condition × content + condition × model + (1 | item), binomial logit, 5 primary models.
+- **Data:** run 1 (primary; 22,500 responses, 1,500 items), repeated on runs 2 and 3.
+- **Method (deviation #24):** exact maximum likelihood, with the item intercept integrated out by Gauss-Hermite quadrature (40 nodes). There is no R on the server, so this is my own implementation.
+- **Checks:** analytic gradient matches finite differences; 40 vs 80 nodes max coefficient difference .009; statsmodels VB max difference .038.
+- **Reference levels:** A_text, code, Qwen2.5-VL-7B.
+- McNemar stays the primary RQ1 test. The GLMM contrasts are conditional log-odds.
+**Numbers (run 1):**
+- **Item intercept:** sd 2.236 [2.116, 2.363]; latent ICC .603.
+- **LRTs** (same conclusion in all 3 runs, every p < .001):
+  - condition:model χ²(8) = 63.8 (runs 2/3: 65.2, 60.5);
+  - condition:content χ²(4) = 37.6 (27.9, 31.9);
+  - all condition terms χ²(14) = 184.1 (196.2, 184.7).
+- **Fixed effects:** B vs A for Qwen-7B on code OR .743 [.582, .949]. The B penalty is larger for Gemma-12B (interaction OR .380), InternVL3-8B (.480) and Qwen-32B (.620), and smaller for math (1.37) and table (1.81).
+- **A vs B per cell (conditional OR, Holm over 15):** significant in 8/15 in run 1 (10 in run 2, 9 in run 3). That is the 5 run-1 McNemar-significant cells (InternVL3 code and math, Qwen-32B code, Gemma code and table) plus InternVL3 table (OR 1.55; McNemar significant only in runs 2-3), Gemma math (2.58) and Qwen-3B code (1.53). The same 8 cells are significant in all 3 runs. Qwen-32B math (OR 1.58) is p_holm .059 in run 1, .040 in run 2 and .008 in run 3; Qwen-7B code is significant only in run 2.
+- **Why more cells than McNemar:** the GLMM conditions on the item, and the cell contrasts are odds ratios at item intercept 0, not marginal accuracy differences.
+**Files:** src/vmod/glmm.py; results/analysis/glmm_{fixed_effects,lrt,cell_contrasts,checks}.csv; reports/paper_numbers.md (GLMM section); reports/deviations.md (#24); TASKS.md (T12 GLMM done)
+**Issues / questions:** none.

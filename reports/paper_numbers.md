@@ -2,8 +2,8 @@
 
 <!--
 study_id: vlm-modality-v1
-git_commit: 505fe9452af0dcc180d68621a0c3849a513c3492-dirty
-created_utc: 2026-11-16T17:26:15Z
+git_commit: ddde07f9da5a086ca48c0917f3cd2ab51e488bf0-dirty
+created_utc: 2026-11-16T18:23:34Z
 -->
 
 Numbers and tables only. Each block names its source CSV. Full tables: `reports/summary.md`.
@@ -504,6 +504,76 @@ source: `results/analysis/sens_leading_fence_recovered.csv`
 | InternVL3_5-8B | exact | 1 | 0.046 | 0.179 | 327.000 | 173 |
 | InternVL3_5-8B | exact | 2 | 0.018 | 0.171 | 330.000 | 170 |
 | InternVL3_5-8B | exact | 3 | 0.009 | 0.174 | 328.000 | 172 |
+
+## GLMM: correct ~ condition × content + condition × model + (1 | item), run 1 (exact ML, Gauss-Hermite 40 nodes)
+source: `results/analysis/glmm_fixed_effects.csv`
+
+- n obs 22500, items 1500; log-lik -9060.67; sd(item) 2.236; latent ICC 0.603
+
+| term | coef | se | z | p_value | odds_ratio | or_ci_lo | or_ci_hi |
+|---|---|---|---|---|---|---|---|
+| Intercept | 0.3092 | 0.1323 | 2.3366 | 0.0195 | 1.3624 | 1.0511 | 1.7658 |
+| condition[T.B_image] | -0.2973 | 0.1247 | -2.3831 | 0.0172 | 0.7428 | 0.5817 | 0.9486 |
+| condition[T.C_image_transcribe] | -0.3100 | 0.1248 | -2.4839 | 0.0130 | 0.7334 | 0.5742 | 0.9367 |
+| content[T.math] | 3.0660 | 0.1853 | 16.5480 | 1.66e-61 | 21.4555 | 14.9219 | 30.8496 |
+| content[T.table] | 0.2243 | 0.1621 | 1.3836 | 0.1665 | 1.2515 | 0.9108 | 1.7196 |
+| model[T.InternVL3-8B] | 0.5502 | 0.1104 | 4.9842 | 6.22e-07 | 1.7336 | 1.3963 | 2.1524 |
+| model[T.Qwen2.5-VL-32B] | 1.8248 | 0.1237 | 14.7489 | 3.13e-49 | 6.2016 | 4.8662 | 7.9035 |
+| model[T.Qwen2.5-VL-3B] | -0.9923 | 0.1057 | -9.3904 | 5.98e-21 | 0.3707 | 0.3014 | 0.4560 |
+| model[T.gemma-3-12b] | 1.1288 | 0.1152 | 9.7995 | 1.13e-22 | 3.0921 | 2.4672 | 3.8753 |
+| condition[T.B_image]:content[T.math] | 0.3178 | 0.1430 | 2.2228 | 0.0262 | 1.3741 | 1.0383 | 1.8184 |
+| condition[T.C_image_transcribe]:content[T.math] | 0.2542 | 0.1437 | 1.7694 | 0.0768 | 1.2894 | 0.9730 | 1.7087 |
+| condition[T.B_image]:content[T.table] | 0.5913 | 0.1114 | 5.3075 | 1.11e-07 | 1.8064 | 1.4520 | 2.2473 |
+| condition[T.C_image_transcribe]:content[T.table] | 0.5943 | 0.1122 | 5.2986 | 1.17e-07 | 1.8118 | 1.4543 | 2.2574 |
+| condition[T.B_image]:model[T.InternVL3-8B] | -0.7347 | 0.1541 | -4.7676 | 1.86e-06 | 0.4796 | 0.3546 | 0.6488 |
+| condition[T.C_image_transcribe]:model[T.InternVL3-8B] | -0.4625 | 0.1545 | -2.9939 | 0.0028 | 0.6297 | 0.4652 | 0.8524 |
+| condition[T.B_image]:model[T.Qwen2.5-VL-32B] | -0.4778 | 0.1694 | -2.8205 | 0.0048 | 0.6202 | 0.4449 | 0.8644 |
+| condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-32B] | -0.1784 | 0.1712 | -1.0419 | 0.2974 | 0.8366 | 0.5981 | 1.1702 |
+| condition[T.B_image]:model[T.Qwen2.5-VL-3B] | -0.1256 | 0.1490 | -0.8426 | 0.3994 | 0.8820 | 0.6586 | 1.1812 |
+| condition[T.C_image_transcribe]:model[T.Qwen2.5-VL-3B] | -0.3897 | 0.1489 | -2.6177 | 0.0089 | 0.6772 | 0.5058 | 0.9067 |
+| condition[T.B_image]:model[T.gemma-3-12b] | -0.9690 | 0.1584 | -6.1185 | 9.44e-10 | 0.3795 | 0.2782 | 0.5176 |
+| condition[T.C_image_transcribe]:model[T.gemma-3-12b] | -0.5940 | 0.1593 | -3.7289 | 1.92e-04 | 0.5521 | 0.4040 | 0.7544 |
+| sd(item intercept) | 2.2363 | 0.0628 |  |  |  | 2.1164 | 2.3630 |
+
+### Likelihood-ratio tests (runs 1-3)
+source: `results/analysis/glmm_lrt.csv`
+
+| run | test | loglik_full | loglik_reduced | lr_stat | df | p_value |
+|---|---|---|---|---|---|---|
+| 1 | no condition:model | -9061 | -9093 | 63.78 | 8 | 8.41e-11 |
+| 1 | no condition:content | -9061 | -9079 | 37.57 | 4 | 1.37e-07 |
+| 1 | no condition terms | -9061 | -9153 | 184.1 | 14 | 9.47e-32 |
+| 2 | no condition:model | -8895 | -8928 | 65.22 | 8 | 4.37e-11 |
+| 2 | no condition:content | -8895 | -8909 | 27.87 | 4 | 1.33e-05 |
+| 2 | no condition terms | -8895 | -8993 | 196.2 | 14 | 3.23e-34 |
+| 3 | no condition:model | -9015 | -9045 | 60.46 | 8 | 3.78e-10 |
+| 3 | no condition:content | -9015 | -9031 | 31.86 | 4 | 2.05e-06 |
+| 3 | no condition terms | -9015 | -9107 | 184.7 | 14 | 7.29e-32 |
+
+### A vs B per cell from the GLMM (conditional odds ratio, Holm over 15 per run)
+source: `results/analysis/glmm_cell_contrasts.csv`
+
+- p_holm < .05: run 1 8/15, run 2 10/15, run 3 9/15
+
+| model | content_type | odds_ratio_run1 | odds_ratio_run2 | odds_ratio_run3 | p_holm_within_comparison_run1 | p_holm_within_comparison_run2 | p_holm_within_comparison_run3 |
+|---|---|---|---|---|---|---|---|
+| InternVL3-8B | code | 2.8068 | 2.8826 | 3.0897 | 5.38e-15 | 1.83e-15 | 1.33e-17 |
+| InternVL3-8B | math | 2.0427 | 1.9687 | 2.3634 | 3.65e-05 | 1.61e-04 | 3.36e-07 |
+| InternVL3-8B | table | 1.5538 | 1.6643 | 1.7172 | 0.0035 | 4.76e-04 | 1.49e-04 |
+| Qwen2.5-VL-32B | code | 2.1708 | 2.3881 | 2.3103 | 6.03e-07 | 1.95e-08 | 7.51e-08 |
+| Qwen2.5-VL-32B | math | 1.5798 | 1.6309 | 1.7673 | 0.0592 | 0.0397 | 0.0081 |
+| Qwen2.5-VL-32B | table | 1.2017 | 1.3788 | 1.2840 | 0.6342 | 0.1354 | 0.3410 |
+| Qwen2.5-VL-3B | code | 1.5264 | 1.6367 | 1.6024 | 0.0047 | 5.83e-04 | 0.0010 |
+| Qwen2.5-VL-3B | math | 1.1108 | 1.1178 | 1.2257 | 0.9169 | 1.0000 | 0.4515 |
+| Qwen2.5-VL-3B | table | 0.8450 | 0.9450 | 0.8906 | 0.6342 | 1.0000 | 0.6657 |
+| Qwen2.5-VL-7B | code | 1.3462 | 1.4163 | 1.3227 | 0.0991 | 0.0397 | 0.1250 |
+| Qwen2.5-VL-7B | math | 0.9797 | 0.9672 | 1.0118 | 0.9169 | 1.0000 | 0.9383 |
+| Qwen2.5-VL-7B | table | 0.7452 | 0.8177 | 0.7351 | 0.0991 | 0.4185 | 0.0736 |
+| gemma-3-12b | code | 3.5476 | 3.3700 | 3.2489 | 6.56e-21 | 6.44e-19 | 4.27e-18 |
+| gemma-3-12b | math | 2.5818 | 2.3015 | 2.4852 | 4.19e-08 | 3.92e-06 | 1.74e-07 |
+| gemma-3-12b | table | 1.9639 | 1.9457 | 1.8056 | 2.03e-06 | 4.37e-06 | 5.61e-05 |
+
+- checks (run 1): GH 40 vs 80 nodes and statsmodels VB — source: `results/analysis/glmm_checks.csv`
 
 ## Replication summary, OWNER plan rule (post hoc: replicates = Holm-sig same direction in >= 2/3 runs)
 source: `results/analysis/replication_full_summary.csv`

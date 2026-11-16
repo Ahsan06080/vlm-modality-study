@@ -175,6 +175,7 @@ Outputs are numbers, tables and figures only. **Do not write paper prose.**
 - **Sensitivity check:** exclude unparseable responses and re-run the tests.
 - Output `results/analysis/rq1_*.csv`.
 - Mixed-effects logistic model (correct ~ condition × content + condition × model + (1 | item)): only if the OWNER posts `GLMM OK`, and only after everything else in T12-T14 is done.
+  - **GLMM: `DONE`** 2026-11-16 after `GLMM OK` (results/analysis/glmm_*.csv, deviation #24).
 
 ### T13 RQ2: perception vs reasoning: `DONE`
 - From condition C, report the transcription exact-match rate and CER distribution per model × content.
